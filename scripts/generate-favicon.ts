@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { buildIco } from "../src/lib/images/ico";
+import { assertSquareFaviconSource } from "./lib/favicon-source";
 
 const USAGE = "Usage: npm run favicon -- <source-image>";
 
@@ -32,6 +33,8 @@ async function main(): Promise<void> {
   }
 
   const source = await readFile(sourceFile);
+  const { width, height } = await sharp(source).metadata();
+  assertSquareFaviconSource(width ?? 0, height ?? 0);
   const outputDirectory = path.join(process.cwd(), "public");
   await mkdir(outputDirectory, { recursive: true });
 
