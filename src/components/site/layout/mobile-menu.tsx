@@ -2,7 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { NavigationItem } from "@/server/site/navigation";
 
 type MobileMenuProps = {
@@ -24,6 +24,12 @@ const TOGGLE_CLASS_NAME =
 
 export function MobileMenu({ navigation }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    toggleRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -31,18 +37,19 @@ export function MobileMenu({ navigation }: MobileMenuProps) {
     }
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setOpen(false);
+        closeMenu();
       }
     }
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [open]);
+  }, [open, closeMenu]);
 
   const ToggleIcon = open ? X : Menu;
 
   return (
     <>
       <button
+        ref={toggleRef}
         type="button"
         className={TOGGLE_CLASS_NAME}
         aria-expanded={open}
@@ -55,7 +62,7 @@ export function MobileMenu({ navigation }: MobileMenuProps) {
       <ul id={MENU_ID} className={open ? LIST_CLASS_NAME_OPEN : LIST_CLASS_NAME_CLOSED}>
         {navigation.map((item) => (
           <li key={item.href}>
-            <Link href={item.href} className={LINK_CLASS_NAME} onClick={() => setOpen(false)}>
+            <Link href={item.href} className={LINK_CLASS_NAME} onClick={closeMenu}>
               {item.label}
             </Link>
           </li>
