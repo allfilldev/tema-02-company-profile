@@ -9,7 +9,8 @@
     "lint": "eslint",
     "image:import": "tsx scripts/import-demo-image.ts",
     "favicon": "tsx scripts/generate-favicon.ts",
-    "theme:new": "tsx scripts/create-theme.ts"
+    "theme:new": "tsx scripts/create-theme.ts",
+    "theme:check": "tsx scripts/check-theme.ts"
   },
   "dependencies": {
     "lucide-react": "^1.75.0",
