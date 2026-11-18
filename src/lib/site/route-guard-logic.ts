@@ -12,6 +12,8 @@ export type LinkClick = {
   defaultPrevented: boolean;
 };
 
+export type LinkClickOutcome = { type: "navigate"; kind: SkeletonKind } | { type: "same-page" } | null;
+
 const PRIMARY_BUTTON = 0;
 const SAME_TAB_TARGETS: readonly string[] = ["", "_self"];
 const WEB_PROTOCOLS: readonly string[] = ["http:", "https:"];
@@ -41,7 +43,7 @@ function parseUrl(href: string, base?: string): URL | null {
   }
 }
 
-function destinationPathForClick(click: LinkClick, currentHref: string): string | null {
+export function resolveLinkClick(click: LinkClick, currentHref: string): LinkClickOutcome {
   if (!click.defaultPrevented || click.download || click.href === null) {
     return null;
   }
@@ -61,10 +63,9 @@ function destinationPathForClick(click: LinkClick, currentHref: string): string 
     return null;
   }
 
-  return isSamePathname(destination.pathname, current.pathname) ? null : destination.pathname;
-}
+  if (isSamePathname(destination.pathname, current.pathname)) {
+    return { type: "same-page" };
+  }
 
-export function skeletonKindForClick(click: LinkClick, currentHref: string): SkeletonKind | null {
-  const destinationPath = destinationPathForClick(click, currentHref);
-  return destinationPath === null ? null : skeletonKindForPath(destinationPath);
+  return { type: "navigate", kind: skeletonKindForPath(destination.pathname) };
 }

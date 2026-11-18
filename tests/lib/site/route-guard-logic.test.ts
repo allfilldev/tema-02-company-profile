@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSamePathname, skeletonKindForClick, type LinkClick } from "@/lib/site/route-guard-logic";
+import { isSamePathname, resolveLinkClick, type LinkClick } from "@/lib/site/route-guard-logic";
 
 const CURRENT_HREF = "http://localhost:3000/tentang?tab=tim#visi";
 
@@ -15,13 +15,16 @@ const PLAIN_CLICK: LinkClick = {
   defaultPrevented: true,
 };
 
+const SERVICES_NAVIGATION = { type: "navigate", kind: "services-index" } as const;
+const SAME_PAGE = { type: "same-page" } as const;
+
 function click(overrides: Partial<LinkClick>): LinkClick {
   return { ...PLAIN_CLICK, ...overrides };
 }
 
-describe("skeletonKindForClick", () => {
+describe("resolveLinkClick navigation to another path", () => {
   it("returns the destination skeleton for a plain internal link click", () => {
-    expect(skeletonKindForClick(PLAIN_CLICK, CURRENT_HREF)).toBe("services-index");
+    expect(resolveLinkClick(PLAIN_CLICK, CURRENT_HREF)).toEqual(SERVICES_NAVIGATION);
   });
 
   it.each([
@@ -37,17 +40,55 @@ describe("skeletonKindForClick", () => {
     ["kontak", "contact"],
     ["http://localhost:3000/kebijakan-editorial", "legal"],
   ] as const)("maps an internal link to %s onto %s", (href, kind) => {
-    expect(skeletonKindForClick(click({ href }), CURRENT_HREF)).toBe(kind);
+    expect(resolveLinkClick(click({ href }), CURRENT_HREF)).toEqual({ type: "navigate", kind });
   });
 
   it.each([
     ["an empty target", ""],
     ["the _self target", "_self"],
     ["an uppercase _SELF target", "_SELF"],
-  ] as const)("keeps the skeleton for %s", (_label, target) => {
-    expect(skeletonKindForClick(click({ target }), CURRENT_HREF)).toBe("services-index");
+  ] as const)("keeps the navigation for %s", (_label, target) => {
+    expect(resolveLinkClick(click({ target }), CURRENT_HREF)).toEqual(SERVICES_NAVIGATION);
+  });
+});
+
+describe("resolveLinkClick navigation to the current path", () => {
+  it.each([
+    ["a link to the current path", "/tentang"],
+    ["a link to the current path with a trailing slash", "/tentang/"],
+    ["a link to the current path with another query", "/tentang?tab=visi"],
+    ["a link to the current path with another hash", "/tentang#tim"],
+    ["a relative link to the current path", "tentang"],
+    ["an absolute link to the current path", "http://localhost:3000/tentang"],
+    ["a hash only link", "#konten"],
+    ["an empty href", ""],
+  ] as const)("returns same-page for %s taken over by the router", (_label, href) => {
+    expect(resolveLinkClick(click({ href, defaultPrevented: false }), CURRENT_HREF)).toBeNull();
+    expect(resolveLinkClick(click({ href }), CURRENT_HREF)).toEqual(SAME_PAGE);
   });
 
+  it("returns same-page for the logo link on the home page", () => {
+    const logoClick = click({ href: "/" });
+
+    expect(resolveLinkClick(logoClick, "http://localhost:3000/layanan")).toEqual({ type: "navigate", kind: "home" });
+    expect(resolveLinkClick(logoClick, "http://localhost:3000/")).toEqual(SAME_PAGE);
+  });
+
+  it.each([
+    ["the router did not take over", { defaultPrevented: false }],
+    ["the link points to the same path on another origin", { href: "https://example.com/tentang" }],
+    ["the link points to the same path on another port", { href: "http://localhost:4000/tentang" }],
+    ["the link opens in another tab", { target: "_blank" }],
+    ["the link is a download", { download: true }],
+    ["a modifier key is held", { metaKey: true }],
+    ["a non primary button is used", { button: 1 }],
+  ] as const)("returns null for a current path link when %s", (_label, overrides: Partial<LinkClick>) => {
+    expect(resolveLinkClick(click({ href: "/tentang" }), CURRENT_HREF)).toEqual(SAME_PAGE);
+    expect(resolveLinkClick(click({ href: "/tentang", ...overrides }), CURRENT_HREF)).toBeNull();
+  });
+});
+
+describe("resolveLinkClick clicks that do not change the skeleton", () => {
   it.each([
     ["an external link", { href: "https://example.com/layanan" }],
     ["a protocol relative external link", { href: "//example.com/layanan" }],
@@ -56,11 +97,6 @@ describe("skeletonKindForClick", () => {
     ["a mailto link", { href: "mailto:halo@arunika.example" }],
     ["a tel link", { href: "tel:+6281234567890" }],
     ["a javascript link", { href: "javascript:void(0)" }],
-    ["a hash only link", { href: "#konten" }],
-    ["a link to the current path", { href: "/tentang" }],
-    ["a link to the current path with a trailing slash", { href: "/tentang/" }],
-    ["a link to the current path with another query", { href: "/tentang?tab=visi" }],
-    ["a link to the current path with another hash", { href: "/tentang#tim" }],
     ["an anchor without href", { href: null }],
     ["a target _blank link", { target: "_blank" }],
     ["a named target link", { target: "jendela-lain" }],
@@ -73,13 +109,13 @@ describe("skeletonKindForClick", () => {
     ["a secondary button click", { button: 2 }],
     ["a click the router did not take over", { defaultPrevented: false }],
   ] as const)("returns null for %s", (_label, overrides: Partial<LinkClick>) => {
-    expect(skeletonKindForClick(PLAIN_CLICK, CURRENT_HREF)).toBe("services-index");
-    expect(skeletonKindForClick(click(overrides), CURRENT_HREF)).toBeNull();
+    expect(resolveLinkClick(PLAIN_CLICK, CURRENT_HREF)).toEqual(SERVICES_NAVIGATION);
+    expect(resolveLinkClick(click(overrides), CURRENT_HREF)).toBeNull();
   });
 
   it("returns null when the current location cannot be parsed", () => {
-    expect(skeletonKindForClick(PLAIN_CLICK, CURRENT_HREF)).toBe("services-index");
-    expect(skeletonKindForClick(PLAIN_CLICK, "bukan url")).toBeNull();
+    expect(resolveLinkClick(PLAIN_CLICK, CURRENT_HREF)).toEqual(SERVICES_NAVIGATION);
+    expect(resolveLinkClick(PLAIN_CLICK, "bukan url")).toBeNull();
   });
 });
 

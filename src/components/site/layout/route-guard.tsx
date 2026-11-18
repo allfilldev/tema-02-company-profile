@@ -13,7 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { RouteSkeleton } from "@/components/skeletons/route-skeleton";
-import { isSamePathname, skeletonKindForClick, type LinkClick } from "@/lib/site/route-guard-logic";
+import { isSamePathname, resolveLinkClick, type LinkClick } from "@/lib/site/route-guard-logic";
 import type { SkeletonKind } from "@/lib/site/skeleton-kind";
 
 type PendingNavigation = {
@@ -104,17 +104,21 @@ export function RouteGuard({ children }: { children: ReactNode }) {
       return;
     }
 
-    function showSkeletonOnLinkClick(event: MouseEvent) {
+    function updateSkeletonOnLinkClick(event: MouseEvent) {
       const click = readLinkClick(event);
-      const kind = click === null ? null : skeletonKindForClick(click, window.location.href);
+      const outcome = click === null ? null : resolveLinkClick(click, window.location.href);
 
-      if (kind !== null) {
-        setPending({ kind, fromPath: window.location.pathname });
+      if (outcome === null) {
+        return;
       }
+
+      setPending(
+        outcome.type === "navigate" ? { kind: outcome.kind, fromPath: window.location.pathname } : null,
+      );
     }
 
-    window.addEventListener("click", showSkeletonOnLinkClick);
-    return () => window.removeEventListener("click", showSkeletonOnLinkClick);
+    window.addEventListener("click", updateSkeletonOnLinkClick);
+    return () => window.removeEventListener("click", updateSkeletonOnLinkClick);
   }, [isInnermostGuard]);
 
   if (!visible) {
