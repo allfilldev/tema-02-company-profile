@@ -12,7 +12,8 @@ import { getContactPageModel, type ContactPageModel } from "@/server/site/models
 import { getHomePageModel, type HomePageModel } from "@/server/site/models/home";
 import { getLegalPageModel, type LegalPageModel } from "@/server/site/models/legal";
 import { buildTestPack } from "../../fixtures/content-pack";
-import { buildTestContext, buildTestQueries } from "../../fixtures/site";
+import type { ModuleKey } from "@/core/domain/shared/module-key";
+import { buildLinkedBlocksQueries, buildTestContext, buildTestQueries } from "../../fixtures/site";
 
 type Heading = { level: number; text: string };
 
@@ -280,6 +281,62 @@ describe("HomeView", () => {
     expect(block.items.length).toBeGreaterThan(0);
     expect(renderToStaticMarkup(<HomeView model={fullHomeModel} />)).toContain(block.title);
     expect(markup).not.toContain(block.title);
+  });
+});
+
+describe("HomeView links to gated routes", () => {
+  const GATED_SECTIONS = ["layanan", "portofolio", "artikel"];
+
+  async function renderLinkedHome(enabledModules?: ModuleKey[]): Promise<string[]> {
+    const theme = enabledModules ? { enabledModules } : undefined;
+    const model = await getHomePageModel(buildLinkedBlocksQueries(theme), await buildTestContext({ theme }));
+    return hrefsOf(renderToStaticMarkup(<HomeView model={model} />));
+  }
+
+  function expectNoLinkInto(hrefs: string[], section: string): void {
+    expect(hrefs, section).not.toContain(`/${section}`);
+    expect(hrefs.filter((href) => href.startsWith(`/${section}/`)), section).toEqual([]);
+  }
+
+  it("links the hero and banner to every gated section when all modules are enabled", async () => {
+    const hrefs = await renderLinkedHome();
+
+    for (const section of GATED_SECTIONS) {
+      expect(hrefs, section).toContain(`/${section}`);
+    }
+    expect(hrefs).toContain("/kontak");
+  });
+
+  it("renders no link into any gated section when every module is disabled", async () => {
+    const hrefs = await renderLinkedHome([]);
+
+    for (const section of GATED_SECTIONS) {
+      expectNoLinkInto(hrefs, section);
+    }
+    expect(hrefs).toContain("/kontak");
+    expect(hrefs).toContain("/tentang");
+  });
+
+  it("keeps the markup free of the exact gated href attributes when every module is disabled", async () => {
+    const model = await getHomePageModel(buildLinkedBlocksQueries({ enabledModules: [] }), await buildTestContext({ theme: { enabledModules: [] } }));
+    const markup = renderToStaticMarkup(<HomeView model={model} />);
+
+    for (const section of GATED_SECTIONS) {
+      expect(markup).not.toContain(`href="/${section}"`);
+      expect(markup).not.toContain(`href="/${section}/`);
+    }
+    expect(markup).toContain("Bagaimana kami bekerja");
+    expect(markup).toContain("Siap memulai?");
+    expect(markup).not.toContain("Lihat Portofolio");
+    expect(markup).not.toContain("Lihat Layanan");
+  });
+
+  it("only removes the links of the disabled module in a mixed case", async () => {
+    const hrefs = await renderLinkedHome(["portfolio", "articles"]);
+
+    expectNoLinkInto(hrefs, "layanan");
+    expect(hrefs).toContain("/portofolio");
+    expect(hrefs).toContain("/artikel");
   });
 });
 

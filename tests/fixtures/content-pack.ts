@@ -1,3 +1,4 @@
+import type { ContentBlock } from "@/core/domain/content-block/content-block";
 import type { ContentPack } from "@/core/domain/content-pack/content-pack";
 import type { FaqItem } from "@/core/domain/shared/faq-item";
 import type { MediaAsset } from "@/core/domain/shared/media-asset";
@@ -361,4 +362,50 @@ export function buildTestPack(): ContentPack {
       },
     ],
   };
+}
+
+const EMPTY_BLOCK_ITEM = { title: null, description: null, icon: null, media: null, link: null };
+
+export function buildTestLinkedBlocks(): ContentBlock[] {
+  return [
+    {
+      key: "how-we-work",
+      eyebrow: "Cara kerja",
+      title: "Bagaimana kami bekerja",
+      description: null,
+      items: [
+        { ...EMPTY_BLOCK_ITEM, title: "Diskusi", description: "Kami mendengarkan.", icon: "message", link: { label: "Lihat layanan", href: "/layanan" } },
+        { ...EMPTY_BLOCK_ITEM, title: "Peluncuran", description: "Kami menayangkan.", icon: "rocket", link: { label: "Mulai konsultasi", href: "/kontak" } },
+      ],
+    },
+    {
+      key: "why-choose-us",
+      eyebrow: "Keunggulan",
+      title: "Mengapa memilih kami",
+      description: null,
+      items: [
+        { ...EMPTY_BLOCK_ITEM, title: "Berpengalaman", description: "Lebih dari sepuluh tahun.", icon: "award" },
+        { ...EMPTY_BLOCK_ITEM, title: "Transparan", description: "Biaya jelas.", icon: "shield-check" },
+      ],
+    },
+    {
+      key: "home-faq",
+      eyebrow: "FAQ",
+      title: "Pertanyaan umum",
+      description: null,
+      items: [{ ...EMPTY_BLOCK_ITEM, title: "Berapa lama prosesnya?", description: "Sekitar empat minggu." }],
+    },
+    {
+      key: "cta-banner",
+      eyebrow: null,
+      title: "Siap memulai?",
+      description: "Ceritakan kebutuhan Anda.",
+      items: [
+        { ...EMPTY_BLOCK_ITEM, link: { label: "Lihat Layanan", href: "/layanan" } },
+        { ...EMPTY_BLOCK_ITEM, link: { label: "Lihat Portofolio", href: "/portofolio" } },
+        { ...EMPTY_BLOCK_ITEM, link: { label: "Baca Artikel", href: "/artikel" } },
+        { ...EMPTY_BLOCK_ITEM, link: { label: "Hubungi Kami", href: "/kontak" } },
+      ],
+    },
+  ];
 }

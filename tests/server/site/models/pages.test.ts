@@ -4,7 +4,9 @@ import { getContactPageModel } from "@/server/site/models/contact";
 import { getHomePageModel } from "@/server/site/models/home";
 import { getLegalPageModel } from "@/server/site/models/legal";
 import type { PageSeoResult } from "@/server/site/models/page-seo";
-import { buildTestContext, buildTestQueries } from "../../../fixtures/site";
+import type { ModuleKey } from "@/core/domain/shared/module-key";
+import { buildLinkedBlocksQueries, buildTestContext } from "../../../fixtures/site";
+import { buildTestQueries } from "../../../fixtures/site";
 
 function jsonLdTypes(seo: PageSeoResult): unknown[] {
   return seo.jsonLd.map((entry) => entry["@type"]);
@@ -160,5 +162,84 @@ describe("legal page model", () => {
     const theme = { enabledModules: [] };
     const model = await getLegalPageModel(buildTestQueries(theme), await buildTestContext({ theme }), "privasi");
     expect(model).not.toBeNull();
+  });
+});
+
+describe("home page model with links to disabled modules", () => {
+  async function buildLinkedModel(enabledModules: ModuleKey[] | undefined) {
+    const theme = enabledModules ? { enabledModules } : undefined;
+    return getHomePageModel(buildLinkedBlocksQueries(theme), await buildTestContext({ theme }));
+  }
+
+  function bannerHrefs(model: Awaited<ReturnType<typeof buildLinkedModel>>): string[] {
+    return (model.blocks["cta-banner"]?.items ?? []).flatMap((item) => (item.link ? [item.link.href] : []));
+  }
+
+  it("keeps every hero cta and banner link when all modules are enabled", async () => {
+    const model = await buildLinkedModel(undefined);
+
+    expect(model.hero.primaryCta?.href).toBe("/kontak");
+    expect(model.hero.secondaryCta?.href).toBe("/portofolio");
+    expect(bannerHrefs(model)).toEqual(["/layanan", "/portofolio", "/artikel", "/kontak"]);
+    expect(model.blocks["how-we-work"]?.items.map((item) => item.link?.href)).toEqual(["/layanan", "/kontak"]);
+  });
+
+  it("drops the hero cta and banner links of every disabled module", async () => {
+    const model = await buildLinkedModel([]);
+
+    expect(model.hero.primaryCta).toEqual({ label: "Konsultasi Gratis", href: "/kontak" });
+    expect(model.hero.secondaryCta).toBeNull();
+    expect(bannerHrefs(model)).toEqual(["/kontak"]);
+  });
+
+  it("keeps the other items of a block and only nulls the link of an item with its own content", async () => {
+    const model = await buildLinkedModel([]);
+    const steps = model.blocks["how-we-work"]?.items ?? [];
+
+    expect(steps.map((item) => item.title)).toEqual(["Diskusi", "Peluncuran"]);
+    expect(steps.map((item) => item.link?.href ?? null)).toEqual([null, "/kontak"]);
+    expect(model.blocks["why-choose-us"]?.items).toHaveLength(2);
+    expect(model.blocks["home-faq"]?.items).toHaveLength(1);
+  });
+
+  it("only drops the links of the module that is disabled", async () => {
+    const withoutServices = await buildLinkedModel(["portfolio", "articles"]);
+
+    expect(withoutServices.hero.secondaryCta?.href).toBe("/portofolio");
+    expect(bannerHrefs(withoutServices)).toEqual(["/portofolio", "/artikel", "/kontak"]);
+
+    const withoutPortfolio = await buildLinkedModel(["services", "articles"]);
+
+    expect(withoutPortfolio.hero.secondaryCta).toBeNull();
+    expect(bannerHrefs(withoutPortfolio)).toEqual(["/layanan", "/artikel", "/kontak"]);
+  });
+
+  it("omits a block whose items all disappear", async () => {
+    const queries = buildLinkedBlocksQueries({ enabledModules: [] });
+    const banner = await queries.getContentBlock("cta-banner");
+    const onlyGated = banner ? { ...banner, items: banner.items.filter((item) => item.link?.href !== "/kontak") } : null;
+    const model = await getHomePageModel(
+      { ...queries, getContentBlock: async (key: string) => (key === "cta-banner" ? onlyGated : queries.getContentBlock(key)) },
+      await buildTestContext({ theme: { enabledModules: [] } }),
+    );
+
+    expect(onlyGated?.items.length).toBe(3);
+    expect(model.blocks["cta-banner"]).toBeUndefined();
+    expect(model.blocks["how-we-work"]).toBeDefined();
+  });
+
+  it("returns copies and leaves the shared query data untouched", async () => {
+    const queries = buildLinkedBlocksQueries({ enabledModules: [] });
+    const context = await buildTestContext({ theme: { enabledModules: [] } });
+    const before = await queries.getHome();
+
+    const model = await getHomePageModel(queries, context);
+    const after = await queries.getHome();
+    const banner = await queries.getContentBlock("cta-banner");
+
+    expect(model.hero).not.toBe(before);
+    expect(after.secondaryCta?.href).toBe("/portofolio");
+    expect(banner?.items).toHaveLength(4);
+    expect(model.blocks["cta-banner"]).not.toBe(banner);
   });
 });

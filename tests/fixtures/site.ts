@@ -4,7 +4,7 @@ import { themeConfig } from "@/config/theme";
 import { createFixtureRepositories } from "@/infrastructure/fixtures/fixture-repositories";
 import { getSiteContext, type SiteContext } from "@/server/site/site-context";
 import type { SiteEnv } from "@/server/site/site-env";
-import { buildTestPack } from "./content-pack";
+import { buildTestLinkedBlocks, buildTestPack } from "./content-pack";
 
 type TestContextOverrides = {
   env?: Partial<SiteEnv>;
@@ -17,6 +17,11 @@ function buildTestTheme(theme: Partial<ThemeConfig> | undefined): ThemeConfig {
 
 export function buildTestQueries(theme?: Partial<ThemeConfig>): SiteQueries {
   return createSiteQueries(createFixtureRepositories(buildTestPack()), buildTestTheme(theme));
+}
+
+export function buildLinkedBlocksQueries(theme?: Partial<ThemeConfig>): SiteQueries {
+  const pack = { ...buildTestPack(), contentBlocks: buildTestLinkedBlocks() };
+  return createSiteQueries(createFixtureRepositories(pack), buildTestTheme(theme));
 }
 
 export function buildTestEnv(overrides?: Partial<SiteEnv>): SiteEnv {
