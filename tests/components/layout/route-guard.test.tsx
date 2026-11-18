@@ -6,7 +6,7 @@ import ArticlesTemplate from "@/app/(site)/artikel/template";
 import ServicesTemplate from "@/app/(site)/layanan/template";
 import PortfolioTemplate from "@/app/(site)/portofolio/template";
 import SiteTemplate from "@/app/(site)/template";
-import { RouteGuard } from "@/components/site/layout/route-guard";
+import { RouteGuard, RouteShellGuard } from "@/components/site/layout/route-guard";
 import { RouteSkeleton } from "@/components/skeletons/route-skeleton";
 
 const navigation = vi.hoisted(() => ({ pathname: "/" }));
@@ -64,6 +64,19 @@ describe("RouteGuard suspense fallback", () => {
     expect(markup).toContain(`data-skeleton-kind="${kind}"`);
     expect(markup).toContain('aria-busy="true"');
     expect(markup).not.toMatch(/<h1\b/);
+  });
+});
+
+describe("RouteShellGuard server render", () => {
+  it("renders the children exactly as given without a wrapper or skeleton", () => {
+    const markup = renderToStaticMarkup(<RouteShellGuard>{pageContent()}</RouteShellGuard>);
+
+    expect(markup).toBe(PAGE_MARKUP);
+    expect(markup).not.toContain('aria-busy="true"');
+  });
+
+  it("adds no suspense boundary, so suspended content still needs one above it", () => {
+    expect(() => renderToStaticMarkup(<RouteShellGuard><SuspendedRoute /></RouteShellGuard>)).toThrow();
   });
 });
 

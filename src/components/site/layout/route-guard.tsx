@@ -70,12 +70,36 @@ function CurrentRouteSkeleton() {
   return <RouteSkeleton kind={skeletonKindForPath(usePathname())} />;
 }
 
+function useShownInRoute(): boolean {
+  const [visible, setVisible] = useState(true);
+  const wasHidden = useRef(false);
+
+  useLayoutEffect(() => {
+    if (wasHidden.current) {
+      wasHidden.current = false;
+      setVisible(true);
+    }
+
+    return () => {
+      wasHidden.current = true;
+      setVisible(false);
+    };
+  }, []);
+
+  return visible;
+}
+
+export function RouteShellGuard({ children }: { children: ReactNode }) {
+  const visible = useShownInRoute();
+
+  return visible ? <>{children}</> : null;
+}
+
 export function RouteGuard({ children }: { children: ReactNode }) {
   const parentGuard = useContext(ParentGuardContext);
-  const [visible, setVisible] = useState(true);
+  const visible = useShownInRoute();
   const [pending, setPending] = useState<PendingNavigation | null>(null);
   const [shownChildGuards, setShownChildGuards] = useState(0);
-  const wasHidden = useRef(false);
 
   const tracker = useMemo<GuardTracker>(
     () => ({
@@ -88,16 +112,10 @@ export function RouteGuard({ children }: { children: ReactNode }) {
   const clearPending = useCallback(() => setPending(null), []);
 
   useLayoutEffect(() => {
-    if (wasHidden.current) {
-      wasHidden.current = false;
-      setVisible(true);
-    }
     parentGuard?.childShown();
 
     return () => {
-      wasHidden.current = true;
       parentGuard?.childHidden();
-      setVisible(false);
       setPending(null);
     };
   }, [parentGuard]);

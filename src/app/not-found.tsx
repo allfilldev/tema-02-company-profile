@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RouteShellGuard } from "@/components/site/layout/route-guard";
 import { SiteShell } from "@/components/site/layout/site-shell";
 import { NotFoundView } from "@/components/site/views/not-found-view";
 import { themeConfig } from "@/config/theme";
@@ -20,8 +21,10 @@ export default async function RootNotFound() {
   const context = await loadContext();
 
   return (
-    <SiteShell context={context}>
-      <NotFoundView />
-    </SiteShell>
+    <RouteShellGuard>
+      <SiteShell context={context}>
+        <NotFoundView />
+      </SiteShell>
+    </RouteShellGuard>
   );
 }
