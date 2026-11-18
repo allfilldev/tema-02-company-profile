@@ -24,6 +24,7 @@ export const generalAbout: AboutContent = {
     "Arunika Solusi adalah konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses, mengukur kinerja, dan memakai teknologi secara tepat guna.",
   bodyMd,
   image: generalMedia.about,
+  metaTitle: "Tentang Arunika Solusi",
   metaDescription:
     "Kenali Arunika Solusi, konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses dan mengukur kinerja.",
   updatedAt: "2026-11-10T03:00:00.000Z",

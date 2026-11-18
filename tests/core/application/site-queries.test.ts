@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createSiteQueries } from "@/core/application/site/site-queries";
+import { createSiteQueries, type SiteQueries } from "@/core/application/site/site-queries";
 import type { Article } from "@/core/domain/article/article";
 import type { ContentPack } from "@/core/domain/content-pack/content-pack";
+import { MODULE_KEYS, type ModuleKey } from "@/core/domain/shared/module-key";
 import { createFixtureRepositories } from "@/infrastructure/fixtures/fixture-repositories";
 import { themeConfig } from "@/config/theme";
 import { buildTestPack } from "../../fixtures/content-pack";
@@ -26,6 +27,31 @@ function buildPackWithArticles(count: number): ContentPack {
 function buildQueries(pack: ContentPack, theme = themeConfig) {
   return createSiteQueries(createFixtureRepositories(pack), theme);
 }
+
+type ModuleProbe = {
+  listEmpty: (queries: SiteQueries) => Promise<unknown[]>;
+  detailNull?: (queries: SiteQueries, pack: ContentPack) => Promise<unknown>;
+};
+
+const moduleProbes: Record<ModuleKey, ModuleProbe> = {
+  services: {
+    listEmpty: (queries) => queries.listServices(),
+    detailNull: (queries, pack) => queries.getService(pack.services[0].slug),
+  },
+  portfolio: {
+    listEmpty: (queries) => queries.listPortfolio(),
+    detailNull: (queries, pack) => queries.getPortfolioItem(pack.portfolio[0].slug),
+  },
+  articles: {
+    listEmpty: (queries) => queries.listAllArticles(),
+    detailNull: (queries, pack) => queries.getArticle(pack.articles[0].slug),
+  },
+  team: { listEmpty: (queries) => queries.listTeam() },
+  stats: { listEmpty: (queries) => queries.listStats() },
+  testimonials: { listEmpty: (queries) => queries.listTestimonials() },
+  partners: { listEmpty: (queries) => queries.listPartners() },
+  vision: { listEmpty: async () => [] },
+};
 
 describe("site queries", () => {
   it("returns services sorted by sortOrder", async () => {
@@ -56,6 +82,62 @@ describe("site queries", () => {
 
     expect(await queries.getSectionIntro("about")).not.toBeNull();
     expect(await queries.getSectionIntro("contact")).not.toBeNull();
+  });
+
+  it.each(MODULE_KEYS)("hides the %s module when no module is enabled", async (key) => {
+    const pack = buildTestPack();
+    const queries = buildQueries(pack, { ...themeConfig, enabledModules: [] });
+    const probe = moduleProbes[key];
+
+    expect(await probe.listEmpty(queries)).toEqual([]);
+    if (probe.detailNull) {
+      expect(await probe.detailNull(queries, pack)).toBeNull();
+    }
+    if (key === "vision") {
+      expect(await queries.getVision()).toBeNull();
+    }
+    expect(await queries.getSectionIntro(key)).toBeNull();
+    expect(queries.isModuleEnabled(key)).toBe(false);
+  });
+
+  it("lists all articles newest first", async () => {
+    const queries = buildQueries(buildPackWithArticles(10));
+
+    const articles = await queries.listAllArticles();
+
+    expect(articles).toHaveLength(10);
+    expect(articles[0].slug).toBe("artikel-ke-10");
+    expect(articles[9].slug).toBe("artikel-ke-01");
+  });
+
+  it("lists no articles when the articles module is disabled", async () => {
+    const queries = buildQueries(buildPackWithArticles(10), { ...themeConfig, enabledModules: ["services"] });
+
+    expect(await queries.listAllArticles()).toEqual([]);
+  });
+
+  it("returns a stat by key even when the stats module is disabled", async () => {
+    const pack = buildTestPack();
+    const queries = buildQueries(pack, { ...themeConfig, enabledModules: [] });
+
+    expect(await queries.getStatByKey("projects_completed")).toEqual(pack.stats[0]);
+    expect(await queries.getStatByKey("tidak_dikenal")).toBeNull();
+    expect(await queries.listStats()).toEqual([]);
+  });
+
+  it("returns an author by id even when the team module is disabled", async () => {
+    const pack = buildTestPack();
+    const queries = buildQueries(pack, { ...themeConfig, enabledModules: [] });
+
+    expect(await queries.getAuthor("team-rina")).toEqual(pack.team[0]);
+    expect(await queries.getAuthor("tidak-ada")).toBeNull();
+    expect(await queries.listTeam()).toEqual([]);
+  });
+
+  it("returns an author when the team module is enabled", async () => {
+    const queries = buildQueries(buildTestPack());
+
+    expect((await queries.getAuthor("team-bima"))!.name).toBe("Bima Pratama");
   });
 
   it("paginates articles newest first, 9 per page", async () => {

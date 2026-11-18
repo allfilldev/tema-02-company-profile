@@ -4,6 +4,7 @@ export type AboutContent = {
   summary: string;
   bodyMd: string;
   image: MediaAsset | null;
+  metaTitle: string;
   metaDescription: string;
   updatedAt: string;
 };

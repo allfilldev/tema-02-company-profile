@@ -5,4 +5,6 @@ export type SectionIntro = {
   eyebrow: string | null;
   title: string;
   description: string | null;
+  metaTitle: string;
+  metaDescription: string;
 };

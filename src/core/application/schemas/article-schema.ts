@@ -10,11 +10,14 @@ import {
   timestampField,
 } from "@/core/application/schemas/shared-fields";
 import { FAQ_MAX, FAQ_MIN } from "@/lib/seo/limits";
+import { isReservedArticleSlug } from "@/lib/text/slug";
+
+const articleSlugField = slugField.refine((slug) => !isReservedArticleSlug(slug), "Slug artikel ini dicadangkan untuk paginasi.");
 
 export function createArticleSchema(siteName: string): z.ZodType<Article> {
   return z.object({
     id: requiredText,
-    slug: slugField,
+    slug: articleSlugField,
     title: requiredText,
     metaTitle: metaTitleField(siteName),
     metaDescription: metaDescriptionField,

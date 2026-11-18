@@ -3,6 +3,7 @@ import { createArticleSchema } from "@/core/application/schemas/article-schema";
 import { createServiceSchema, partnerSchema, statSchema, teamMemberSchema } from "@/core/application/schemas/catalog-schemas";
 import { createContentPackSchema } from "@/core/application/schemas/content-pack-schema";
 import { callToActionSchema, mediaAssetSchema } from "@/core/application/schemas/shared-fields";
+import { LEGAL_SLUGS } from "@/core/domain/page/legal-page";
 import { legalPageSchema, siteSettingsSchema } from "@/core/application/schemas/site-schemas";
 import { buildTestPack } from "../../fixtures/content-pack";
 
@@ -40,6 +41,63 @@ describe("content schemas", () => {
 
   it("rejects an unknown legal slug", () => {
     expect(legalPageSchema.safeParse({ ...pack.legalPages[0], slug: "privacy" }).success).toBe(false);
+  });
+
+  it.each(LEGAL_SLUGS)("accepts the legal slug %s", (slug) => {
+    expect(legalPageSchema.safeParse({ ...pack.legalPages[0], slug }).success).toBe(true);
+  });
+
+  it("rejects an article with the reserved slug halaman", () => {
+    expect(createArticleSchema("Nusa Karya").safeParse({ ...pack.articles[0], slug: "halaman" }).success).toBe(false);
+    expect(createArticleSchema("Nusa Karya").safeParse({ ...pack.articles[0], slug: "halaman-baru" }).success).toBe(true);
+  });
+
+  it("rejects a pack without the contact section intro", () => {
+    const broken = buildTestPack();
+    broken.sectionIntros = broken.sectionIntros.filter((intro) => intro.key !== "contact");
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a pack with a duplicated section intro", () => {
+    const broken = buildTestPack();
+    broken.sectionIntros = [...broken.sectionIntros.slice(0, 9), broken.sectionIntros[0]];
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a home meta title of 48 characters for Nusa Karya", () => {
+    const broken = buildTestPack();
+    broken.home.metaTitle = "a".repeat(48);
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a home meta description of 119 characters", () => {
+    const broken = buildTestPack();
+    broken.home.metaDescription = "x".repeat(119);
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a section intro meta title that is too short", () => {
+    const broken = buildTestPack();
+    broken.sectionIntros[0].metaTitle = "Layanan";
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a section intro meta description of 156 characters", () => {
+    const broken = buildTestPack();
+    broken.sectionIntros[0].metaDescription = "x".repeat(156);
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects an about meta title that is too long", () => {
+    const broken = buildTestPack();
+    broken.about.metaTitle = "a".repeat(48);
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a pack with an article that uses the reserved slug", () => {
+    const broken = buildTestPack();
+    broken.articles[0].slug = "halaman";
+    expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
   });
 
   it("rejects a call to action with a relative href that is not rooted", () => {

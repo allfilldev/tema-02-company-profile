@@ -8,6 +8,7 @@ export const ARTICLES_PER_PAGE = 9;
 const DEFAULT_RELATED_LIMIT = 3;
 
 export type ArticleQueries = {
+  listAllArticles(): Promise<Article[]>;
   listArticles(page: number): Promise<ArticlePage | null>;
   getArticle(slug: string): Promise<ArticleWithAuthor | null>;
   listRelatedArticles(slug: string, limit?: number): Promise<Article[]>;
@@ -15,6 +16,9 @@ export type ArticleQueries = {
 
 export function createArticleQueries(repositories: Repositories, theme: ThemeConfig): ArticleQueries {
   return {
+    async listAllArticles() {
+      return isModuleEnabled(theme, "articles") ? repositories.articles.listAllPublished() : [];
+    },
     async listArticles(page) {
       if (!isModuleEnabled(theme, "articles") || !Number.isInteger(page) || page < 1) {
         return null;

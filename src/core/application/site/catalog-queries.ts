@@ -14,7 +14,9 @@ export type CatalogQueries = {
   listPortfolio(): Promise<PortfolioItem[]>;
   getPortfolioItem(slug: string): Promise<PortfolioItem | null>;
   listTeam(): Promise<TeamMember[]>;
+  getAuthor(id: string): Promise<TeamMember | null>;
   listStats(): Promise<Stat[]>;
+  getStatByKey(key: string): Promise<Stat | null>;
   listTestimonials(): Promise<Testimonial[]>;
   listPartners(): Promise<Partner[]>;
 };
@@ -36,8 +38,13 @@ export function createCatalogQueries(repositories: Repositories, theme: ThemeCon
     async listTeam() {
       return isModuleEnabled(theme, "team") ? repositories.team.listPublished() : [];
     },
+    getAuthor: (id) => repositories.team.findById(id),
     async listStats() {
       return isModuleEnabled(theme, "stats") ? repositories.stats.list() : [];
+    },
+    async getStatByKey(key) {
+      const stats = await repositories.stats.list();
+      return stats.find((stat) => stat.key === key) ?? null;
     },
     async listTestimonials() {
       return isModuleEnabled(theme, "testimonials") ? repositories.testimonials.listPublished() : [];

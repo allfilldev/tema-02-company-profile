@@ -49,6 +49,9 @@ export function buildTestPack(): ContentPack {
     },
     home: {
       heroEyebrow: "Studio digital di Bandung",
+      metaTitle: "Studio Digital dan Website Perusahaan",
+      metaDescription:
+        "Nusa Karya adalah studio digital di Bandung yang merancang website perusahaan yang cepat, rapi, dan mudah ditemukan di Google. Konsultasi gratis.",
       heroTitle: "Website perusahaan yang membuat bisnis Anda dipercaya",
       heroSubtitle: "Kami merancang dan membangun website yang cepat, rapi, dan mudah ditemukan di Google.",
       heroImage: buildMedia("hero", "Tim Nusa Karya mempresentasikan rancangan website kepada klien"),
@@ -57,20 +60,101 @@ export function buildTestPack(): ContentPack {
       updatedAt: UPDATED_AT,
     },
     sectionIntros: [
-      { key: "services", eyebrow: "Layanan", title: "Layanan kami", description: "Solusi digital yang kami kerjakan." },
-      { key: "portfolio", eyebrow: "Portofolio", title: "Proyek terbaru", description: null },
-      { key: "team", eyebrow: "Tim", title: "Orang di balik Nusa Karya", description: null },
-      { key: "articles", eyebrow: "Artikel", title: "Wawasan dari tim kami", description: null },
-      { key: "stats", eyebrow: "Angka", title: "Nusa Karya dalam angka", description: null },
-      { key: "testimonials", eyebrow: "Testimoni", title: "Kata klien kami", description: null },
-      { key: "partners", eyebrow: "Mitra", title: "Mitra yang bekerja bersama kami", description: null },
-      { key: "vision", eyebrow: "Visi dan misi", title: "Arah yang kami tuju", description: null },
-      { key: "about", eyebrow: "Tentang kami", title: "Tentang Nusa Karya", description: null },
-      { key: "contact", eyebrow: "Kontak", title: "Hubungi kami", description: "Ceritakan kebutuhan Anda, kami akan membalas dalam satu hari kerja." },
+      {
+        key: "services",
+        eyebrow: "Layanan",
+        title: "Layanan kami",
+        description: "Solusi digital yang kami kerjakan.",
+        metaTitle: "Layanan Digital untuk Bisnis",
+        metaDescription:
+          "Pembuatan website company profile dan desain identitas merek dari Nusa Karya, dikerjakan bertahap dan dijelaskan dengan bahasa yang mudah dipahami.",
+      },
+      {
+        key: "portfolio",
+        eyebrow: "Portofolio",
+        title: "Proyek terbaru",
+        description: null,
+        metaTitle: "Portofolio Proyek Website",
+        metaDescription:
+          "Lihat proyek website terbaru yang dikerjakan Nusa Karya, termasuk toko kopi lokal dan klinik keluarga, lengkap dengan ringkasan pekerjaannya.",
+      },
+      {
+        key: "team",
+        eyebrow: "Tim",
+        title: "Orang di balik Nusa Karya",
+        description: null,
+        metaTitle: "Tim Studio Digital Nusa Karya",
+        metaDescription:
+          "Kenali tim Nusa Karya, mulai dari direktur kreatif sampai kepala teknologi yang menangani desain, pengembangan, dan performa setiap proyek website.",
+      },
+      {
+        key: "articles",
+        eyebrow: "Artikel",
+        title: "Wawasan dari tim kami",
+        description: null,
+        metaTitle: "Artikel Website dan SEO",
+        metaDescription:
+          "Artikel dari tim Nusa Karya tentang memilih jasa pembuatan website dan SEO untuk website perusahaan, ditulis singkat dan bisa langsung dipraktikkan.",
+      },
+      {
+        key: "stats",
+        eyebrow: "Angka",
+        title: "Nusa Karya dalam angka",
+        description: null,
+        metaTitle: "Nusa Karya dalam Angka",
+        metaDescription:
+          "Angka tentang Nusa Karya, termasuk jumlah proyek yang sudah selesai dan lamanya tim berpengalaman membangun website untuk berbagai bidang usaha.",
+      },
+      {
+        key: "testimonials",
+        eyebrow: "Testimoni",
+        title: "Kata klien kami",
+        description: null,
+        metaTitle: "Testimoni Klien Studio Digital",
+        metaDescription:
+          "Baca pengalaman klien yang pernah memakai jasa Nusa Karya, mulai dari proses kerja yang jelas sampai hasil website yang sesuai dengan harapan mereka.",
+      },
+      {
+        key: "partners",
+        eyebrow: "Mitra",
+        title: "Mitra yang bekerja bersama kami",
+        description: null,
+        metaTitle: "Mitra Studio Digital Nusa Karya",
+        metaDescription:
+          "Mitra yang bekerja bersama Nusa Karya, termasuk penyedia hosting yang membantu menjaga website klien tetap cepat, aman, dan mudah dikelola.",
+      },
+      {
+        key: "vision",
+        eyebrow: "Visi dan misi",
+        title: "Arah yang kami tuju",
+        description: null,
+        metaTitle: "Visi dan Misi Nusa Karya",
+        metaDescription:
+          "Visi dan misi Nusa Karya sebagai mitra digital usaha lokal, serta nilai jujur dan rapi yang kami pegang di setiap pekerjaan bersama klien.",
+      },
+      {
+        key: "about",
+        eyebrow: "Tentang kami",
+        title: "Tentang Nusa Karya",
+        description: null,
+        metaTitle: "Tentang Nusa Karya",
+        metaDescription:
+          "Kenali Nusa Karya, studio digital di Bandung yang membantu usaha kecil dan menengah membangun website perusahaan yang profesional dan terpercaya.",
+      },
+      {
+        key: "contact",
+        eyebrow: "Kontak",
+        title: "Hubungi kami",
+        description: "Ceritakan kebutuhan Anda, kami akan membalas dalam satu hari kerja.",
+        metaTitle: "Hubungi Studio Digital Kami",
+        metaDescription:
+          "Hubungi Nusa Karya untuk membahas kebutuhan website Anda. Ceritakan rencana bisnis Anda dan kami akan membalas dalam satu hari kerja.",
+      },
     ],
     about: {
       summary: "Nusa Karya adalah studio digital yang membantu usaha kecil dan menengah tampil profesional secara online.",
       bodyMd: "Kami berdiri sejak 2015 dan sudah mengerjakan banyak website perusahaan untuk berbagai bidang usaha.",
+      metaTitle: "Tentang Nusa Karya",
       image: buildMedia("about", "Suasana ruang kerja tim Nusa Karya di Bandung"),
       metaDescription:
         "Kenali Nusa Karya, studio digital di Bandung yang membantu usaha kecil dan menengah membangun website perusahaan yang profesional dan terpercaya.",

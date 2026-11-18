@@ -5,6 +5,10 @@ function sortBySortOrder<Item extends { sortOrder: number }>(items: Item[]): Ite
   return [...items].sort((left, right) => left.sortOrder - right.sortOrder);
 }
 
+function sortNewestFirst<Item extends { publishedAt: string }>(items: Item[]): Item[] {
+  return [...items].sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt));
+}
+
 function findBySlug<Item extends { slug: string }>(items: Item[], slug: string): Item | null {
   return items.find((item) => item.slug === slug) ?? null;
 }
@@ -44,9 +48,10 @@ export function createFixtureRepositories(pack: ContentPack): Repositories {
     },
     articles: {
       listPublished: async ({ offset, limit }) => {
-        const newestFirst = [...pack.articles].sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt));
+        const newestFirst = sortNewestFirst(pack.articles);
         return { items: newestFirst.slice(offset, offset + limit), total: newestFirst.length };
       },
+      listAllPublished: async () => sortNewestFirst(pack.articles),
       findPublishedBySlug: async (slug) => findBySlug(pack.articles, slug),
     },
     contentBlocks: {

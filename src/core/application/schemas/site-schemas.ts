@@ -3,7 +3,7 @@ import type { ContentBlock, ContentBlockItem } from "@/core/domain/content-block
 import type { AboutContent } from "@/core/domain/page/about-content";
 import type { CompanyVision } from "@/core/domain/page/company-vision";
 import type { HomeContent } from "@/core/domain/page/home-content";
-import type { LegalPage } from "@/core/domain/page/legal-page";
+import { LEGAL_SLUGS, type LegalPage } from "@/core/domain/page/legal-page";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import { SECTION_KEYS } from "@/core/domain/shared/section-key";
@@ -47,6 +47,8 @@ export const siteSettingsSchema: z.ZodType<SiteSettings> = z.object({
 
 export const homeContentSchema: z.ZodType<HomeContent> = z.object({
   heroEyebrow: z.string().nullable(),
+  metaTitle: requiredText,
+  metaDescription: metaDescriptionField,
   heroTitle: requiredText,
   heroSubtitle: requiredText,
   heroImage: mediaAssetSchema.nullable(),
@@ -60,12 +62,15 @@ export const sectionIntroSchema: z.ZodType<SectionIntro> = z.object({
   eyebrow: z.string().nullable(),
   title: requiredText,
   description: z.string().nullable(),
+  metaTitle: requiredText,
+  metaDescription: metaDescriptionField,
 });
 
 export const aboutContentSchema: z.ZodType<AboutContent> = z.object({
   summary: requiredText,
   bodyMd: requiredText,
   image: mediaAssetSchema.nullable(),
+  metaTitle: requiredText,
   metaDescription: metaDescriptionField,
   updatedAt: timestampField,
 });
@@ -77,7 +82,7 @@ export const companyVisionSchema: z.ZodType<CompanyVision> = z.object({
 });
 
 export const legalPageSchema: z.ZodType<LegalPage> = z.object({
-  slug: z.enum(["privasi", "syarat-ketentuan", "kebijakan-editorial"]),
+  slug: z.enum(LEGAL_SLUGS),
   title: requiredText,
   intro: requiredText,
   sections: z.array(z.object({ heading: requiredText, bodyMd: requiredText })).min(1),

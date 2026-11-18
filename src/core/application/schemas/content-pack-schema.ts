@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { ContentPack } from "@/core/domain/content-pack/content-pack";
+import { SECTION_KEYS } from "@/core/domain/shared/section-key";
 import { createArticleSchema } from "@/core/application/schemas/article-schema";
 import {
   createPortfolioItemSchema,
@@ -9,6 +10,7 @@ import {
   teamMemberSchema,
   testimonialSchema,
 } from "@/core/application/schemas/catalog-schemas";
+import { metaTitleField } from "@/core/application/schemas/shared-fields";
 import {
   aboutContentSchema,
   companyVisionSchema,
@@ -33,6 +35,8 @@ function findDuplicateIndex(slugs: string[]): number {
 }
 
 export function createContentPackSchema(siteName: string): z.ZodType<ContentPack> {
+  const metaTitleSchema = metaTitleField(siteName);
+
   return z
     .object({
       settings: siteSettingsSchema,
@@ -67,6 +71,45 @@ export function createContentPackSchema(siteName: string): z.ZodType<ContentPack
             path: [collectionName, duplicateIndex, "slug"],
           });
         }
+      }
+
+      const metaTitleEntries: [string, (string | number)[]][] = [
+        [pack.home.metaTitle, ["home", "metaTitle"]],
+        [pack.about.metaTitle, ["about", "metaTitle"]],
+        ...pack.sectionIntros.map((intro, index): [string, (string | number)[]] => [
+          intro.metaTitle,
+          ["sectionIntros", index, "metaTitle"],
+        ]),
+      ];
+
+      for (const [metaTitle, path] of metaTitleEntries) {
+        if (!metaTitleSchema.safeParse(metaTitle).success) {
+          context.addIssue({
+            code: "custom",
+            message: "Meta title halaman harus membuat judul lengkap 30–60 karakter bersama nama situs.",
+            path,
+          });
+        }
+      }
+
+      const introKeys = pack.sectionIntros.map((intro) => intro.key);
+      for (const key of SECTION_KEYS) {
+        if (!introKeys.includes(key)) {
+          context.addIssue({
+            code: "custom",
+            message: `Intro seksi ${key} wajib ada.`,
+            path: ["sectionIntros"],
+          });
+        }
+      }
+
+      const duplicateIntroIndex = findDuplicateIndex(introKeys);
+      if (duplicateIntroIndex !== -1) {
+        context.addIssue({
+          code: "custom",
+          message: "Intro seksi harus unik per key.",
+          path: ["sectionIntros", duplicateIntroIndex, "key"],
+        });
       }
 
       const teamIds = new Set(pack.team.map((member) => member.id));

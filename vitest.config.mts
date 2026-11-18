@@ -3,5 +3,10 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
-  test: { environment: "node", include: ["tests/**/*.test.ts"] },
+  oxc: { jsx: { runtime: "automatic" } },
+  test: {
+    environment: "node",
+    include: ["tests/**/*.test.{ts,tsx}"],
+    setupFiles: ["tests/setup/next-mocks.ts"],
+  },
 });

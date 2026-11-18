@@ -3,6 +3,9 @@ import { generalMedia } from "@/content/packs/general/media";
 
 export const generalHome: HomeContent = {
   heroEyebrow: "Konsultan manajemen dan transformasi digital di Jakarta",
+  metaTitle: "Konsultan Manajemen & Transformasi Digital",
+  metaDescription:
+    "Arunika Solusi, konsultan manajemen dan transformasi digital di Jakarta. Kami bantu UMKM dan korporasi menyusun SOP, KPI, dan langkah digitalisasi.",
   heroTitle: "Proses bisnis yang rapi, keputusan yang lebih terukur",
   heroSubtitle:
     "Arunika Solusi mendampingi UMKM dan korporasi menyusun strategi, SOP, KPI, dan langkah digitalisasi yang benar-benar dijalankan oleh tim.",

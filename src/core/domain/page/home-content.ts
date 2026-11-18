@@ -3,6 +3,8 @@ import type { MediaAsset } from "@/core/domain/shared/media-asset";
 
 export type HomeContent = {
   heroEyebrow: string | null;
+  metaTitle: string;
+  metaDescription: string;
   heroTitle: string;
   heroSubtitle: string;
   heroImage: MediaAsset | null;

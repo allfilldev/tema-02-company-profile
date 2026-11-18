@@ -6,9 +6,21 @@ import { generalPack } from "@/content/packs/general";
 import { themeConfig } from "@/config/theme";
 import { countWords } from "@/lib/markdown/words";
 import { hasBlockingErrors, runContentChecks } from "@/lib/seo/content-checks";
+import { META_DESCRIPTION_MAX, META_DESCRIPTION_MIN, TITLE_MAX, TITLE_MIN } from "@/lib/seo/limits";
+import { buildPageTitle } from "@/lib/seo/title";
 
 const siteName = generalPack.settings.siteName;
 const ITEM_FIELDS: ContentBlockItemField[] = ["title", "description", "icon", "media", "link"];
+const pageTitles: [string, string][] = [
+  ["home", generalPack.home.metaTitle],
+  ["about", generalPack.about.metaTitle],
+  ...generalPack.sectionIntros.map((intro): [string, string] => [`intro ${intro.key}`, intro.metaTitle]),
+  ...generalPack.legalPages.map((page): [string, string] => [`legal ${page.slug}`, page.title]),
+];
+const pageDescriptions: [string, string][] = [
+  ["home", generalPack.home.metaDescription],
+  ...generalPack.sectionIntros.map((intro): [string, string] => [`intro ${intro.key}`, intro.metaDescription]),
+];
 const catalogEntries = [...generalPack.services, ...generalPack.portfolio].map((item) => [item.slug, item] as const);
 
 describe("general content pack", () => {
@@ -43,6 +55,17 @@ describe("general content pack", () => {
 
   it("introduces every section", () => {
     expect(generalPack.sectionIntros.map((intro) => intro.key).sort()).toEqual([...SECTION_KEYS].sort());
+  });
+
+  it.each(pageTitles)("%s gives a full title of 30-60 characters", (_name, metaTitle) => {
+    const fullTitle = buildPageTitle(metaTitle, siteName);
+    expect(fullTitle.length).toBeGreaterThanOrEqual(TITLE_MIN);
+    expect(fullTitle.length).toBeLessThanOrEqual(TITLE_MAX);
+  });
+
+  it.each(pageDescriptions)("%s has a meta description of 120-155 characters", (_name, metaDescription) => {
+    expect(metaDescription.length).toBeGreaterThanOrEqual(META_DESCRIPTION_MIN);
+    expect(metaDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
   it.each(generalPack.articles.map((article) => [article.slug, article] as const))("article %s passes every content check", (_slug, article) => {
