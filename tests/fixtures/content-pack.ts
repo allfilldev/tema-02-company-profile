@@ -167,8 +167,8 @@ export function buildTestPack(): ContentPack {
       },
     ],
     stats: [
-      { key: "projects-completed", label: "Proyek selesai", value: 120, suffix: "+", sortOrder: 1 },
-      { key: "years-active", label: "Tahun berpengalaman", value: 11, suffix: null, sortOrder: 2 },
+      { key: "projects_completed", label: "Proyek selesai", value: 120, suffix: "+", sortOrder: 1 },
+      { key: "years_active", label: "Tahun berpengalaman", value: 11, suffix: null, sortOrder: 2 },
     ],
     testimonials: [
       {

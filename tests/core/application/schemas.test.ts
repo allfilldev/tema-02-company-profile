@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createArticleSchema } from "@/core/application/schemas/article-schema";
-import { createServiceSchema } from "@/core/application/schemas/catalog-schemas";
+import { createServiceSchema, statSchema } from "@/core/application/schemas/catalog-schemas";
 import { createContentPackSchema } from "@/core/application/schemas/content-pack-schema";
 import { callToActionSchema, mediaAssetSchema } from "@/core/application/schemas/shared-fields";
 import { legalPageSchema, siteSettingsSchema } from "@/core/application/schemas/site-schemas";
@@ -61,5 +61,17 @@ describe("content schemas", () => {
     const broken = buildTestPack();
     broken.articles[0].authorId = "unknown-author";
     expect(createContentPackSchema("Nusa Karya").safeParse(broken).success).toBe(false);
+  });
+
+  it("accepts snake case stat keys", () => {
+    const stat = pack.stats[0];
+    expect(statSchema.safeParse({ ...stat, key: "completed_projects" }).success).toBe(true);
+    expect(statSchema.safeParse({ ...stat, key: "years_experience" }).success).toBe(true);
+  });
+
+  it("rejects stat keys that are not snake case", () => {
+    const stat = pack.stats[0];
+    expect(statSchema.safeParse({ ...stat, key: "Completed Projects" }).success).toBe(false);
+    expect(statSchema.safeParse({ ...stat, key: "" }).success).toBe(false);
   });
 });

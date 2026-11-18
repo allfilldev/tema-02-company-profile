@@ -15,6 +15,8 @@ import {
 } from "@/core/application/schemas/shared-fields";
 import { FAQ_MAX, FAQ_MIN } from "@/lib/seo/limits";
 
+const STAT_KEY_PATTERN = /^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/;
+
 const sortOrderField = z.number().int().min(0);
 
 export function createServiceSchema(siteName: string): z.ZodType<Service> {
@@ -69,7 +71,7 @@ export const teamMemberSchema: z.ZodType<TeamMember> = z.object({
 });
 
 export const statSchema: z.ZodType<Stat> = z.object({
-  key: slugField,
+  key: z.string().regex(STAT_KEY_PATTERN, "Key statistik harus snake_case huruf kecil, contoh completed_projects."),
   label: requiredText,
   value: z.number().min(0),
   suffix: z.string().nullable(),
