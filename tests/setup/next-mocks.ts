@@ -1,7 +1,7 @@
 import { createElement, type AnchorHTMLAttributes, type ImgHTMLAttributes, type ReactNode } from "react";
 import { vi } from "vitest";
 
-const NON_DOM_IMAGE_PROPS = ["priority", "fill", "quality", "placeholder", "blurDataURL", "unoptimized", "loader"];
+const NON_DOM_IMAGE_PROPS = ["priority", "preload", "fill", "quality", "placeholder", "blurDataURL", "unoptimized", "loader"];
 const NON_DOM_LINK_PROPS = ["prefetch", "replace", "scroll"];
 
 function pickDomProps<Attributes>(props: object, nonDomProps: string[]): Attributes {
