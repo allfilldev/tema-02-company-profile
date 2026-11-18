@@ -97,7 +97,7 @@ function SkeletonLayout({ kind }: { kind: SkeletonKind }) {
 
 export function RouteSkeleton({ kind }: { kind: SkeletonKind }) {
   return (
-    <div role="status" aria-busy="true">
+    <div role="status" aria-busy="true" data-skeleton-kind={kind}>
       <span className="sr-only">Memuat halaman</span>
       <SkeletonLayout kind={kind} />
     </div>

@@ -137,6 +137,8 @@ describe("RouteSkeleton", () => {
     expect(markup.startsWith("<div")).toBe(true);
     expect(markup).toMatch(/^<div[^>]*\brole="status"/);
     expect(markup).toMatch(/^<div[^>]*\baria-busy="true"/);
+    expect(markup).toMatch(new RegExp(`^<div[^>]*\\bdata-skeleton-kind="${kind}"`));
+    expect(count(markup, /data-skeleton-kind=/g)).toBe(1);
     expect(count(markup, /role="status"/g)).toBe(1);
     expect(markup).toMatch(/<span class="sr-only">Memuat halaman<\/span>/);
     expect(count(markup, /<div\b/g)).toBeGreaterThan(10);
