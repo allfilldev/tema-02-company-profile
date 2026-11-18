@@ -53,7 +53,7 @@ export function ButtonLink({
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={resolvedClassName} {...props}>
+      <a {...props} href={href} target="_blank" rel="noopener noreferrer" className={resolvedClassName}>
         {children}
       </a>
     );

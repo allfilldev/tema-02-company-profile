@@ -87,7 +87,7 @@ describe("design tokens", () => {
 
   it("references the font variables that fonts.ts declares", () => {
     for (const variable of ["--font-heading-source", "--font-body-source"]) {
-      expect(TOKENS_CSS).toContain(`var(${variable})`);
+      expect(TOKENS_CSS).toContain(`var(${variable}, ui-sans-serif)`);
       expect(FONTS_SOURCE).toContain(`"${variable}"`);
     }
   });

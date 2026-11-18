@@ -48,6 +48,19 @@ describe("Button and ButtonLink", () => {
     expect(markup).toContain('target="_blank"');
   });
 
+  it("never lets a caller drop the safe rel and target of an external link", () => {
+    const markup = renderToStaticMarkup(
+      <ButtonLink href="https://example.com" external rel="nofollow" target="_self">
+        Keluar
+      </ButtonLink>,
+    );
+
+    expect(markup).toContain('rel="noopener noreferrer"');
+    expect(markup).not.toContain("nofollow");
+    expect(markup).toContain('target="_blank"');
+    expect(markup).not.toContain('target="_self"');
+  });
+
   it("keeps internal links in the same tab without rel", () => {
     const markup = renderToStaticMarkup(<ButtonLink href="/kontak">Hubungi kami</ButtonLink>);
 

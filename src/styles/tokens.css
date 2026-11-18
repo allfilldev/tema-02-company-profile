@@ -18,8 +18,8 @@
   --color-warning: #b45309;
   --color-danger: #b91c1c;
 
-  --font-heading: var(--font-heading-source), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-body-source), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-heading-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;

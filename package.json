@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "image:import": "tsx scripts/import-demo-image.ts"
+    "image:import": "tsx scripts/import-demo-image.ts",
+    "favicon": "tsx scripts/generate-favicon.ts"
   },
   "dependencies": {
     "lucide-react": "^1.75.0",

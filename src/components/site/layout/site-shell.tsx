@@ -1,0 +1,25 @@
+import type { ReactNode } from "react";
+import type { SiteContext } from "@/server/site/site-context";
+import { Footer } from "./footer";
+import { Header } from "./header";
+import { WhatsAppButton } from "./whatsapp-button";
+
+type SiteShellProps = {
+  context: SiteContext;
+  children: ReactNode;
+};
+
+export function SiteShell({ context, children }: SiteShellProps) {
+  const { settings, navigation, env, whatsappUrl } = context;
+
+  return (
+    <>
+      <Header siteName={settings.siteName} logo={settings.logo} navigation={navigation} />
+      <main id="konten" className="flex-1 pb-24">
+        {children}
+      </main>
+      <Footer settings={settings} navigation={navigation} isDemo={env.isDemo} />
+      <WhatsAppButton href={whatsappUrl} />
+    </>
+  );
+}
