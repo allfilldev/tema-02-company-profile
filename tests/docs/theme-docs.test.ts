@@ -30,6 +30,13 @@ describe("theme guides", () => {
     },
   );
 
+  it.each(["tests/components/skeletons/skeletons.test.tsx", "tests/components/views/pages.test.tsx"])(
+    "THEME.md names the design calibration test %s",
+    (testFile) => {
+      expect(themeGuide).toContain(`\`${testFile}\``);
+    },
+  );
+
   it("only mentions npm scripts that exist", () => {
     const mentioned = [...npmScriptsMentioned(themeGuide), ...npmScriptsMentioned(updatingGuide)];
 

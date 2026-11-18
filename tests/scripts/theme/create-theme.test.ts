@@ -78,6 +78,16 @@ describe("createTheme", () => {
     expect(await exists(workspace.themeDir("arunika"))).toBe(false);
   }, TIMEOUT);
 
+  it.each([
+    ["a feature branch", ["checkout", "--quiet", "-b", "feature"]],
+    ["a detached HEAD", ["checkout", "--quiet", "--detach"]],
+  ])("refuses a boilerplate on %s", async (_label, checkoutArgs) => {
+    await git(workspace.boilerplateDir, ...checkoutArgs);
+
+    await expect(create("arunika")).rejects.toThrow(/main/);
+    expect(await exists(workspace.themeDir("arunika"))).toBe(false);
+  }, TIMEOUT);
+
   it("refuses an existing target", async () => {
     const themeDir = workspace.themeDir("arunika");
     await create("arunika");

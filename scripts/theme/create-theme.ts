@@ -18,12 +18,21 @@ export interface CreateThemeResult {
 }
 
 const THEME_CONFIG_PATH = "src/config/theme.ts";
+const REQUIRED_BRANCH = "main";
 const DISABLED_PUSH_URL = "DISABLED";
 
 async function pathExists(target: string): Promise<boolean> {
   try {
     await access(target);
     return true;
+  } catch {
+    return false;
+  }
+}
+
+async function isOnMainBranch(directory: string, env?: NodeJS.ProcessEnv): Promise<boolean> {
+  try {
+    return (await runGit(directory, ["symbolic-ref", "--quiet", "--short", "HEAD"], env)).trim() === REQUIRED_BRANCH;
   } catch {
     return false;
   }
@@ -38,6 +47,10 @@ export async function createTheme(options: CreateThemeOptions): Promise<CreateTh
   }
 
   const { siteType, targetDir } = resolveThemePaths(boilerplateDir, themeName);
+
+  if (!(await isOnMainBranch(boilerplateDir, env))) {
+    throw new Error("The boilerplate must be on the main branch, because themes track upstream/main. Switch to main first.");
+  }
 
   const pendingChanges = (await runGit(boilerplateDir, ["status", "--porcelain"], env)).trim();
   if (pendingChanges) {

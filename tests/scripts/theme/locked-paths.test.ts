@@ -10,6 +10,7 @@ describe("classifyChangedFiles", () => {
       "src/lib/",
       "src/app/",
       "src/proxy.ts",
+      "src/components/site/layout/route-guard.tsx",
       "src/content/packs/",
       "src/components/admin/",
       "supabase/",
@@ -29,6 +30,7 @@ describe("classifyChangedFiles", () => {
     const files = [
       "src/core/domain/x.ts",
       "src/proxy.ts",
+      "src/components/site/layout/route-guard.tsx",
       "src/app/layout.tsx",
       "src/content/packs/general/home.ts",
       "supabase/migrations/1.sql",
@@ -56,6 +58,7 @@ describe("classifyChangedFiles", () => {
       "src/styles/fonts.ts",
       "src/components/ui/button.tsx",
       "src/components/site/views/home-view.tsx",
+      "src/components/site/layout/header.tsx",
       "src/components/skeletons/route-skeleton.tsx",
       "public/favicon.ico",
       "THEME.md",

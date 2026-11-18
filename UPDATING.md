@@ -18,6 +18,7 @@ Memakai `git merge upstream/main` dan bukan `git pull upstream` disengaja: caban
 
 - **Folder terkunci** (daftar lengkap di `THEME.md`): konflik di sini berarti tema mengubah folder yang seharusnya tidak disentuh. Kembalikan berkas itu ke versi boilerplate dan pindahkan kebutuhannya ke boilerplate.
 - **`src/config/theme.ts`**: pertahankan `themeName` milik tema, ambil sisanya dari boilerplate bila itu pembaruan inti, dan pertahankan `enabledModules`, `contentPack`, dan `contentBlocks` pilihan tema.
+- **Tes kalibrasi desain** (`tests/components/skeletons/skeletons.test.tsx` dan `tests/components/views/pages.test.tsx`, lihat `THEME.md`): pertahankan versi tema, lalu baca perubahan boilerplate pada berkas itu dan terapkan pemeriksaan barunya (misalnya pemeriksaan heading) pada ekspektasi tema.
 - **`package.json` dan `package-lock.json`**: gabungkan dependensi tema dengan dependensi baru boilerplate, lalu `npm install` untuk membangun ulang lockfile.
 
 ## Aturan migrasi database

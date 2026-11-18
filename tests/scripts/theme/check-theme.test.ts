@@ -44,6 +44,15 @@ describe("checkTheme", () => {
     expect(report.review).toEqual([]);
   }, TIMEOUT);
 
+  it("reports a file moved out of a locked folder under its old path", async () => {
+    await git(themeDir, "mv", "src/lib/a.ts", "src/styles/a.ts");
+    await git(themeDir, "commit", "--quiet", "-m", "feat: move a");
+
+    const report = await checkTheme(themeDir, workspace.env);
+
+    expect(report.locked).toEqual(["src/lib/a.ts"]);
+  }, TIMEOUT);
+
   it("does not count merged upstream changes as theme changes", async () => {
     await workspace.commitInBoilerplate({ "src/lib/a.ts": "export const a = 2;\n" }, "feat: change a");
     await git(themeDir, "fetch", "upstream");

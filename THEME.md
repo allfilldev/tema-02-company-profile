@@ -34,7 +34,12 @@ Sesuaikan gaya `src/components/ui/` bila desain memintanya (misalnya tombol pill
 
 Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan `src/components/site/views/` mengikuti desain. Data datang dari model yang sudah disediakan rute, jadi tidak ada pengambilan data baru. Komponen di `src/components/site/contract/` (breadcrumb, byline dan kotak penulis, isi markdown, FAQ, navigasi hukum, tanggal artikel, DemoNotice, JSON-LD) hanya boleh berubah kelas gayanya, bukan elemen, atribut, id, atau teks labelnya.
 
-Periksa dengan menjalankan tes di `tests/components/` satu berkas per perintah, misalnya `npx vitest run tests/components/views/pages.test.tsx`. Tes itu menjaga satu `<h1>` per halaman, urutan heading, tautan, dan komponen kontrak. Mengubah tes yang sudah ada agar tema lolos adalah tanda aturan dilanggar.
+`src/components/site/layout/route-guard.tsx` tetap milik boilerplate: ia menjaga satu `<h1>` di DOM setelah navigasi klien, jadi hanya bagian tampilan lain di `layout/` yang boleh ditulis ulang.
+
+Periksa dengan menjalankan tes di `tests/components/` satu berkas per perintah. Ada dua jenis tes:
+
+- **Tes kontrak, tidak boleh diubah:** satu `<h1>` per halaman, urutan heading, tautan, komponen kontrak, tombol WhatsApp, `route-guard`, dan `loading` (`tests/components/contract/`, `tests/components/layout/`, `tests/components/sections/`, `tests/components/ui/`, `tests/components/views/articles.test.tsx`, `tests/components/views/catalog.test.tsx`, `tests/components/views/not-found.test.tsx`, `tests/components/views/image-priority.test.tsx`, `tests/components/skeletons/loading.test.tsx`). Mengubah tes ini agar tema lolos adalah tanda aturan dilanggar.
+- **Tes kalibrasi desain, wajib disesuaikan oleh tema:** `tests/components/skeletons/skeletons.test.tsx` (urutan blok skeleton, kelas, dan tinggi tiap halaman) dan `tests/components/views/pages.test.tsx` (urutan section beranda). Keduanya mengunci desain bawaan, jadi tema dengan susunan section berbeda mengubah ekspektasinya sesuai desainnya sendiri. Jangan melemahkan pemeriksaan satu `<h1>` dan urutan heading di dalamnya.
 
 ## 6. Section tanpa modul
 
@@ -48,7 +53,7 @@ Atur `enabledModules` di `src/config/theme.ts` dan pilih `contentPack`. Modul ya
 
 ## 8. Skeleton
 
-Sesuaikan `src/components/skeletons/` dengan tinggi section yang baru, dengan selisih 20 px atau kurang pada lebar 1280 px, supaya halaman tidak melompat saat isi menggantikan skeleton. Periksa: `npx vitest run tests/components/skeletons/skeletons.test.tsx`, lalu ukur di pratinjau browser.
+Sesuaikan `src/components/skeletons/` dengan susunan dan tinggi section yang baru, dengan selisih 20 px atau kurang pada lebar 1280 px, supaya halaman tidak melompat saat isi menggantikan skeleton. Perbarui ekspektasi urutan blok dan kelas di `tests/components/skeletons/skeletons.test.tsx` (tes kalibrasi desain, lihat langkah 5) agar sama dengan skeleton baru, lalu jalankan `npx vitest run tests/components/skeletons/skeletons.test.tsx` dan ukur di pratinjau browser.
 
 ## 9. Cek admin
 
@@ -72,7 +77,7 @@ Jalankan `npm run theme:check`. Perintah ini harus lolos: ia melaporkan berkas f
 
 ## Yang boleh diubah
 
-`src/styles/`, `src/components/ui/` (gaya saja), `src/components/site/layout/`, `src/components/site/sections/`, `src/components/site/views/`, `src/components/skeletons/`, `src/config/theme.ts`, dan favicon di `public/`.
+`src/styles/`, `src/components/ui/` (gaya saja), `src/components/site/layout/` (kecuali `src/components/site/layout/route-guard.tsx`), `src/components/site/sections/`, `src/components/site/views/`, `src/components/skeletons/`, `src/config/theme.ts`, dan favicon di `public/`.
 
 ## Yang tidak boleh diubah
 
@@ -84,6 +89,7 @@ Folder berikut terkunci. Perubahan di sini dikerjakan di boilerplate, lalu ditar
 - `src/lib/`
 - `src/app/`
 - `src/proxy.ts`
+- `src/components/site/layout/route-guard.tsx`
 - `src/content/packs/`
 - `src/components/admin/`
 - `supabase/`
@@ -97,4 +103,4 @@ Perubahan di sini tidak otomatis pelanggaran, tetapi `npm run theme:check` menca
 
 - `src/components/site/contract/`: hanya kelas gaya yang boleh berubah.
 - `package.json` dan `package-lock.json`: dependensi tambahan harus benar-benar dibutuhkan desain.
-- `tests/`: tes baru boleh ditambah, tes yang sudah ada tidak diubah supaya tema lolos.
+- `tests/`: tes baru boleh ditambah, dan dua tes kalibrasi desain (langkah 5) disesuaikan dengan desain tema. Tes kontrak yang sudah ada tidak diubah supaya tema lolos.

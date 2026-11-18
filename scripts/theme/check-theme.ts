@@ -18,7 +18,7 @@ export async function checkTheme(themeDir: string, env?: NodeJS.ProcessEnv): Pro
   await runGit(themeDir, ["fetch", "--quiet", UPSTREAM_REMOTE], env);
 
   const base = (await runGit(themeDir, ["merge-base", UPSTREAM_BRANCH, "HEAD"], env)).trim();
-  const tracked = splitLines(await runGit(themeDir, ["diff", "--name-only", base], env));
+  const tracked = splitLines(await runGit(themeDir, ["diff", "--name-only", "--no-renames", base], env));
   const untracked = splitLines(await runGit(themeDir, ["ls-files", "--others", "--exclude-standard"], env));
 
   return classifyChangedFiles([...tracked, ...untracked]);

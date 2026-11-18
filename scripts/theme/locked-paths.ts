@@ -5,6 +5,7 @@ export const LOCKED_PATHS: readonly string[] = [
   "src/lib/",
   "src/app/",
   "src/proxy.ts",
+  "src/components/site/layout/route-guard.tsx",
   "src/content/packs/",
   "src/components/admin/",
   "supabase/",
