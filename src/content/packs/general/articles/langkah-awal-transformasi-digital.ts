@@ -83,7 +83,7 @@ Siapkan juga jalur bantuan. Tunjuk satu atau dua rekan kerja paling cepat memaha
 
 Sediakan waktu adaptasi. Pekerjaan sering terasa lebih lambat di minggu-minggu awal karena semua orang masih belajar, jadi hindari menilai hasil terlalu cepat.
 
-Perhatikan pula keamanan informasi pelanggan. Indonesia memiliki Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi. Teksnya bisa Anda cari di [basis data peraturan BPK](https://peraturan.bpk.go.id).
+Perhatikan pula keamanan informasi pelanggan, karena Indonesia sudah memiliki [Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022).
 
 Sebelum memilih penyedia, pastikan mereka menjelaskan lokasi penyimpanan dan siapa saja pemegang aksesnya.
 

@@ -14,10 +14,12 @@ export const generalLegalPages: LegalPage[] = [
     sections: [
       {
         heading: "Data yang kami terima",
-        bodyMd: `Kami hanya menerima data yang Anda kirimkan sendiri kepada kami, yaitu:
+        bodyMd: `Data yang kami terima melalui situs ini antara lain:
 
 - Data yang Anda isi di formulir kontak, seperti nama, alamat email, nomor telepon, dan isi pesan.
 - Nomor WhatsApp dan isi percakapan bila Anda menghubungi kami melalui tombol WhatsApp.
+
+Formulir kontak juga mencatat data teknis terbatas, misalnya alamat IP yang disimpan dalam bentuk hash, untuk mencegah spam dan pengiriman berulang.
 
 Mohon tidak mengirimkan dokumen rahasia perusahaan atau data pribadi orang lain melalui formulir maupun WhatsApp sebelum ada kesepakatan kerja sama.`,
       },
