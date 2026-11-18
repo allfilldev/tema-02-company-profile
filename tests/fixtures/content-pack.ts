@@ -61,6 +61,12 @@ export function buildTestPack(): ContentPack {
       { key: "portfolio", eyebrow: "Portofolio", title: "Proyek terbaru", description: null },
       { key: "team", eyebrow: "Tim", title: "Orang di balik Nusa Karya", description: null },
       { key: "articles", eyebrow: "Artikel", title: "Wawasan dari tim kami", description: null },
+      { key: "stats", eyebrow: "Angka", title: "Nusa Karya dalam angka", description: null },
+      { key: "testimonials", eyebrow: "Testimoni", title: "Kata klien kami", description: null },
+      { key: "partners", eyebrow: "Mitra", title: "Mitra yang bekerja bersama kami", description: null },
+      { key: "vision", eyebrow: "Visi dan misi", title: "Arah yang kami tuju", description: null },
+      { key: "about", eyebrow: "Tentang kami", title: "Tentang Nusa Karya", description: null },
+      { key: "contact", eyebrow: "Kontak", title: "Hubungi kami", description: "Ceritakan kebutuhan Anda, kami akan membalas dalam satu hari kerja." },
     ],
     about: {
       summary: "Nusa Karya adalah studio digital yang membantu usaha kecil dan menengah tampil profesional secara online.",
