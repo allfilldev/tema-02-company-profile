@@ -1,0 +1,31 @@
+import type { Article } from "@/core/domain/article/article";
+import type { ContentBlock } from "@/core/domain/content-block/content-block";
+import type { AboutContent } from "@/core/domain/page/about-content";
+import type { CompanyVision } from "@/core/domain/page/company-vision";
+import type { HomeContent } from "@/core/domain/page/home-content";
+import type { LegalPage } from "@/core/domain/page/legal-page";
+import type { SectionIntro } from "@/core/domain/page/section-intro";
+import type { Partner } from "@/core/domain/partner/partner";
+import type { PortfolioItem } from "@/core/domain/portfolio/portfolio-item";
+import type { Service } from "@/core/domain/service/service";
+import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import type { Stat } from "@/core/domain/stat/stat";
+import type { TeamMember } from "@/core/domain/team/team-member";
+import type { Testimonial } from "@/core/domain/testimonial/testimonial";
+
+export type ContentPack = {
+  settings: SiteSettings;
+  home: HomeContent;
+  sectionIntros: SectionIntro[];
+  about: AboutContent;
+  vision: CompanyVision;
+  services: Service[];
+  portfolio: PortfolioItem[];
+  team: TeamMember[];
+  stats: Stat[];
+  testimonials: Testimonial[];
+  partners: Partner[];
+  articles: Article[];
+  contentBlocks: ContentBlock[];
+  legalPages: LegalPage[];
+};
