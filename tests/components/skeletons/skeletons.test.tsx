@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { RouteSkeleton } from "@/components/skeletons/route-skeleton";
+import { SKELETON_HEIGHTS } from "@/components/skeletons/skeleton-blocks";
 import { SKELETON_KINDS, type SkeletonKind } from "@/lib/site/skeleton-kind";
 
 function render(kind: SkeletonKind): string {
@@ -16,6 +17,9 @@ const FAMILIES: Record<string, RegExp> = {
   "padding-y": /^(p|py)-/,
   radius: /^rounded(-(none|sm|md|lg|xl|2xl|3xl|full))?$/,
   background: /^bg-/,
+  height: /^(h|size)-/,
+  "min-height": /^min-h-/,
+  width: /^(w|size)-/,
 };
 
 function classLists(markup: string): string[][] {
@@ -41,6 +45,35 @@ function findConflicts(classes: string[]): string[] {
   return [...seen.entries()].filter(([, tokens]) => tokens.length > 1).map(([key, tokens]) => `${key}: ${tokens.join(" ")}`);
 }
 
+type TopLevelSection = { classes: string[]; blocks: string[] };
+
+function topLevelSections(markup: string): TopLevelSection[] {
+  const body = markup.replace(/^<div[^>]*><span class="sr-only">Memuat halaman<\/span>/, "");
+  const sections: TopLevelSection[] = [];
+  let depth = 0;
+
+  for (const match of body.matchAll(/<(\/?)div\b([^>]*)>/g)) {
+    if (match[1] === "/") {
+      depth -= 1;
+      continue;
+    }
+    if (depth === 0) {
+      sections.push({ classes: (match[2].match(/class="([^"]*)"/)?.[1] ?? "").split(" ").filter(Boolean), blocks: [] });
+    }
+    const block = match[2].match(/data-skeleton="([^"]*)"/)?.[1];
+    if (block) {
+      sections[sections.length - 1].blocks.push(block);
+    }
+    depth += 1;
+  }
+
+  return sections;
+}
+
+function sectionClassesContaining(markup: string, block: string): string[] | undefined {
+  return topLevelSections(markup).find((section) => section.blocks.includes(block))?.classes;
+}
+
 function classesOfElementWith(markup: string, token: string): string[][] {
   return classLists(markup).filter((classes) => classes.includes(token));
 }
@@ -56,10 +89,15 @@ describe("conflicting utility detection", () => {
     expect(findConflicts(["rounded-md", "rounded-full"])).toHaveLength(1);
     expect(findConflicts(["bg-border", "bg-surface-muted"])).toHaveLength(1);
     expect(findConflicts(["md:py-16", "md:py-8"])).toHaveLength(1);
+    expect(findConflicts(["min-h-40", "min-h-96"])).toHaveLength(1);
+    expect(findConflicts(["lg:min-h-90", "lg:min-h-120"])).toHaveLength(1);
+    expect(findConflicts(["h-4", "size-16"])).toHaveLength(1);
+    expect(findConflicts(["w-full", "w-1/2"])).toHaveLength(1);
   });
 
   it("allows different breakpoints and different families", () => {
     expect(findConflicts(["py-12", "md:py-16", "lg:py-20", "px-4", "rounded-md", "bg-border", "border-border"])).toEqual([]);
+    expect(findConflicts(["h-9", "md:h-10", "w-3/4", "lg:min-h-90"])).toEqual([]);
   });
 });
 
@@ -73,22 +111,10 @@ describe("RouteSkeleton class conflicts", () => {
     }
   });
 
-  it("uses the compact padding variant on the stats block", () => {
-    const markup = render("home");
-    const match = markup.match(/<div class="([^"]*)"><div class="[^"]*"><div data-skeleton="stats"/);
+  it.each(["home", "about"] as const)("gives the stats block on %s the same padding as Section", (kind) => {
+    const classes = sectionClassesContaining(render(kind), "stats");
 
-    expect(match).not.toBeNull();
-    expect(match![1].split(" ")).toContain("py-6");
-    expect(match![1]).not.toMatch(/\bpy-(12|8)\b|md:py-/);
-  });
-
-  it("uses the compact padding variant on the pagination block", () => {
-    const markup = render("articles-index");
-    const match = markup.match(/<div class="([^"]*)"><div class="[^"]*"><div data-skeleton="pagination"/);
-
-    expect(match).not.toBeNull();
-    expect(match![1].split(" ")).toContain("py-6");
-    expect(match![1]).not.toMatch(/\bpy-(12|8)\b|md:py-/);
+    expect(classes).toEqual(["py-12", "md:py-16", SKELETON_HEIGHTS.stats]);
   });
 
   it("gives the avatar placeholder only a full radius", () => {
@@ -96,15 +122,6 @@ describe("RouteSkeleton class conflicts", () => {
 
     expect(avatars).toHaveLength(1);
     expect(radiusClasses(avatars[0])).toEqual(["rounded-full"]);
-  });
-
-  it("gives the page number placeholders only a large radius", () => {
-    const pages = classesOfElementWith(render("articles-index"), "size-11");
-
-    expect(pages).toHaveLength(3);
-    for (const classes of pages) {
-      expect(radiusClasses(classes)).toEqual(["rounded-lg"]);
-    }
   });
 
   it.each([
@@ -127,6 +144,69 @@ describe("RouteSkeleton class conflicts", () => {
       expect(classes.filter((token) => FAMILIES.radius.test(token))).toHaveLength(1);
       expect(classes.filter((token) => FAMILIES.background.test(token))).toHaveLength(1);
     }
+  });
+});
+
+function minHeightClasses(markup: string): string[] {
+  return classLists(markup).flatMap((classes) => classes.filter((token) => /(^|:)min-h-/.test(token)));
+}
+
+const INNER_BLOCKS = ["line", "heading", "card", "field"];
+
+function blockSequence(markup: string): string[] {
+  return topLevelSections(markup).map((section) => section.blocks.find((block) => !INNER_BLOCKS.includes(block)) ?? "section");
+}
+
+const EXPECTED_SEQUENCES: Record<SkeletonKind, string[]> = {
+  home: ["hero", "stats", "grid", "grid", "grid", "grid", "split", "grid", "grid", "grid", "grid", "grid", "faq", "banner"],
+  about: ["breadcrumbs", "hero", "split", "grid", "grid", "stats"],
+  "services-index": ["breadcrumbs", "hero", "grid"],
+  "service-detail": ["breadcrumbs", "hero", "article-body", "faq", "grid"],
+  "portfolio-index": ["breadcrumbs", "hero", "grid"],
+  "portfolio-detail": ["breadcrumbs", "hero", "article-body", "grid", "grid"],
+  "articles-index": ["breadcrumbs", "hero", "grid"],
+  "article-detail": ["breadcrumbs", "hero", "article-body", "grid"],
+  contact: ["breadcrumbs", "hero", "form"],
+  legal: ["breadcrumbs", "hero", "legal-text"],
+};
+
+describe("RouteSkeleton calibration structure", () => {
+  it("reads the block sequence of a known markup", () => {
+    expect(blockSequence('<div role="status"><span class="sr-only">Memuat halaman</span><div data-skeleton="hero"><div data-skeleton="line"></div></div><div class="x"><div data-skeleton="grid"></div></div><div></div></div>')).toEqual([
+      "hero",
+      "grid",
+      "section",
+    ]);
+  });
+
+  it.each(SKELETON_KINDS)("mirrors the real section sequence for %s", (kind) => {
+    expect(blockSequence(render(kind))).toEqual(EXPECTED_SEQUENCES[kind]);
+  });
+
+  it("represents every home section instead of one tall block", () => {
+    expect(EXPECTED_SEQUENCES.home).toHaveLength(14);
+    expect(minHeightClasses(render("home"))).toHaveLength(14);
+  });
+
+  it("keeps every height as one class from SKELETON_HEIGHTS", () => {
+    const allowed: string[] = Object.values(SKELETON_HEIGHTS);
+
+    for (const value of allowed) {
+      expect(value.split(" ")).toHaveLength(1);
+    }
+    for (const kind of SKELETON_KINDS) {
+      const used = minHeightClasses(render(kind));
+
+      expect(used.length).toBeGreaterThan(1);
+      expect(used.filter((token) => !allowed.includes(token))).toEqual([]);
+    }
+  });
+
+  it("gives every page except home a breadcrumb row as tall as the real one", () => {
+    for (const kind of SKELETON_KINDS) {
+      expect(render(kind).includes('data-skeleton="breadcrumbs"')).toBe(kind !== "home");
+    }
+    expect(render("about")).toContain(`class="flex items-center ${SKELETON_HEIGHTS.breadcrumbRow}"`);
   });
 });
 
