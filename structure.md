@@ -21,10 +21,11 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | Path | Tanggung jawab |
 |---|---|
 | `docs/rules/` | Salinan aturan yang sudah disesuaikan: `rules.md`, `seo-rules.md`, `seo-for-new-website.md`, `eeat-rules.md` |
-| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`, `tests/lib/seo/`, `tests/lib/markdown/`, `tests/core/application/` termasuk `schemas.test.ts` dan `site-queries.test.ts`, `tests/infrastructure/images/`) |
+| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`, `tests/lib/seo/`, `tests/lib/markdown/`, `tests/core/application/` termasuk `schemas.test.ts` dan `site-queries.test.ts`, `tests/infrastructure/images/`, `tests/content/packs/` berisi `general-media.test.ts`) |
 | `tests/fixtures/` | Data bantu tes, bukan file tes. `content-pack.ts` berisi `buildTestPack()` yang mengembalikan paket konten valid baru (siteName "Nusa Karya") di setiap panggilan, dengan intro seksi untuk kesepuluh `SECTION_KEYS` |
 | `public/` | Aset statis |
-| `public/demo/<paket>/` (menyusul) | Gambar demo WebP per paket konten |
+| `public/demo/<paket>/` | Gambar demo WebP per paket konten, satu file per kunci media (`<kunci>.webp`, maksimal 100 KB). Saat ini ada `public/demo/general/` berisi 50 gambar: 41 foto Pexels, logo Arunika Solusi, dan 8 logo mitra fiktif dengan latar transparan |
+| `docs/credits/` | Kredit gambar per paket konten. `general.md` mencatat fotografer, halaman Pexels, dan lisensi setiap kunci media |
 | `supabase/migrations/` (menyusul) | Skema, RLS, fungsi, bucket storage |
 | `supabase/seed.sql` (menyusul) | Hasil generate dari paket konten, tidak diedit manual |
 | `scripts/` | `import-demo-image.ts`: CLI `npm run image:import -- <file-sumber> <paket> <nama-file> [--logo]` yang mengonversi gambar ke WebP, menulis `public/demo/<paket>/<nama-file>.webp`, dan mencetak `<lebar> <tinggi> <ukuran-byte>`. Skrip create-theme, generate-seed, create-admin, generate-favicon menyusul |
@@ -41,7 +42,7 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | `src/infrastructure/supabase/` (menyusul) | Client, repository, storage |
 | `src/infrastructure/fixtures/` | `fixture-repositories.ts`: `createFixtureRepositories(pack)` membuat `Repositories` yang membaca `ContentPack` di memori, mematuhi kontrak urutan (tanpa mengubah array paket) |
 | `src/infrastructure/images/` | `optimize-webp.ts`: `optimizeToWebp(input, { maxWidth, maxBytes })` mengubah gambar ke WebP dengan sharp (tanpa memperbesar, transparansi tetap, kualitas turun bertahap lalu lebar dikecilkan sampai di bawah batas byte), beserta konstanta `PHOTO_MAX_WIDTH` (1920), `LOGO_MAX_WIDTH` (600), dan `MAX_IMAGE_BYTES` (102400) |
-| `src/content/packs/<paket>/` (menyusul) | Paket konten demo |
+| `src/content/packs/<paket>/` | Paket konten demo. Saat ini baru `general/media.ts`: `GENERAL_MEDIA_KEYS`, tipe `GeneralMediaKey`, dan `generalMedia` (`Record<GeneralMediaKey, MediaAsset>`) berisi 50 gambar demo Arunika Solusi dengan alt bahasa Indonesia. Isi paket lainnya menyusul |
 | `src/server/actions/` (menyusul) | Server actions publik dan admin |
 | `src/server/container.ts` (menyusul) | Memilih repository sesuai `DATA_SOURCE` |
 | `src/lib/text/` | Utilitas teks murni: `slug.ts` berisi `slugify` dan `isValidSlug` |
