@@ -31,22 +31,57 @@ const GRID_COLUMNS = {
 
 type SkeletonGridColumns = keyof typeof GRID_COLUMNS;
 
+const SECTION_PADDINGS = {
+  default: "py-12 md:py-16",
+  hero: "py-12 md:py-16 lg:py-20",
+  compact: "py-6",
+} as const;
+
+type SkeletonSectionPadding = keyof typeof SECTION_PADDINGS;
+
+const BLOCK_RADII = {
+  none: "rounded-none",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  full: "rounded-full",
+} as const;
+
+const BLOCK_TONES = {
+  border: "bg-border",
+  muted: "bg-surface-muted",
+  secondary: "bg-secondary",
+} as const;
+
+type SkeletonBlockRadius = keyof typeof BLOCK_RADII;
+type SkeletonBlockTone = keyof typeof BLOCK_TONES;
+
 type SkeletonSectionProps = {
   height: string;
-  className?: string;
+  padding?: SkeletonSectionPadding;
   children?: ReactNode;
 };
 
-export function SkeletonSection({ height, className, children }: SkeletonSectionProps) {
+export function SkeletonSection({ height, padding = "default", children }: SkeletonSectionProps) {
   return (
-    <div className={joinClassNames("py-12 md:py-16", height, className)}>
+    <div className={joinClassNames(SECTION_PADDINGS[padding], height)}>
       <Container>{children}</Container>
     </div>
   );
 }
 
-export function SkeletonBlock({ className }: { className?: string }) {
-  return <div className={joinClassNames("animate-pulse rounded-md bg-border motion-reduce:animate-none", className)} />;
+type SkeletonBlockProps = {
+  rounded?: SkeletonBlockRadius;
+  tone?: SkeletonBlockTone;
+  className?: string;
+};
+
+export function SkeletonBlock({ rounded = "md", tone = "border", className }: SkeletonBlockProps) {
+  return (
+    <div
+      className={joinClassNames("animate-pulse motion-reduce:animate-none", BLOCK_RADII[rounded], BLOCK_TONES[tone], className)}
+    />
+  );
 }
 
 type SkeletonLinesProps = {
@@ -80,7 +115,7 @@ export function SkeletonHeading({ className }: { className?: string }) {
 export function SkeletonHero({ tall = false }: { tall?: boolean }) {
   return (
     <div data-skeleton="hero" className="bg-surface-muted">
-      <SkeletonSection height={tall ? SKELETON_HEIGHTS.homeHero : SKELETON_HEIGHTS.pageHero} className="lg:py-20">
+      <SkeletonSection height={tall ? SKELETON_HEIGHTS.homeHero : SKELETON_HEIGHTS.pageHero} padding="hero">
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <div className="space-y-6">
             <SkeletonBlock className="h-4 w-32" />
@@ -89,12 +124,12 @@ export function SkeletonHero({ tall = false }: { tall?: boolean }) {
             <SkeletonLines count={tall ? 3 : 2} />
             {tall ? (
               <div className="flex gap-4 pt-2">
-                <SkeletonBlock className="h-12 w-40 rounded-lg" />
-                <SkeletonBlock className="h-12 w-40 rounded-lg" />
+                <SkeletonBlock rounded="lg" className="h-12 w-40" />
+                <SkeletonBlock rounded="lg" className="h-12 w-40" />
               </div>
             ) : null}
           </div>
-          <SkeletonBlock className={joinClassNames("hidden w-full rounded-xl bg-secondary lg:block", tall ? "h-80" : "h-48")} />
+          <SkeletonBlock rounded="xl" tone="secondary" className={joinClassNames("hidden w-full lg:block", tall ? "h-80" : "h-48")} />
         </div>
       </SkeletonSection>
     </div>
@@ -104,7 +139,7 @@ export function SkeletonHero({ tall = false }: { tall?: boolean }) {
 export function SkeletonCard() {
   return (
     <div data-skeleton="card" className="overflow-hidden rounded-lg border border-border bg-surface">
-      <SkeletonBlock className="h-40 w-full rounded-none bg-surface-muted" />
+      <SkeletonBlock rounded="none" tone="muted" className="h-40 w-full" />
       <div className="space-y-4 p-5">
         <SkeletonBlock className="h-6 w-3/4" />
         <SkeletonLines count={2} />
@@ -134,7 +169,7 @@ export function SkeletonGrid({ count = 6, columns = 3, withHeading = true }: Ske
 
 export function SkeletonStats() {
   return (
-    <SkeletonSection height={SKELETON_HEIGHTS.stats} className="py-8 md:py-8">
+    <SkeletonSection height={SKELETON_HEIGHTS.stats} padding="compact">
       <div data-skeleton="stats" className="grid grid-cols-2 gap-6 lg:grid-cols-4">
         {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="space-y-3">
@@ -152,7 +187,7 @@ export function SkeletonArticleBody({ withSidebar = false }: { withSidebar?: boo
     <SkeletonSection height={SKELETON_HEIGHTS.articleBody}>
       <div className={joinClassNames("gap-12", withSidebar && "lg:grid lg:grid-cols-12")}>
         <div data-skeleton="article-body" className={joinClassNames("max-w-3xl space-y-8", withSidebar && "lg:col-span-8")}>
-          <SkeletonBlock className="h-64 w-full rounded-lg bg-surface-muted" />
+          <SkeletonBlock rounded="lg" tone="muted" className="h-64 w-full" />
           <SkeletonLines count={5} />
           <SkeletonBlock className="h-8 w-1/2" />
           <SkeletonLines count={6} />
@@ -171,7 +206,7 @@ export function SkeletonSidebar() {
       <div data-skeleton="sidebar" className="sticky top-24 space-y-5 rounded-lg border border-border bg-surface p-6">
         <SkeletonBlock className="h-5 w-1/2" />
         <div className="flex items-center gap-4">
-          <SkeletonBlock className="size-16 rounded-full" />
+          <SkeletonBlock rounded="full" className="size-16" />
           <div className="flex-1 space-y-3">
             <SkeletonBlock className="h-4 w-3/4" />
             <SkeletonBlock className="h-4 w-1/2" />
@@ -195,14 +230,14 @@ export function SkeletonForm() {
           {Array.from({ length: 3 }, (_, index) => (
             <div key={index} data-skeleton="field" className="space-y-2">
               <SkeletonBlock className="h-4 w-24" />
-              <SkeletonBlock className="h-11 w-full bg-surface-muted" />
+              <SkeletonBlock tone="muted" className="h-11 w-full" />
             </div>
           ))}
           <div data-skeleton="field" className="space-y-2">
             <SkeletonBlock className="h-4 w-24" />
-            <SkeletonBlock className="h-32 w-full bg-surface-muted" />
+            <SkeletonBlock tone="muted" className="h-32 w-full" />
           </div>
-          <SkeletonBlock className="h-12 w-40 rounded-lg" />
+          <SkeletonBlock rounded="lg" className="h-12 w-40" />
         </div>
       </div>
     </SkeletonSection>
@@ -241,10 +276,10 @@ export function SkeletonFaq() {
 
 export function SkeletonPagination() {
   return (
-    <SkeletonSection height={SKELETON_HEIGHTS.pagination} className="py-6 md:py-6">
+    <SkeletonSection height={SKELETON_HEIGHTS.pagination} padding="compact">
       <div data-skeleton="pagination" className="flex justify-center gap-3">
         {Array.from({ length: 3 }, (_, index) => (
-          <SkeletonBlock key={index} className="size-11 rounded-lg" />
+          <SkeletonBlock key={index} rounded="lg" className="size-11" />
         ))}
       </div>
     </SkeletonSection>

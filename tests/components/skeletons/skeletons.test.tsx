@@ -11,6 +11,125 @@ function count(markup: string, pattern: RegExp): number {
   return markup.match(pattern)?.length ?? 0;
 }
 
+const FAMILIES: Record<string, RegExp> = {
+  "padding-x": /^(p|px)-/,
+  "padding-y": /^(p|py)-/,
+  radius: /^rounded(-(none|sm|md|lg|xl|2xl|3xl|full))?$/,
+  background: /^bg-/,
+};
+
+function classLists(markup: string): string[][] {
+  return [...markup.matchAll(/\sclass="([^"]*)"/g)].map((match) => match[1].split(/\s+/).filter(Boolean));
+}
+
+function findConflicts(classes: string[]): string[] {
+  const seen = new Map<string, string[]>();
+
+  for (const token of classes) {
+    const separator = token.lastIndexOf(":");
+    const variant = token.slice(0, separator + 1);
+    const utility = token.slice(separator + 1);
+
+    for (const [family, pattern] of Object.entries(FAMILIES)) {
+      if (pattern.test(utility)) {
+        const key = `${family} ${variant}`;
+        seen.set(key, [...(seen.get(key) ?? []), token]);
+      }
+    }
+  }
+
+  return [...seen.entries()].filter(([, tokens]) => tokens.length > 1).map(([key, tokens]) => `${key}: ${tokens.join(" ")}`);
+}
+
+function classesOfElementWith(markup: string, token: string): string[][] {
+  return classLists(markup).filter((classes) => classes.includes(token));
+}
+
+function radiusClasses(classes: string[]): string[] {
+  return classes.filter((token) => FAMILIES.radius.test(token));
+}
+
+describe("conflicting utility detection", () => {
+  it("detects same-family utilities at the same breakpoint", () => {
+    expect(findConflicts(["py-12", "py-6"])).toHaveLength(1);
+    expect(findConflicts(["p-6", "py-12"])).toHaveLength(1);
+    expect(findConflicts(["rounded-md", "rounded-full"])).toHaveLength(1);
+    expect(findConflicts(["bg-border", "bg-surface-muted"])).toHaveLength(1);
+    expect(findConflicts(["md:py-16", "md:py-8"])).toHaveLength(1);
+  });
+
+  it("allows different breakpoints and different families", () => {
+    expect(findConflicts(["py-12", "md:py-16", "lg:py-20", "px-4", "rounded-md", "bg-border", "border-border"])).toEqual([]);
+  });
+});
+
+describe("RouteSkeleton class conflicts", () => {
+  it.each(SKELETON_KINDS)("has no conflicting padding, radius or background classes for %s", (kind) => {
+    const lists = classLists(render(kind));
+
+    expect(lists.length).toBeGreaterThan(10);
+    for (const classes of lists) {
+      expect(findConflicts(classes)).toEqual([]);
+    }
+  });
+
+  it("uses the compact padding variant on the stats block", () => {
+    const markup = render("home");
+    const match = markup.match(/<div class="([^"]*)"><div class="[^"]*"><div data-skeleton="stats"/);
+
+    expect(match).not.toBeNull();
+    expect(match![1].split(" ")).toContain("py-6");
+    expect(match![1]).not.toMatch(/\bpy-(12|8)\b|md:py-/);
+  });
+
+  it("uses the compact padding variant on the pagination block", () => {
+    const markup = render("articles-index");
+    const match = markup.match(/<div class="([^"]*)"><div class="[^"]*"><div data-skeleton="pagination"/);
+
+    expect(match).not.toBeNull();
+    expect(match![1].split(" ")).toContain("py-6");
+    expect(match![1]).not.toMatch(/\bpy-(12|8)\b|md:py-/);
+  });
+
+  it("gives the avatar placeholder only a full radius", () => {
+    const avatars = classesOfElementWith(render("article-detail"), "size-16");
+
+    expect(avatars).toHaveLength(1);
+    expect(radiusClasses(avatars[0])).toEqual(["rounded-full"]);
+  });
+
+  it("gives the page number placeholders only a large radius", () => {
+    const pages = classesOfElementWith(render("articles-index"), "size-11");
+
+    expect(pages).toHaveLength(3);
+    for (const classes of pages) {
+      expect(radiusClasses(classes)).toEqual(["rounded-lg"]);
+    }
+  });
+
+  it.each([
+    ["home", 2],
+    ["contact", 1],
+  ] as const)("gives the button placeholders on %s only a large radius", (kind, expectedCount) => {
+    const buttons = classesOfElementWith(render(kind), "w-40");
+
+    expect(buttons).toHaveLength(expectedCount);
+    for (const classes of buttons) {
+      expect(radiusClasses(classes)).toEqual(["rounded-lg"]);
+    }
+  });
+
+  it("gives plain bars the default radius and fill exactly once", () => {
+    const bars = classLists(render("legal")).filter((classes) => classes.includes("animate-pulse"));
+
+    expect(bars.length).toBeGreaterThan(10);
+    for (const classes of bars) {
+      expect(classes.filter((token) => FAMILIES.radius.test(token))).toHaveLength(1);
+      expect(classes.filter((token) => FAMILIES.background.test(token))).toHaveLength(1);
+    }
+  });
+});
+
 describe("RouteSkeleton", () => {
   it.each(SKELETON_KINDS)("renders a busy status region for %s", (kind) => {
     const markup = render(kind);
