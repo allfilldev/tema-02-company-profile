@@ -19,7 +19,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
               </span>
             ) : (
               <>
-                <Link href={item.path} className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-primary">
+                <Link href={item.path} className="inline-flex min-h-11 min-w-11 items-center justify-center underline underline-offset-4 hover:text-primary">
                   {item.name}
                 </Link>
                 <span aria-hidden="true">/</span>

@@ -133,6 +133,17 @@ describe("Breadcrumbs", () => {
     expect(markup).toContain('href="/artikel"');
   });
 
+  it("gives every breadcrumb link a tap target at least 44 px tall and wide", () => {
+    const linkClasses = [...renderToStaticMarkup(<Breadcrumbs items={items} />).matchAll(/<a\b[^>]*\sclass="([^"]*)"/g)].map((match) =>
+      match[1].split(" "),
+    );
+
+    expect(linkClasses).toHaveLength(2);
+    for (const classes of linkClasses) {
+      expect(classes).toEqual(expect.arrayContaining(["min-h-11", "min-w-11"]));
+    }
+  });
+
   it("renders a single item as the current page", () => {
     const markup = renderToStaticMarkup(<Breadcrumbs items={[{ name: "Beranda", path: "/" }]} />);
 
@@ -200,6 +211,11 @@ describe("JsonLd", () => {
     const markup = renderToStaticMarkup(<JsonLd data={[{ "@type": "A" }, { "@type": "B" }]} />);
 
     expect(markup).toContain('[{"@type":"A"},{"@type":"B"}]');
+  });
+
+  it("renders no empty script for an empty list of schemas", () => {
+    expect(renderToStaticMarkup(<JsonLd data={[]} />)).toBe("");
+    expect(renderToStaticMarkup(<JsonLd data={[{ "@type": "A" }]} />)).toContain('<script type="application/ld+json">');
   });
 
   it("cannot be broken out of the script tag by data containing a closing script tag", () => {
