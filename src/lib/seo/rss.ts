@@ -1,5 +1,6 @@
 import type { ArticleWithAuthor } from "@/core/domain/article/article";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import { newestIsoDate } from "@/lib/seo/dates";
 import { absoluteUrl } from "@/lib/seo/site-url";
 
 const XML_ESCAPES: Record<string, string> = {
@@ -16,11 +17,6 @@ function escapeXml(value: string): string {
 
 function toRfc822(isoDate: string): string {
   return new Date(isoDate).toUTCString();
-}
-
-function newestTimestamp(isoDates: string[], fallback: string): string {
-  const timestamps = isoDates.map((isoDate) => Date.parse(isoDate));
-  return new Date(timestamps.length > 0 ? Math.max(...timestamps) : Date.parse(fallback)).toISOString();
 }
 
 function buildItem(siteUrl: string, article: ArticleWithAuthor): string {
@@ -41,7 +37,7 @@ function buildItem(siteUrl: string, article: ArticleWithAuthor): string {
 export function buildRssXml(input: { siteUrl: string; settings: SiteSettings; articles: ArticleWithAuthor[] }): string {
   const { siteUrl, settings, articles } = input;
   const newestFirst = [...articles].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
-  const lastBuildDate = newestTimestamp(
+  const lastBuildDate = newestIsoDate(
     articles.map((article) => article.updatedAt),
     settings.updatedAt,
   );

@@ -1,16 +1,12 @@
 import type { SiteQueries } from "@/core/application/site/site-queries";
 import type { ArticleWithAuthor } from "@/core/domain/article/article";
+import { newestIsoDate } from "@/lib/seo/dates";
 import { buildLlmsTxt } from "@/lib/seo/llms";
 import { buildRssXml } from "@/lib/seo/rss";
 import type { SitemapPage } from "@/lib/seo/sitemap";
 import { articlePageHref } from "@/lib/site/article-pages";
 import { LEGAL_LINKS } from "@/server/site/navigation";
 import type { SiteContext } from "@/server/site/site-context";
-
-function newestDate(isoDates: string[], fallback: string): string {
-  const timestamps = isoDates.map((isoDate) => Date.parse(isoDate));
-  return new Date(timestamps.length > 0 ? Math.max(...timestamps) : Date.parse(fallback)).toISOString();
-}
 
 function toIso(isoDate: string): string {
   return new Date(isoDate).toISOString();
@@ -31,7 +27,7 @@ async function getServicePages(queries: SiteQueries, fallbackDate: string): Prom
 
   const services = await queries.listServices();
   return [
-    { path: "/layanan", lastModified: newestDate(services.map((service) => service.updatedAt), fallbackDate) },
+    { path: "/layanan", lastModified: newestIsoDate(services.map((service) => service.updatedAt), fallbackDate) },
     ...services.map((service) => ({ path: `/layanan/${service.slug}`, lastModified: toIso(service.updatedAt) })),
   ];
 }
@@ -43,7 +39,7 @@ async function getPortfolioPages(queries: SiteQueries, fallbackDate: string): Pr
 
   const items = await queries.listPortfolio();
   return [
-    { path: "/portofolio", lastModified: newestDate(items.map((item) => item.updatedAt), fallbackDate) },
+    { path: "/portofolio", lastModified: newestIsoDate(items.map((item) => item.updatedAt), fallbackDate) },
     ...items.map((item) => ({ path: `/portofolio/${item.slug}`, lastModified: toIso(item.updatedAt) })),
   ];
 }
@@ -65,7 +61,7 @@ async function getArticlePages(queries: SiteQueries, fallbackDate: string): Prom
       ? [
           {
             path: articlePageHref(articlePage.page),
-            lastModified: newestDate(
+            lastModified: newestIsoDate(
               articlePage.items.map((article) => article.updatedAt),
               fallbackDate,
             ),
@@ -93,7 +89,7 @@ export async function getSitemapPages(queries: SiteQueries, context: SiteContext
   ]);
 
   return [
-    { path: "/", lastModified: newestDate([settings.updatedAt, home.updatedAt], settings.updatedAt) },
+    { path: "/", lastModified: newestIsoDate([settings.updatedAt, home.updatedAt], settings.updatedAt) },
     { path: "/tentang", lastModified: toIso(about.updatedAt) },
     { path: "/kontak", lastModified: fallbackDate },
     ...legalPages,
