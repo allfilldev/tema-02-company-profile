@@ -6,6 +6,7 @@ import { ArticlesIndexView } from "@/components/site/views/articles-index-view";
 import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
 import { parseArticlePageParam } from "@/lib/site/article-pages";
+import { buildArticlePageStaticParams } from "@/lib/site/static-params";
 import { getSiteQueries } from "@/server/container";
 import { getArticlesIndexModel } from "@/server/site/models/articles";
 import { getSiteContext } from "@/server/site/site-context";
@@ -15,9 +16,8 @@ type ArticlePagesProps = {
   params: Promise<{ n: string }>;
 };
 
+export const ensureStatic = "navigation";
 export const instant = false;
-
-const FIRST_PAGINATED_PAGE = 2;
 
 async function loadArticlesPageModel(params: ArticlePagesProps["params"]) {
   const { n } = await params;
@@ -36,9 +36,7 @@ async function loadArticlesPageModel(params: ArticlePagesProps["params"]) {
 
 export async function generateStaticParams() {
   const articlePage = await getSiteQueries().listArticles(1);
-  const pageCount = articlePage?.pageCount ?? 1;
-  const pages = Array.from({ length: Math.max(pageCount - 1, 0) }, (_, index) => index + FIRST_PAGINATED_PAGE);
-  return (pages.length > 0 ? pages : [FIRST_PAGINATED_PAGE]).map((page) => ({ n: String(page) }));
+  return buildArticlePageStaticParams(articlePage?.pageCount ?? 1);
 }
 
 export async function generateMetadata({ params }: ArticlePagesProps): Promise<Metadata> {

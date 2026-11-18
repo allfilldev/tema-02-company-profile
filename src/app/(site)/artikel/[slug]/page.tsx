@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/site/contract/json-ld";
 import { ArticleDetailView } from "@/components/site/views/article-detail-view";
 import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
+import { buildSlugStaticParams } from "@/lib/site/static-params";
 import { getSiteQueries } from "@/server/container";
 import { getArticleDetailModel, listArticleSlugs } from "@/server/site/models/articles";
 import { getSiteContext } from "@/server/site/site-context";
@@ -14,9 +15,8 @@ type ArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const ensureStatic = "navigation";
 export const instant = false;
-
-const PLACEHOLDER_SLUG = "tidak-ditemukan";
 
 async function loadArticleModel(params: ArticlePageProps["params"]) {
   const { slug } = await params;
@@ -31,7 +31,7 @@ async function loadArticleModel(params: ArticlePageProps["params"]) {
 
 export async function generateStaticParams() {
   const slugs = await listArticleSlugs(getSiteQueries());
-  return (slugs.length > 0 ? slugs : [PLACEHOLDER_SLUG]).map((slug) => ({ slug }));
+  return buildSlugStaticParams(slugs);
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {

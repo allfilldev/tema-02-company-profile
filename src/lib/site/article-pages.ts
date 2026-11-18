@@ -1,6 +1,6 @@
 const ARTICLES_PATH = "/artikel";
 const PAGE_PARAM_PATTERN = /^[1-9][0-9]*$/;
-const FIRST_PAGINATED_PAGE = 2;
+export const FIRST_PAGINATED_PAGE = 2;
 
 export function parseArticlePageParam(raw: string): number | null {
   if (!PAGE_PARAM_PATTERN.test(raw)) {

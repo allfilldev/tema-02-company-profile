@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/site/contract/json-ld";
 import { PortfolioDetailView } from "@/components/site/views/portfolio-detail-view";
 import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
+import { buildSlugStaticParams } from "@/lib/site/static-params";
 import { getSiteQueries } from "@/server/container";
 import { getPortfolioDetailModel, listPortfolioSlugs } from "@/server/site/models/portfolio";
 import { getSiteContext } from "@/server/site/site-context";
@@ -14,9 +15,8 @@ type PortfolioPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const ensureStatic = "navigation";
 export const instant = false;
-
-const PLACEHOLDER_SLUG = "tidak-ditemukan";
 
 async function loadPortfolioDetailModel(params: PortfolioPageProps["params"]) {
   const { slug } = await params;
@@ -31,7 +31,7 @@ async function loadPortfolioDetailModel(params: PortfolioPageProps["params"]) {
 
 export async function generateStaticParams() {
   const slugs = await listPortfolioSlugs(getSiteQueries());
-  return (slugs.length > 0 ? slugs : [PLACEHOLDER_SLUG]).map((slug) => ({ slug }));
+  return buildSlugStaticParams(slugs);
 }
 
 export async function generateMetadata({ params }: PortfolioPageProps): Promise<Metadata> {

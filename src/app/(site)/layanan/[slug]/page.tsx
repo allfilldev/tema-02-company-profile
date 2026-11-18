@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/site/contract/json-ld";
 import { ServiceDetailView } from "@/components/site/views/service-detail-view";
 import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
+import { buildSlugStaticParams } from "@/lib/site/static-params";
 import { getSiteQueries } from "@/server/container";
 import { getServiceDetailModel, listServiceSlugs } from "@/server/site/models/services";
 import { getSiteContext } from "@/server/site/site-context";
@@ -14,9 +15,8 @@ type ServicePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const ensureStatic = "navigation";
 export const instant = false;
-
-const PLACEHOLDER_SLUG = "tidak-ditemukan";
 
 async function loadServiceModel(params: ServicePageProps["params"]) {
   const { slug } = await params;
@@ -31,7 +31,7 @@ async function loadServiceModel(params: ServicePageProps["params"]) {
 
 export async function generateStaticParams() {
   const slugs = await listServiceSlugs(getSiteQueries());
-  return (slugs.length > 0 ? slugs : [PLACEHOLDER_SLUG]).map((slug) => ({ slug }));
+  return buildSlugStaticParams(slugs);
 }
 
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
