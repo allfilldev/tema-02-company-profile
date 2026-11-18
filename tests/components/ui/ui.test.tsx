@@ -24,12 +24,16 @@ describe("Button and ButtonLink", () => {
 
     expect(markup).toContain("<button");
     expect(markup).toContain('type="submit"');
-    expect(markup).toContain("disabled");
+    expect(markup).toContain('disabled=""');
     expect(markup).toContain("Kirim");
   });
 
   it("defaults the button type to button", () => {
     expect(renderToStaticMarkup(<Button>Klik</Button>)).toContain('type="button"');
+  });
+
+  it("does not render the disabled attribute unless requested", () => {
+    expect(renderToStaticMarkup(<Button>Klik</Button>)).not.toContain('disabled=""');
   });
 
   it("opens external links safely in a new tab", () => {
