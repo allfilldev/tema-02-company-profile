@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "image:import": "tsx scripts/import-demo-image.ts",
-    "favicon": "tsx scripts/generate-favicon.ts"
+    "favicon": "tsx scripts/generate-favicon.ts",
+    "theme:new": "tsx scripts/create-theme.ts"
   },
   "dependencies": {
     "lucide-react": "^1.75.0",
