@@ -43,7 +43,7 @@ describe("MarkdownContent images", () => {
 
     expect(markup).toContain("<figure");
     expect(markup).toContain("<figcaption");
-    expect(markup).toContain("Rapat mingguan tim");
+    expect(markup).toMatch(/<figcaption[^>]*>Rapat mingguan tim<\/figcaption>/);
     expect(markup).toContain('alt="Tim sedang rapat"');
     expect(markup).toContain('src="/demo/rapat.webp"');
   });
@@ -133,7 +133,8 @@ describe("MarkdownContent links", () => {
       expect(markup.toLowerCase()).not.toContain("data:");
       expect(markup.toLowerCase()).not.toContain("vbscript:");
       expect(markup).not.toContain("href=");
-      expect(markup).toContain("x");
+      expect(markup).not.toContain("<a");
+      expect(markup).toMatch(/<p[^>]*>x<\/p>/);
     }
   });
 });

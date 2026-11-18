@@ -11,7 +11,15 @@ import { LegalFooterNav } from "@/components/site/contract/legal-footer-nav";
 import { buildTestPack } from "../../fixtures/content-pack";
 
 function buildAuthor() {
-  return buildTestPack().team[0];
+  return { ...buildTestPack().team[0], yearsExperience: 7 };
+}
+
+function findAnchor(markup: string, href: string): string {
+  const anchor = [...markup.matchAll(/<a\b[^>]*>[^<]*<\/a>/g)].map((match) => match[0]).find((tag) => tag.includes(`href="${href}"`));
+  if (!anchor) {
+    throw new Error(`No anchor found for ${href}`);
+  }
+  return anchor;
 }
 
 function countOccurrences(text: string, part: string): number {
@@ -33,7 +41,7 @@ describe("AuthorBox", () => {
   it("renders the labelled author bio landmark with name, role, bio, and facts", () => {
     const author = buildAuthor();
     const markup = renderToStaticMarkup(
-      <AuthorBox author={author} facts={{ completedProjects: 120, yearsExperience: 11 }} />,
+      <AuthorBox author={author} facts={{ completedProjects: 137, yearsExperience: 7 }} />,
     );
 
     expect(markup).toContain('id="author-bio"');
@@ -43,15 +51,14 @@ describe("AuthorBox", () => {
     expect(markup).toContain(author.name);
     expect(markup).toContain(author.jobTitle);
     expect(markup).toContain(author.bio);
-    expect(markup).toContain("11");
-    expect(markup).toContain("Proyek selesai");
-    expect(markup).toContain("120");
+    expect(markup).toMatch(/<dt[^>]*>Pengalaman<\/dt><dd[^>]*>7 tahun<\/dd>/);
+    expect(markup).toMatch(/<dt[^>]*>Proyek selesai<\/dt><dd[^>]*>137<\/dd>/);
     expect(markup).toContain("<img");
   });
 
   it("links to the about, contact, and editorial policy pages", () => {
     const markup = renderToStaticMarkup(
-      <AuthorBox author={buildAuthor()} facts={{ completedProjects: 120, yearsExperience: 11 }} />,
+      <AuthorBox author={buildAuthor()} facts={{ completedProjects: 137, yearsExperience: 7 }} />,
     );
 
     expect(markup).toContain('href="/tentang"');
@@ -61,21 +68,22 @@ describe("AuthorBox", () => {
 
   it("omits the completed projects row when the count is null", () => {
     const markup = renderToStaticMarkup(
-      <AuthorBox author={buildAuthor()} facts={{ completedProjects: null, yearsExperience: 11 }} />,
+      <AuthorBox author={buildAuthor()} facts={{ completedProjects: null, yearsExperience: 7 }} />,
     );
 
     expect(markup).not.toContain("Proyek selesai");
+    expect(markup).toMatch(/<dt[^>]*>Pengalaman<\/dt><dd[^>]*>7 tahun<\/dd>/);
   });
 
   it("omits the experience row and the photo when they are missing", () => {
     const author = { ...buildAuthor(), yearsExperience: null, photo: null };
     const markup = renderToStaticMarkup(
-      <AuthorBox author={author} facts={{ completedProjects: 120, yearsExperience: null }} />,
+      <AuthorBox author={author} facts={{ completedProjects: 137, yearsExperience: null }} />,
     );
 
     expect(markup).not.toContain("Pengalaman");
     expect(markup).not.toContain("<img");
-    expect(markup).toContain("Proyek selesai");
+    expect(markup).toMatch(/<dt[^>]*>Proyek selesai<\/dt><dd[^>]*>137<\/dd>/);
   });
 });
 
@@ -84,13 +92,12 @@ describe("LegalFooterNav", () => {
     const markup = renderToStaticMarkup(<LegalFooterNav />);
 
     expect(markup).toContain('<nav aria-label="Informasi hukum"');
-    expect(markup).toContain('rel="privacy-policy"');
-    expect(markup).toContain('rel="terms-of-service"');
-    expect(markup).toContain('href="/privasi"');
-    expect(markup).toContain('href="/syarat-ketentuan"');
-    expect(markup).toContain('href="/kebijakan-editorial"');
-    expect(markup).toContain('href="/kontak"');
-    expect(markup).toContain(">Kontak</a>");
+    expect(findAnchor(markup, "/privasi")).toContain('rel="privacy-policy"');
+    expect(findAnchor(markup, "/syarat-ketentuan")).toContain('rel="terms-of-service"');
+    expect(findAnchor(markup, "/kebijakan-editorial")).not.toContain("rel=");
+    expect(findAnchor(markup, "/kontak")).not.toContain("rel=");
+    expect(findAnchor(markup, "/kontak")).toContain(">Kontak</a>");
+    expect(countOccurrences(markup, "rel=")).toBe(2);
   });
 
   it("puts the contact link last", () => {
@@ -150,7 +157,7 @@ describe("ArticleDates", () => {
 
 describe("DemoNotice", () => {
   it("renders the exact demo statement", () => {
-    expect(renderToStaticMarkup(<DemoNotice />)).toContain("Situs demo. Perusahaan dan isinya fiktif.");
+    expect(renderToStaticMarkup(<DemoNotice />)).toMatch(/<p[^>]*>Situs demo\. Perusahaan dan isinya fiktif\.<\/p>/);
   });
 });
 
