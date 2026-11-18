@@ -1,33 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Boilerplate Company Profile
 
-## Getting Started
+Boilerplate Next.js untuk memproduksi tema website company profile. Satu salinan boilerplate (lewat `npm run theme:new`) menjadi satu tema dengan satu desain, yang dideploy sebagai demo katalog dalam mode demo tanpa Supabase.
 
-First, run the development server:
+## Memulai
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000). Nilai bawaan: `DATA_SOURCE=demo` dan `SITE_INDEXING=off` (lihat `.env.example`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Skrip
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Perintah | Fungsi |
+|---|---|
+| `npm run dev`, `npm run build`, `npm run start` | Server pengembangan, build, dan server produksi |
+| `npm run theme:new -- <nama-tema>` | Membuat tema baru di `../../themes/company-profile/<nama-tema>/` (dijalankan dari boilerplate) |
+| `npm run theme:check` | Melaporkan perubahan di folder terkunci (dijalankan di dalam tema) |
+| `npm run favicon -- <simbol.png>` | Membuat set favicon dari simbol persegi |
+| `npm run image:import -- <file> <paket> <nama> [--logo]` | Mengonversi gambar demo ke WebP |
 
-## Learn More
+## Dokumen
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `THEME.md`: cara mengubah desain menjadi tema.
+- `UPDATING.md`: cara membawa pembaruan boilerplate ke tema.
+- `structure.md`: peta struktur proyek.
+- `docs/rules/`: aturan kode, SEO, dan E-E-A-T.
 
 ## Deploy
 

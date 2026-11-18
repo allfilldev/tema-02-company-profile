@@ -1,0 +1,100 @@
+# Panduan Membuat Tema
+
+Panduan ini untuk siapa pun (manusia atau AI) yang mengubah sebuah desain menjadi tema company profile. Tema hanya mengubah lapisan tampilan. Data, SEO, E-E-A-T, dan (kelak) panel admin sudah selesai di boilerplate dan tidak disentuh.
+
+## 1. Buat tema
+
+Dari folder boilerplate (`template-builder/boilerplates/company-profile/`) jalankan:
+
+```bash
+npm run theme:new -- <nama-tema>
+```
+
+- Nama tema: huruf kecil, angka, dan tanda hubung tunggal, diawali huruf, maksimal 40 karakter (contoh `arunika`, `kopi-nusantara`).
+- Boilerplate harus bersih (tanpa perubahan yang belum di-commit), karena hanya commit yang disalin.
+- Hasilnya repo git di `themes/company-profile/<nama-tema>/` dengan remote `upstream` ke boilerplate (push ke `upstream` dinonaktifkan), `themeName` terisi di `src/config/theme.ts`, dan satu commit `init: create <nama-tema> theme`.
+
+Lanjutkan di folder tema: `npm install`. Untuk pratinjau, tambahkan satu entri ke `template-builder/.claude/launch.json` dengan nama unik, port yang belum dipakai, dan `runtimeArgs` `["--prefix", "themes/company-profile/<nama-tema>", "run", "dev"]`.
+
+## 2. Terima desain
+
+Desain datang sebagai link Figma, screenshot, atau HTML. Catat semua teks, gambar, dan section yang ada di desain sebelum mulai.
+
+## 3. Token
+
+Isi `src/styles/tokens.css` (warna semantik, font, radius, bayangan, lebar container) dan cerminannya di `src/styles/tokens.ts` (`tokenValues` dan `ogTheme`), lalu font di `src/styles/fonts.ts`. Komponen hanya boleh memakai kelas Tailwind berbasis token: tanpa warna mentah dan tanpa arbitrary value.
+
+Periksa: `npx vitest run tests/styles/tokens.test.ts` (kesamaan CSS dan TypeScript, serta disiplin token).
+
+## 4. Komponen dasar
+
+Sesuaikan gaya `src/components/ui/` bila desain memintanya (misalnya tombol pill). API props tidak boleh berubah.
+
+## 5. Tampilan
+
+Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan `src/components/site/views/` mengikuti desain. Data datang dari model yang sudah disediakan rute, jadi tidak ada pengambilan data baru. Komponen di `src/components/site/contract/` (breadcrumb, byline dan kotak penulis, isi markdown, FAQ, navigasi hukum, tanggal artikel, DemoNotice, JSON-LD) hanya boleh berubah kelas gayanya, bukan elemen, atribut, id, atau teks labelnya.
+
+Periksa dengan menjalankan tes di `tests/components/` satu berkas per perintah, misalnya `npx vitest run tests/components/views/pages.test.tsx`. Tes itu menjaga satu `<h1>` per halaman, urutan heading, tautan, dan komponen kontrak. Mengubah tes yang sudah ada agar tema lolos adalah tanda aturan dilanggar.
+
+## 6. Section tanpa modul
+
+Section desain yang tidak punya modul (langkah kerja, keunggulan, FAQ beranda, banner ajakan) dideklarasikan sebagai blok konten di `src/config/theme.ts` (`contentBlocks`: `key`, `label`, `itemFields`, `minItems`, `maxItems`). Teks section tidak boleh ditulis langsung di view.
+
+Perhatikan: isi bawaan sebuah blok berada di paket konten, dan `src/content/packs/` terkunci untuk tema. Blok baru yang belum ada di paket harus ditambahkan (beserta isinya) di boilerplate lebih dulu, lalu ditarik ke tema (lihat `UPDATING.md`). Sampai itu selesai, pakai blok yang sudah ada.
+
+## 7. Modul dan paket konten
+
+Atur `enabledModules` di `src/config/theme.ts` dan pilih `contentPack`. Modul yang dimatikan hilang dari navigasi, sitemap, RSS, dan `llms.txt`, dan rutenya menghasilkan 404 asli. Bila desain butuh isi industri yang belum ada, buat paket baru di boilerplate (`src/content/packs/<paket>/`), bukan di repo tema, supaya bisa dipakai ulang.
+
+## 8. Skeleton
+
+Sesuaikan `src/components/skeletons/` dengan tinggi section yang baru, dengan selisih 20 px atau kurang pada lebar 1280 px, supaya halaman tidak melompat saat isi menggantikan skeleton. Periksa: `npx vitest run tests/components/skeletons/skeletons.test.tsx`, lalu ukur di pratinjau browser.
+
+## 9. Cek admin
+
+Panel admin dan mode `DATA_SOURCE=supabase` baru tersedia setelah Rencana 3. Sampai saat itu langkah ini dilewati.
+
+## 10. Demo
+
+1. Siapkan simbol persegi dari logo (wordmark panjang tidak terbaca di 16 dan 32 px), lalu jalankan `npm run favicon -- <simbol.png>`. Skrip menolak sumber yang tidak persegi.
+2. Deploy ke Vercel dengan `DATA_SOURCE=demo` dan `SITE_INDEXING=off`. `SITE_URL` diisi alamat demo.
+3. Catatan lisensi: foto manusia nyata dari Pexels di paket demo dipasangkan dengan testimoni fiktif. Foto itu harus diganti sebelum tema dipakai di situs klien.
+
+## 11. Periksa
+
+Jalankan `npm run theme:check`. Perintah ini harus lolos: ia melaporkan berkas folder terkunci yang berubah dan berkas yang perlu ditinjau. Lalu pastikan:
+
+- Satu `<h1>` per halaman dan komponen kontrak utuh.
+- Tidak ada nilai warna mentah dan tidak ada teks section yang ditulis langsung di view.
+- Tombol "Chat WhatsApp Sekarang" ada.
+- DemoNotice tampil di footer.
+- `structure.md` sudah diperbarui bila ada berkas yang ditambah, diganti nama, atau dipindah.
+
+## Yang boleh diubah
+
+`src/styles/`, `src/components/ui/` (gaya saja), `src/components/site/layout/`, `src/components/site/sections/`, `src/components/site/views/`, `src/components/skeletons/`, `src/config/theme.ts`, dan favicon di `public/`.
+
+## Yang tidak boleh diubah
+
+Folder berikut terkunci. Perubahan di sini dikerjakan di boilerplate, lalu ditarik ke tema lewat `upstream`. `npm run theme:check` melaporkan setiap berkas yang berubah di sana, dan konflik saat menarik pembaruan di folder ini berarti aturan dilanggar.
+
+- `src/core/`
+- `src/infrastructure/`
+- `src/server/`
+- `src/lib/`
+- `src/app/`
+- `src/proxy.ts`
+- `src/content/packs/`
+- `src/components/admin/`
+- `supabase/`
+- `docs/rules/`
+- `scripts/`
+- `next.config.ts`
+
+## Yang perlu ditinjau
+
+Perubahan di sini tidak otomatis pelanggaran, tetapi `npm run theme:check` mencantumkannya untuk ditinjau:
+
+- `src/components/site/contract/`: hanya kelas gaya yang boleh berubah.
+- `package.json` dan `package-lock.json`: dependensi tambahan harus benar-benar dibutuhkan desain.
+- `tests/`: tes baru boleh ditambah, tes yang sudah ada tidak diubah supaya tema lolos.
