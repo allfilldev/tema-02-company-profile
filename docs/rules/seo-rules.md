@@ -1,0 +1,32 @@
+- Focus on search intent: content must answer exactly what the user is searching for, directly and without padding. Concise, solution-oriented articles are prioritized by search engines
+- Content quality and E-E-A-T: Experience, Expertise, Authoritativeness, and Trustworthiness remain the main benchmark. Content must be updated regularly so it stays relevant
+- Answer Engine Optimization (AEO): structure content so it is easy to quote by AI features and automated answer engines
+- Page experience and speed: high site speed is mandatory. Slow pages increase bounce rate and lower rankings
+- Quality backlinks: backlinks from high-authority sites (such as national media or similar niche sites) are still very effective, but spam or irrelevant backlinks can hurt rankings
+- Local SEO: region-based optimization through digital maps and local keywords is increasingly important for businesses targeting a specific audience
+- Article structure (800 to 1,200 words)
+- Title (H1): maximum 60 characters, with the main keyword near the beginning
+- Lead: 50 to 100 words, answering the core question within the first 2 sentences (for AI Overview and snippets)
+- Subheadings (H2 and H3): use questions or specific points, and break the discussion every 150 to 200 words
+- Content format: maximum 3 lines per paragraph, and bullet points or a comparison table are required
+- Closing: 50 to 100 words, containing a summary of practical steps or a call-to-action (CTA)
+- URL (slug): short, all lowercase, separated by hyphens (-), without years or conjunctions
+- Meta description: 120 to 155 characters, summarizing the article's solution and containing the main keyword
+- Keyword distribution: appears naturally in the H1, the first 100 words, at least one H2, and 1 to 2 times in the article body (avoid keyword stuffing)
+- Semantic keywords (LSI): include 3 to 5 terms or synonyms closely related to the topic
+- Linking: add 2 to 4 internal links to relevant articles on the site itself, and 1 to 2 outbound links to authoritative sources
+- Proof of experience: include original data, case studies, or screenshots from your own tests
+- Content updates: show the latest update date (Last Updated) and refresh outdated data regularly
+- Canonical tag: make sure every page has a <link rel="canonical"> pointing to its own clean URL
+- Image optimization: use WebP or AVIF format, keep file size under 100 KB, and always fill in the alt text
+- Structured data (schema): add JSON-LD (Article, FAQPage, or BreadcrumbList) so AI answer engines can read the page easily
+- Human language: write in natural, conversational language like people use on the internet, so the content matches the user's search intent
+- H1 (main title): exactly 1 per page. It is the main topic of the page and must not be repeated in the article body
+- H2 (main subheading): ideally 3 to 5 (maximum 6). Use it to split the main topic into major discussion points, following the 150 to 200 word spacing rule for H2 and H3 above
+- H3 (sub-point of an H2): ideally 2 to 4 under each H2 that needs detail. The total per article usually ranges from 4 to 10 depending on topic complexity
+- H4 to H6: avoid them (ideally 0) in articles of 800 to 1,200 words. If an explanation needs finer breakdown, use bullet points or bold text instead so the structure does not get too deep
+- Heading hierarchy: the structure must descend in order from H1 to H2 to H3. Never jump straight from H1 to H3
+- Heading length: keep every H2 and H3 within 60 to 70 characters so it stays tidy on mobile screens and is easy for search engines to scan
+- Heading keywords: put the main keyword in the H1 and naturally in at least 1 to 2 H2 headings
+- Client navigation: with Cache Components, Next.js keeps up to 3 previously visited routes hidden in the DOM, so headings, images, and links from old pages pile up and break the one H1 rule for tools that read the live DOM. Keep the RouteGuard in src/app/(site)/template.tsx and in the template.tsx of every section with nested routes (artikel, layanan, portofolio), which shows a short loading skeleton matching the clicked destination as soon as a link is clicked and empties every hidden route, so only the active page is in the DOM at any moment. Keep auditing from a full reload or a direct visit when in doubt
+- Layout shift: every route under src/app/(site) needs its own loading.tsx and a matching branch in src/components/skeletons/RouteSkeleton.tsx, and each skeleton section should match the real section height within about 20 px at 1280 px width, so the page does not jump when real content replaces the skeleton. Re-measure after changing a page layout

@@ -1,0 +1,29 @@
+- You must understand the project structure first
+- Always update structure.md whenever files or folders are added, renamed, or moved
+- AI responses must be written in Indonesian, but all code produced must be in English
+- Code must be clean and human-readable
+- Variables must have clear names
+- Code must meet QA standards
+- Use the Clean Architecture concept.
+- Architecture must be clean and modular
+- No errors allowed during development or when adding/creating code
+- No comments may be left behind in the code
+- Never run endless commands like npm run build and the like
+- Never run commands that have no end or hang until timeout, like npx tsc --noEmit and the like
+- Never run typecheck (npm run typecheck / npx tsc --noEmit / tsc --noEmit)
+- Never run eslint (npm run lint / npx eslint); verify code by review only
+- Never run the full test suite (npm test / npx vitest run) — it always looks frozen; verify with targeted commands only (npx vitest run <satu-file>) or not at all
+- Never push to git unless explicitly asked
+- Every commit message must start with a feat: or fix: prefix (init: only for the first commit), followed by a short, clear, concise English description
+- When running tests, keep output short so the terminal never looks frozen: run only the relevant file (npx vitest run <one-file>), never pipe output through Select-String (it buffers everything until the process ends), and avoid commands that dump large HTML into the console; if a run gets huge, redirect output to a file instead
+- Never include any Claude or Anthropic credit anywhere: no Co-Authored-By trailer, no "Generated with Claude Code" line, no AI attribution in commit messages, PR descriptions, code, comments, docs, or file metadata; before any push, check that no commit message to be pushed mentions claude, anthropic, or co-authored-by
+- Make sure the UI is responsive on mobile, iPad (tablet), and desktop
+- Make sure the UX is comfortable to use
+- When first creating a website, make sure the favicon exists and works, with a transparent background
+- When first creating a website, make sure all logos are implemented correctly
+- When first creating a website, make sure the website name is consistent everywhere
+- When looking for images, search external websites for very high-quality and highly relevant images, using only sources whose license allows free commercial use (such as Unsplash and Pexels); image quality and relevance remain the top priority
+- Make sure images are always WebP with a relatively small file size to support performance
+- Make sure the code is tidy
+- Separate .ts files and .tsx files into separate folders to keep the project organized
+- Every theme must include a large "Chat WhatsApp Sekarang" button, placed at the bottom center, to maximize CRO; it links to wa.me using the WhatsApp number and message from the site settings, and the demo content pack defaults to https://wa.me/62895326422692?text=Halo%2C%20saya%20ingin%20konsultasi%20pembuatan%20website.%20Paket%20mana%20yang%20cocok%20untuk%20usaha%20saya%3F

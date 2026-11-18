@@ -1,0 +1,60 @@
+- Create robots.txt with a Sitemap line pointing to the sitemap.xml URL
+- Block private areas like /admin, /api, and /dashboard in robots.txt
+- Block all crawlers in robots.txt while the site is on staging, and remove the block on go-live
+- Create sitemap.xml listing all public URLs with lastmod
+- Create the favicon set: favicon.ico, icon.svg or PNG, apple-touch-icon.png (180x180), and 192x192 and 512x512 icons, all with a transparent background
+- Create site.webmanifest with name, short_name, icons, theme_color, and background_color
+- Create a custom 404 page that returns a real 404 status, not 200
+- Set a unique title on every page, around 50-60 characters, with the main keyword first and the brand name last
+- Set a unique meta description on every page, around 140-160 characters
+- Set the html lang attribute to match the content language
+- Add the viewport meta tag
+- Add a canonical link on every page pointing to the final URL
+- Set meta robots to index, follow on public pages and noindex on internal pages
+- Add the theme-color meta tag
+- Add Open Graph tags on every page: og:title, og:description, og:image, og:url, og:type, og:site_name, og:locale
+- Create a default og:image sized 1200x630 and a dedicated one for important pages
+- Add Twitter Card tags: twitter:card (summary_large_image), twitter:title, twitter:description, twitter:image
+- Add JSON-LD structured data: Organization or LocalBusiness with name, logo, url, contact, and sameAs
+- Add JSON-LD WebSite, and add SearchAction only if the site has search
+- Add JSON-LD BreadcrumbList on nested pages
+- Add content-specific JSON-LD when relevant: Article or BlogPosting, Product, FAQPage, Service
+- Validate structured data with the Rich Results Test
+- Use exactly one h1 per page, followed by h2 and h3 in order
+- Use semantic tags: header, nav, main, section, article, footer
+- Give every img a descriptive alt, plus width and height to prevent layout shift
+- Use meaningful link text, never "click here"
+- Add internal links between related pages
+- Use short, lowercase, hyphen-separated slugs without random parameters
+- Redirect with 301 so only one domain version exists (www vs non-www, http vs https)
+- Keep trailing slash usage consistent
+- Enforce HTTPS
+- Render content on the server (SSR or SSG) so crawlers can see it
+- Keep Core Web Vitals healthy: LCP under 2.5 seconds, CLS under 0.1, INP under 200 ms
+- Serve images in WebP or AVIF, lazy load images below the fold, and prioritize the hero image
+- Use font-display: swap and preload the main font
+- Remove unused JavaScript and CSS
+- Enable compression (gzip or brotli) and cache headers
+- Make sure tap targets are comfortable, color contrast is sufficient, and text is readable without zooming
+- Register the site in Google Search Console and Bing Webmaster Tools, then submit the sitemap
+- Install analytics (GA4 or a privacy-friendly alternative)
+- Create a Google Business Profile for local businesses
+- Check the result with Lighthouse, PageSpeed Insights, and the Rich Results Test
+- Add the favicon, apple-touch-icon, and manifest link tags in the head
+- Use descriptive, keyword-relevant image file names, never generic names like IMG_001
+- Provide alt text for the Open Graph image and generate a dedicated OG image per page for important pages
+- Create the trust pages: About, Contact, Privacy Policy, and Terms
+- Keep business data (name, address, phone) identical in the footer, JSON-LD, and Google Business Profile
+- Add noindex or a correct canonical on internal search results, filter, and sorting pages to avoid duplicate URLs
+- Set a correct self-referencing canonical on each paginated page
+- If the site is multilingual, add hreflang tags with a self-reference and x-default
+- If the site is a migration or redesign, add 301 redirects from every old URL to its new URL
+- Return status 410 for content that is intentionally removed permanently
+- Show visible breadcrumbs in the UI and make sure the JSON-LD matches the visible content
+- If the site has more than 50,000 URLs, split the sitemap with a sitemap index
+- Define rules for AI crawlers (GPTBot, ClaudeBot, and similar) in robots.txt, and optionally add llms.txt
+- Add security headers such as HSTS
+- If the site has a blog, provide an RSS feed
+- Do not show pop-ups or interstitials that cover content on mobile
+- Verify site ownership in Google Search Console with a meta tag or file
+- Monitor 404 errors and indexing errors in Search Console regularly after go-live
