@@ -9,10 +9,12 @@ import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import { SECTION_KEYS } from "@/core/domain/shared/section-key";
 import {
   callToActionSchema,
+  httpUrlField,
   mediaAssetSchema,
   metaDescriptionField,
   requiredText,
   slugField,
+  timestampField,
 } from "@/core/application/schemas/shared-fields";
 
 const WHATSAPP_NUMBER_PATTERN = /^62\d{8,13}$/;
@@ -33,14 +35,14 @@ export const siteSettingsSchema: z.ZodType<SiteSettings> = z.object({
     postalCode: requiredText,
     country: requiredText,
   }),
-  mapsEmbedUrl: z.url().nullable(),
+  mapsEmbedUrl: httpUrlField.nullable(),
   openingHours: z.string().nullable(),
-  socialLinks: z.array(z.object({ platform: requiredText, url: z.url() })),
+  socialLinks: z.array(z.object({ platform: requiredText, url: httpUrlField })),
   schemaType: z.enum(["Organization", "LocalBusiness"]),
   foundedYear: z.number().int().positive().nullable(),
   googleSiteVerification: z.string().nullable(),
   gaMeasurementId: z.string().nullable(),
-  updatedAt: z.iso.datetime(),
+  updatedAt: timestampField,
 });
 
 export const homeContentSchema: z.ZodType<HomeContent> = z.object({
@@ -50,7 +52,7 @@ export const homeContentSchema: z.ZodType<HomeContent> = z.object({
   heroImage: mediaAssetSchema.nullable(),
   primaryCta: callToActionSchema.nullable(),
   secondaryCta: callToActionSchema.nullable(),
-  updatedAt: z.iso.datetime(),
+  updatedAt: timestampField,
 });
 
 export const sectionIntroSchema: z.ZodType<SectionIntro> = z.object({
@@ -65,7 +67,7 @@ export const aboutContentSchema: z.ZodType<AboutContent> = z.object({
   bodyMd: requiredText,
   image: mediaAssetSchema.nullable(),
   metaDescription: metaDescriptionField,
-  updatedAt: z.iso.datetime(),
+  updatedAt: timestampField,
 });
 
 export const companyVisionSchema: z.ZodType<CompanyVision> = z.object({
@@ -80,7 +82,7 @@ export const legalPageSchema: z.ZodType<LegalPage> = z.object({
   intro: requiredText,
   sections: z.array(z.object({ heading: requiredText, bodyMd: requiredText })).min(1),
   metaDescription: metaDescriptionField,
-  updatedAt: z.iso.datetime(),
+  updatedAt: timestampField,
 });
 
 const contentBlockItemSchema: z.ZodType<ContentBlockItem> = z.object({

@@ -11,8 +11,12 @@ import {
 import { buildPageTitle, maxMetaTitleLength } from "@/lib/seo/title";
 import { isValidSlug } from "@/lib/text/slug";
 
-const ROOTED_URL_PATTERN = /^(\/|https:\/\/)/;
-const CALL_TO_ACTION_HREF_PATTERN = /^(\/|#|https:\/\/)/;
+const ROOTED_URL_PATTERN = /^(\/(?![\/\\])|https:\/\/)/;
+const CALL_TO_ACTION_HREF_PATTERN = /^(\/(?![\/\\])|#|https:\/\/)/;
+
+export const httpUrlField: z.ZodType<string> = z.httpUrl();
+
+export const timestampField: z.ZodType<string> = z.iso.datetime({ offset: true });
 
 export const requiredText: z.ZodType<string> = z
   .string()

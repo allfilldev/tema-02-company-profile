@@ -7,11 +7,13 @@ import type { TeamMember } from "@/core/domain/team/team-member";
 import type { Testimonial } from "@/core/domain/testimonial/testimonial";
 import {
   faqItemSchema,
+  httpUrlField,
   mediaAssetSchema,
   metaDescriptionField,
   metaTitleField,
   requiredText,
   slugField,
+  timestampField,
 } from "@/core/application/schemas/shared-fields";
 import { FAQ_MAX, FAQ_MIN } from "@/lib/seo/limits";
 
@@ -36,7 +38,7 @@ export function createServiceSchema(siteName: string): z.ZodType<Service> {
         `FAQ layanan boleh kosong, atau berisi ${FAQ_MIN}–${FAQ_MAX} pertanyaan.`,
       ),
     sortOrder: sortOrderField,
-    updatedAt: z.iso.datetime(),
+    updatedAt: timestampField,
   });
 }
 
@@ -55,7 +57,7 @@ export function createPortfolioItemSchema(siteName: string): z.ZodType<Portfolio
     metaTitle: metaTitleField(siteName),
     metaDescription: metaDescriptionField,
     sortOrder: sortOrderField,
-    updatedAt: z.iso.datetime(),
+    updatedAt: timestampField,
   });
 }
 
@@ -66,7 +68,7 @@ export const teamMemberSchema: z.ZodType<TeamMember> = z.object({
   bio: requiredText,
   photo: mediaAssetSchema.nullable(),
   yearsExperience: z.number().int().min(0).nullable(),
-  profiles: z.array(z.url()),
+  profiles: z.array(httpUrlField),
   sortOrder: sortOrderField,
 });
 
@@ -92,6 +94,6 @@ export const partnerSchema: z.ZodType<Partner> = z.object({
   id: requiredText,
   name: requiredText,
   logo: mediaAssetSchema.nullable(),
-  url: z.url().nullable(),
+  url: httpUrlField.nullable(),
   sortOrder: sortOrderField,
 });

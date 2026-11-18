@@ -11,7 +11,7 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | `AGENTS.md` | Catatan agen bawaan Next.js |
 | `README.md` | Pengantar proyek bawaan scaffold |
 | `.env.example` | Contoh variabel lingkungan (`DATA_SOURCE`, `SITE_URL`, `SITE_INDEXING`) |
-| `vitest.config.ts` | Konfigurasi Vitest, tes ada di `tests/**/*.test.ts` |
+| `vitest.config.mts` | Konfigurasi Vitest, tes ada di `tests/**/*.test.ts` |
 | `next.config.ts`, `tsconfig.json`, `eslint.config.mjs` | Konfigurasi Next.js, TypeScript, dan ESLint |
 | `THEME.md` (menyusul) | Panduan membuat tema baru dari desain |
 | `UPDATING.md` (menyusul) | Cara menarik pembaruan boilerplate ke tema |

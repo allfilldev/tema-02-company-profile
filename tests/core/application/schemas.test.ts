@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createArticleSchema } from "@/core/application/schemas/article-schema";
-import { createServiceSchema, statSchema } from "@/core/application/schemas/catalog-schemas";
+import { createServiceSchema, partnerSchema, statSchema, teamMemberSchema } from "@/core/application/schemas/catalog-schemas";
 import { createContentPackSchema } from "@/core/application/schemas/content-pack-schema";
 import { callToActionSchema, mediaAssetSchema } from "@/core/application/schemas/shared-fields";
 import { legalPageSchema, siteSettingsSchema } from "@/core/application/schemas/site-schemas";
@@ -73,5 +73,71 @@ describe("content schemas", () => {
     const stat = pack.stats[0];
     expect(statSchema.safeParse({ ...stat, key: "Completed Projects" }).success).toBe(false);
     expect(statSchema.safeParse({ ...stat, key: "" }).success).toBe(false);
+  });
+
+  const unsafeUrls = ["javascript:alert(1)", "data:text/html,x", "mailto:a@b.id", "ftp://x.id/f"];
+  const safeUrls = ["https://www.linkedin.com/in/x", "http://example.id"];
+
+  it.each(unsafeUrls)("rejects %s as a social link url", (url) => {
+    const settings = { ...pack.settings, socialLinks: [{ platform: "LinkedIn", url }] };
+    expect(siteSettingsSchema.safeParse(settings).success).toBe(false);
+  });
+
+  it.each(safeUrls)("accepts %s as a social link url", (url) => {
+    const settings = { ...pack.settings, socialLinks: [{ platform: "LinkedIn", url }] };
+    expect(siteSettingsSchema.safeParse(settings).success).toBe(true);
+  });
+
+  it.each(unsafeUrls)("rejects %s as a maps embed url", (url) => {
+    expect(siteSettingsSchema.safeParse({ ...pack.settings, mapsEmbedUrl: url }).success).toBe(false);
+  });
+
+  it.each(safeUrls)("accepts %s as a maps embed url", (url) => {
+    expect(siteSettingsSchema.safeParse({ ...pack.settings, mapsEmbedUrl: url }).success).toBe(true);
+  });
+
+  it.each(unsafeUrls)("rejects %s as a partner url", (url) => {
+    expect(partnerSchema.safeParse({ ...pack.partners[0], url }).success).toBe(false);
+  });
+
+  it.each(safeUrls)("accepts %s as a partner url", (url) => {
+    expect(partnerSchema.safeParse({ ...pack.partners[0], url }).success).toBe(true);
+  });
+
+  it.each(unsafeUrls)("rejects %s as a team profile", (url) => {
+    expect(teamMemberSchema.safeParse({ ...pack.team[0], profiles: [url] }).success).toBe(false);
+  });
+
+  it.each(safeUrls)("accepts %s as a team profile", (url) => {
+    expect(teamMemberSchema.safeParse({ ...pack.team[0], profiles: [url] }).success).toBe(true);
+  });
+
+  it.each(["//evil.com/x", "/\\evil.com"])("rejects %s as a call to action href", (href) => {
+    expect(callToActionSchema.safeParse({ label: "Kontak", href }).success).toBe(false);
+  });
+
+  it.each(["/kontak", "#faq", "https://example.id/x"])("accepts %s as a call to action href", (href) => {
+    expect(callToActionSchema.safeParse({ label: "Kontak", href }).success).toBe(true);
+  });
+
+  it.each(["//evil.com/x", "/\\evil.com"])("rejects %s as a media url", (url) => {
+    expect(mediaAssetSchema.safeParse({ id: "m1", url, alt: "Foto", width: 10, height: 10 }).success).toBe(false);
+  });
+
+  it("accepts a rooted media url", () => {
+    expect(mediaAssetSchema.safeParse({ id: "m1", url: "/demo/general/a.webp", alt: "Foto", width: 10, height: 10 }).success).toBe(true);
+  });
+
+  it.each(["2026-11-18T10:00:00+00:00", "2026-11-18T10:00:00.123456+00:00", "2026-11-18T10:00:00Z"])(
+    "accepts %s as a timestamp",
+    (updatedAt) => {
+      expect(createServiceSchema("Nusa Karya").safeParse({ ...service, updatedAt }).success).toBe(true);
+      expect(createArticleSchema("Nusa Karya").safeParse({ ...pack.articles[0], publishedAt: updatedAt, updatedAt }).success).toBe(true);
+    },
+  );
+
+  it.each(["2026-11-18", "not-a-date"])("rejects %s as a timestamp", (updatedAt) => {
+    expect(createServiceSchema("Nusa Karya").safeParse({ ...service, updatedAt }).success).toBe(false);
+    expect(createArticleSchema("Nusa Karya").safeParse({ ...pack.articles[0], updatedAt }).success).toBe(false);
   });
 });
