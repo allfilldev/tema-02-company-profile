@@ -5,16 +5,16 @@ import { fileURLToPath } from "node:url";
 import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import HomeLoading from "@/app/(site)/(home)/loading";
+import ArticlesLoading from "@/app/(site)/artikel/(index)/loading";
 import ArticleDetailLoading from "@/app/(site)/artikel/[slug]/loading";
 import ArticlePagesLoading from "@/app/(site)/artikel/halaman/[n]/loading";
-import ArticlesLoading from "@/app/(site)/artikel/loading";
 import EditorialPolicyLoading from "@/app/(site)/kebijakan-editorial/loading";
 import ContactLoading from "@/app/(site)/kontak/loading";
+import ServicesLoading from "@/app/(site)/layanan/(index)/loading";
 import ServiceDetailLoading from "@/app/(site)/layanan/[slug]/loading";
-import ServicesLoading from "@/app/(site)/layanan/loading";
-import HomeLoading from "@/app/(site)/loading";
+import PortfolioLoading from "@/app/(site)/portofolio/(index)/loading";
 import PortfolioDetailLoading from "@/app/(site)/portofolio/[slug]/loading";
-import PortfolioLoading from "@/app/(site)/portofolio/loading";
 import PrivacyLoading from "@/app/(site)/privasi/loading";
 import TermsLoading from "@/app/(site)/syarat-ketentuan/loading";
 import AboutLoading from "@/app/(site)/tentang/loading";
@@ -31,17 +31,17 @@ type RouteLoading = {
 const SITE_DIR = fileURLToPath(new URL("../../../src/app/(site)", import.meta.url));
 
 const ROUTES: RouteLoading[] = [
-  { folder: "", samplePath: "/", kind: "home", Loading: HomeLoading },
+  { folder: "(home)", samplePath: "/", kind: "home", Loading: HomeLoading },
   { folder: "tentang", samplePath: "/tentang", kind: "about", Loading: AboutLoading },
   { folder: "kontak", samplePath: "/kontak", kind: "contact", Loading: ContactLoading },
   { folder: "privasi", samplePath: "/privasi", kind: "legal", Loading: PrivacyLoading },
   { folder: "syarat-ketentuan", samplePath: "/syarat-ketentuan", kind: "legal", Loading: TermsLoading },
   { folder: "kebijakan-editorial", samplePath: "/kebijakan-editorial", kind: "legal", Loading: EditorialPolicyLoading },
-  { folder: "layanan", samplePath: "/layanan", kind: "services-index", Loading: ServicesLoading },
+  { folder: "layanan/(index)", samplePath: "/layanan", kind: "services-index", Loading: ServicesLoading },
   { folder: "layanan/[slug]", samplePath: "/layanan/contoh", kind: "service-detail", Loading: ServiceDetailLoading },
-  { folder: "portofolio", samplePath: "/portofolio", kind: "portfolio-index", Loading: PortfolioLoading },
+  { folder: "portofolio/(index)", samplePath: "/portofolio", kind: "portfolio-index", Loading: PortfolioLoading },
   { folder: "portofolio/[slug]", samplePath: "/portofolio/contoh", kind: "portfolio-detail", Loading: PortfolioDetailLoading },
-  { folder: "artikel", samplePath: "/artikel", kind: "articles-index", Loading: ArticlesLoading },
+  { folder: "artikel/(index)", samplePath: "/artikel", kind: "articles-index", Loading: ArticlesLoading },
   { folder: "artikel/halaman/[n]", samplePath: "/artikel/halaman/2", kind: "articles-index", Loading: ArticlePagesLoading },
   { folder: "artikel/[slug]", samplePath: "/artikel/contoh", kind: "article-detail", Loading: ArticleDetailLoading },
 ];
@@ -73,6 +73,10 @@ function foldersContaining(root: string, fileName: string): string[] {
 
   walk(root);
   return found.sort();
+}
+
+function pagesBelow(pageFolders: string[], folder: string): string[] {
+  return pageFolders.filter((page) => page !== folder && (folder === "" || page.startsWith(`${folder}/`)));
 }
 
 function withTemporaryTree(files: string[], check: (root: string) => void) {
@@ -110,6 +114,16 @@ describe("loading.tsx positive controls", () => {
       expect(foldersContaining(root, "loading.tsx")).not.toEqual(foldersContaining(root, "page.tsx"));
     });
   });
+
+  it("detects a loading file whose boundary would also wrap a nested route", () => {
+    withTemporaryTree(["page.tsx", "loading.tsx", "a/page.tsx", "a/loading.tsx", "a/b/page.tsx", "c/page.tsx"], (root) => {
+      const pages = foldersContaining(root, "page.tsx");
+
+      expect(pagesBelow(pages, "")).toEqual(["a", "a/b", "c"]);
+      expect(pagesBelow(pages, "a")).toEqual(["a/b"]);
+      expect(pagesBelow(pages, "c")).toEqual([]);
+    });
+  });
 });
 
 describe("loading.tsx per route", () => {
@@ -141,13 +155,21 @@ describe("loading.tsx coverage", () => {
   it("finds the known route folders", () => {
     const pages = foldersContaining(SITE_DIR, "page.tsx");
 
-    expect(pages).toContain("");
+    expect(pages).toContain("(home)");
     expect(pages).toContain("artikel/halaman/[n]");
     expect(pages).toContain("layanan/[slug]");
   });
 
   it("has a loading.tsx in every folder under src/app/(site) that has a page.tsx", () => {
     expect(foldersContaining(SITE_DIR, "loading.tsx")).toEqual(foldersContaining(SITE_DIR, "page.tsx"));
+  });
+
+  it("keeps every loading.tsx boundary scoped to its own page", () => {
+    const pages = foldersContaining(SITE_DIR, "page.tsx");
+
+    for (const folder of foldersContaining(SITE_DIR, "loading.tsx")) {
+      expect({ folder, nested: pagesBelow(pages, folder) }).toEqual({ folder, nested: [] });
+    }
   });
 
   it("lists every page folder in the route table", () => {

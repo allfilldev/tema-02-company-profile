@@ -1,6 +1,6 @@
-import type { ReactElement, ReactNode } from "react";
+import { use, type ReactElement, type ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import ArticlePagesTemplate from "@/app/(site)/artikel/halaman/template";
 import ArticlesTemplate from "@/app/(site)/artikel/template";
 import ServicesTemplate from "@/app/(site)/layanan/template";
@@ -8,6 +8,19 @@ import PortfolioTemplate from "@/app/(site)/portofolio/template";
 import SiteTemplate from "@/app/(site)/template";
 import { RouteGuard } from "@/components/site/layout/route-guard";
 import { RouteSkeleton } from "@/components/skeletons/route-skeleton";
+
+const navigation = vi.hoisted(() => ({ pathname: "/" }));
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => navigation.pathname,
+  useRouter: () => ({ push: () => undefined, replace: () => undefined, prefetch: () => undefined }),
+}));
+
+const NEVER_SETTLES = new Promise<never>(() => undefined);
+
+function SuspendedRoute(): ReactElement {
+  return use(NEVER_SETTLES);
+}
 
 const PAGE_MARKUP = '<article data-marker="halaman"><h1>Judul halaman</h1><a href="/kontak">Hubungi kami</a></article>';
 
@@ -26,6 +39,31 @@ describe("RouteSkeleton positive control", () => {
 
     expect(markup).toContain('role="status"');
     expect(markup).toContain('aria-busy="true"');
+  });
+});
+
+describe("RouteGuard suspense fallback", () => {
+  afterEach(() => {
+    navigation.pathname = "/";
+  });
+
+  it("needs a boundary: suspended content without RouteGuard cannot render", () => {
+    expect(() => renderToStaticMarkup(<SuspendedRoute />)).toThrow();
+  });
+
+  it.each([
+    ["/kontak", "contact"],
+    ["/layanan/penyusunan-sop", "service-detail"],
+    ["/artikel/halaman/2", "articles-index"],
+    ["/", "home"],
+  ] as const)("shows the skeleton of %s while its route content suspends", (pathname, kind) => {
+    navigation.pathname = pathname;
+    const markup = renderToStaticMarkup(<RouteGuard><SuspendedRoute /></RouteGuard>);
+
+    expect(markup).toBe(renderToStaticMarkup(<RouteSkeleton kind={kind} />));
+    expect(markup).toContain(`data-skeleton-kind="${kind}"`);
+    expect(markup).toContain('aria-busy="true"');
+    expect(markup).not.toMatch(/<h1\b/);
   });
 });
 

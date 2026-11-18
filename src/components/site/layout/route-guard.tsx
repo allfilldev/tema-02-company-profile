@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import {
   createContext,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -14,7 +15,7 @@ import {
 } from "react";
 import { RouteSkeleton } from "@/components/skeletons/route-skeleton";
 import { isSamePathname, resolveLinkClick, type LinkClick } from "@/lib/site/route-guard-logic";
-import type { SkeletonKind } from "@/lib/site/skeleton-kind";
+import { skeletonKindForPath, type SkeletonKind } from "@/lib/site/skeleton-kind";
 
 type PendingNavigation = {
   kind: SkeletonKind;
@@ -63,6 +64,10 @@ function NavigationWatcher({ fromPath, onNavigated }: NavigationWatcherProps) {
   }, [pathname, fromPath, onNavigated]);
 
   return null;
+}
+
+function CurrentRouteSkeleton() {
+  return <RouteSkeleton kind={skeletonKindForPath(usePathname())} />;
 }
 
 export function RouteGuard({ children }: { children: ReactNode }) {
@@ -134,5 +139,9 @@ export function RouteGuard({ children }: { children: ReactNode }) {
     );
   }
 
-  return <ParentGuardContext value={tracker}>{children}</ParentGuardContext>;
+  return (
+    <ParentGuardContext value={tracker}>
+      <Suspense fallback={<CurrentRouteSkeleton />}>{children}</Suspense>
+    </ParentGuardContext>
+  );
 }
