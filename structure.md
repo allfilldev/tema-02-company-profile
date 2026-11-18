@@ -21,13 +21,13 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | Path | Tanggung jawab |
 |---|---|
 | `docs/rules/` | Salinan aturan yang sudah disesuaikan: `rules.md`, `seo-rules.md`, `seo-for-new-website.md`, `eeat-rules.md` |
-| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`, `tests/lib/seo/`, `tests/lib/markdown/`, `tests/core/application/` termasuk `schemas.test.ts` dan `site-queries.test.ts`) |
+| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`, `tests/lib/seo/`, `tests/lib/markdown/`, `tests/core/application/` termasuk `schemas.test.ts` dan `site-queries.test.ts`, `tests/infrastructure/images/`) |
 | `tests/fixtures/` | Data bantu tes, bukan file tes. `content-pack.ts` berisi `buildTestPack()` yang mengembalikan paket konten valid baru (siteName "Nusa Karya") di setiap panggilan, dengan intro seksi untuk kesepuluh `SECTION_KEYS` |
 | `public/` | Aset statis |
 | `public/demo/<paket>/` (menyusul) | Gambar demo WebP per paket konten |
 | `supabase/migrations/` (menyusul) | Skema, RLS, fungsi, bucket storage |
 | `supabase/seed.sql` (menyusul) | Hasil generate dari paket konten, tidak diedit manual |
-| `scripts/` (menyusul) | create-theme, generate-seed, create-admin, generate-favicon |
+| `scripts/` | `import-demo-image.ts`: CLI `npm run image:import -- <file-sumber> <paket> <nama-file> [--logo]` yang mengonversi gambar ke WebP, menulis `public/demo/<paket>/<nama-file>.webp`, dan mencetak `<lebar> <tinggi> <ukuran-byte>`. Skrip create-theme, generate-seed, create-admin, generate-favicon menyusul |
 
 ## src/
 
@@ -40,7 +40,7 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | `src/core/application/` | Use case dan skema Zod. Saat ini baru `schemas/`: `shared-fields.ts` (slug, meta title, meta description, media, FAQ, CTA), `site-schemas.ts` (pengaturan situs, beranda, intro seksi, tentang, visi, halaman hukum, blok konten), `catalog-schemas.ts` (layanan, portofolio, tim, statistik, testimoni, mitra), `article-schema.ts`, dan `content-pack-schema.ts` (paket konten dengan cek slug unik dan `authorId` yang ada di tim). `site/` berisi query situs yang menghormati modul aktif tema: `module-guard.ts` (`isModuleEnabled`, `isModuleKey`), `page-queries.ts` (pengaturan, beranda, tentang, visi, intro seksi, halaman hukum, blok konten), `catalog-queries.ts` (layanan, portofolio, tim, statistik, testimoni, mitra), `article-queries.ts` (`ARTICLES_PER_PAGE`, daftar artikel berhalaman, detail dengan penulis, artikel terkait), dan `site-queries.ts` (`createSiteQueries` menggabungkan semuanya). Use case lain menyusul |
 | `src/infrastructure/supabase/` (menyusul) | Client, repository, storage |
 | `src/infrastructure/fixtures/` | `fixture-repositories.ts`: `createFixtureRepositories(pack)` membuat `Repositories` yang membaca `ContentPack` di memori, mematuhi kontrak urutan (tanpa mengubah array paket) |
-| `src/infrastructure/images/` (menyusul) | Konversi WebP dengan sharp |
+| `src/infrastructure/images/` | `optimize-webp.ts`: `optimizeToWebp(input, { maxWidth, maxBytes })` mengubah gambar ke WebP dengan sharp (tanpa memperbesar, transparansi tetap, kualitas turun bertahap lalu lebar dikecilkan sampai di bawah batas byte), beserta konstanta `PHOTO_MAX_WIDTH` (1920), `LOGO_MAX_WIDTH` (600), dan `MAX_IMAGE_BYTES` (102400) |
 | `src/content/packs/<paket>/` (menyusul) | Paket konten demo |
 | `src/server/actions/` (menyusul) | Server actions publik dan admin |
 | `src/server/container.ts` (menyusul) | Memilih repository sesuai `DATA_SOURCE` |
