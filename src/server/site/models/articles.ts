@@ -24,7 +24,6 @@ export type ArticleCardData = {
 
 export type AuthorFacts = {
   completedProjects: number | null;
-  yearsExperience: number | null;
 };
 
 export type ArticlesIndexModel = {
@@ -132,7 +131,6 @@ export async function getArticleDetailModel(
     article,
     authorFacts: {
       completedProjects: completedProjectsStat?.value ?? null,
-      yearsExperience: article.author.yearsExperience,
     },
     related,
   };

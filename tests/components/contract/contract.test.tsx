@@ -41,7 +41,7 @@ describe("AuthorBox", () => {
   it("renders the labelled author bio landmark with name, role, bio, and facts", () => {
     const author = buildAuthor();
     const markup = renderToStaticMarkup(
-      <AuthorBox author={author} facts={{ completedProjects: 137, yearsExperience: 7 }} />,
+      <AuthorBox author={author} facts={{ completedProjects: 137 }} />,
     );
 
     expect(markup).toContain('id="author-bio"');
@@ -58,7 +58,7 @@ describe("AuthorBox", () => {
 
   it("links to the about, contact, and editorial policy pages", () => {
     const markup = renderToStaticMarkup(
-      <AuthorBox author={buildAuthor()} facts={{ completedProjects: 137, yearsExperience: 7 }} />,
+      <AuthorBox author={buildAuthor()} facts={{ completedProjects: 137 }} />,
     );
 
     expect(markup).toContain('href="/tentang"');
@@ -68,7 +68,7 @@ describe("AuthorBox", () => {
 
   it("omits the completed projects row when the count is null", () => {
     const markup = renderToStaticMarkup(
-      <AuthorBox author={buildAuthor()} facts={{ completedProjects: null, yearsExperience: 7 }} />,
+      <AuthorBox author={buildAuthor()} facts={{ completedProjects: null }} />,
     );
 
     expect(markup).not.toContain("Proyek selesai");
@@ -78,7 +78,7 @@ describe("AuthorBox", () => {
   it("omits the experience row and the photo when they are missing", () => {
     const author = { ...buildAuthor(), yearsExperience: null, photo: null };
     const markup = renderToStaticMarkup(
-      <AuthorBox author={author} facts={{ completedProjects: 137, yearsExperience: null }} />,
+      <AuthorBox author={author} facts={{ completedProjects: 137 }} />,
     );
 
     expect(markup).not.toContain("Pengalaman");

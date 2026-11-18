@@ -31,15 +31,57 @@ describe("getSiteEnv", () => {
   });
 
   it("is not demo when the data source is supabase", () => {
+    vi.stubEnv("SITE_URL", "");
     vi.stubEnv("DATA_SOURCE", "supabase");
     expect(getSiteEnv().isDemo).toBe(false);
   });
 
   it("reads the environment at call time", () => {
+    vi.stubEnv("SITE_URL", "https://nusakarya.example");
     vi.stubEnv("SITE_INDEXING", "off");
     expect(getSiteEnv().indexingEnabled).toBe(false);
     vi.stubEnv("SITE_INDEXING", "on");
     expect(getSiteEnv().indexingEnabled).toBe(true);
+  });
+
+  it("rejects a site url that carries a path", () => {
+    vi.stubEnv("SITE_URL", "https://nusakarya.example/blog");
+    expect(() => getSiteEnv()).toThrow("path, query, atau hash");
+  });
+
+  describe("in a production build", () => {
+    it.each(["", undefined, "http://localhost:3000", "http://127.0.0.1:3000", "http://[::1]:3000", "https://app.localhost"])(
+      "throws when indexing is on and SITE_URL is %j",
+      (siteUrl) => {
+        vi.stubEnv("NODE_ENV", "production");
+        vi.stubEnv("SITE_INDEXING", "on");
+        vi.stubEnv("SITE_URL", siteUrl);
+        expect(() => getSiteEnv()).toThrow("SITE_URL");
+      },
+    );
+
+    it("accepts a real site url when indexing is on", () => {
+      vi.stubEnv("NODE_ENV", "production");
+      vi.stubEnv("SITE_INDEXING", "on");
+      vi.stubEnv("SITE_URL", "https://nusakarya.example");
+      expect(getSiteEnv().siteUrl).toBe("https://nusakarya.example");
+    });
+
+    it.each(["", undefined, "off"])("keeps the localhost fallback when indexing is %j", (indexing) => {
+      vi.stubEnv("NODE_ENV", "production");
+      vi.stubEnv("SITE_INDEXING", indexing);
+      vi.stubEnv("SITE_URL", "");
+      expect(getSiteEnv()).toEqual({ siteUrl: "http://localhost:3000", indexingEnabled: false, isDemo: true });
+    });
+  });
+
+  describe("outside a production build", () => {
+    it.each(["development", "test"])("keeps the localhost fallback with indexing on in %s", (nodeEnv) => {
+      vi.stubEnv("NODE_ENV", nodeEnv);
+      vi.stubEnv("SITE_INDEXING", "on");
+      vi.stubEnv("SITE_URL", "");
+      expect(getSiteEnv().siteUrl).toBe("http://localhost:3000");
+    });
   });
 });
 

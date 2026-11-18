@@ -116,13 +116,15 @@ describe("site queries", () => {
     expect(await queries.listAllArticles()).toEqual([]);
   });
 
-  it("returns a stat by key even when the stats module is disabled", async () => {
+  it("returns a stat by key only while the stats module is enabled", async () => {
     const pack = buildTestPack();
-    const queries = buildQueries(pack, { ...themeConfig, enabledModules: [] });
+    const enabled = buildQueries(pack, { ...themeConfig, enabledModules: ["stats"] });
+    const disabled = buildQueries(pack, { ...themeConfig, enabledModules: [] });
 
-    expect(await queries.getStatByKey("projects_completed")).toEqual(pack.stats[0]);
-    expect(await queries.getStatByKey("tidak_dikenal")).toBeNull();
-    expect(await queries.listStats()).toEqual([]);
+    expect(await enabled.getStatByKey("projects_completed")).toEqual(pack.stats[0]);
+    expect(await enabled.getStatByKey("tidak_dikenal")).toBeNull();
+    expect(await disabled.getStatByKey("projects_completed")).toBeNull();
+    expect(await disabled.listStats()).toEqual([]);
   });
 
   it("returns an author by id even when the team module is disabled", async () => {

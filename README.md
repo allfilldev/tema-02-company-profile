@@ -29,8 +29,12 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Tiga variabel lingkungan ditanam saat build untuk halaman yang diprarender (canonical, sitemap, robots, RSS, JSON-LD, dan URL Open Graph), jadi semuanya harus diatur sebelum `npm run build`, bukan sesudahnya:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `SITE_URL`: alamat produksi tanpa path, query, atau hash, misalnya `https://contoh.co.id`. Build produksi dengan `SITE_INDEXING=on` akan gagal bila kosong atau mengarah ke localhost.
+- `SITE_INDEXING`: biarkan `off` (atau kosong) sampai situs resmi tayang, lalu ubah ke `on` dan build ulang.
+- `DATA_SOURCE`: `demo` untuk paket konten demo. `supabase` belum tersedia.
+
+Build mengunduh font dari jaringan, jadi lingkungan build harus punya akses internet.

@@ -1,4 +1,4 @@
-import { resolveIndexing, resolveSiteUrl } from "@/lib/seo/site-url";
+import { resolveIndexing, resolveSiteUrl, shouldRequireExplicitSiteUrl } from "@/lib/seo/site-url";
 
 export type SiteEnv = {
   siteUrl: string;
@@ -9,9 +9,12 @@ export type SiteEnv = {
 const DEFAULT_DATA_SOURCE = "demo";
 
 export function getSiteEnv(): SiteEnv {
+  const indexingEnabled = resolveIndexing(process.env.SITE_INDEXING);
+  const requireExplicit = shouldRequireExplicitSiteUrl(process.env.NODE_ENV, indexingEnabled);
+
   return {
-    siteUrl: resolveSiteUrl(process.env.SITE_URL),
-    indexingEnabled: resolveIndexing(process.env.SITE_INDEXING),
+    siteUrl: resolveSiteUrl(process.env.SITE_URL, { requireExplicit }),
+    indexingEnabled,
     isDemo: (process.env.DATA_SOURCE || DEFAULT_DATA_SOURCE) === "demo",
   };
 }

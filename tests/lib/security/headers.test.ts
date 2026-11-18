@@ -3,7 +3,7 @@ import nextConfig from "../../../next.config";
 import { buildSecurityHeaders } from "@/lib/security/headers";
 
 const EXPECTED_HEADERS = [
-  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
@@ -24,6 +24,10 @@ describe("buildSecurityHeaders", () => {
     const maxAge = Number(/max-age=(\d+)/.exec(hsts ?? "")?.[1]);
 
     expect(maxAge).toBeGreaterThanOrEqual(31536000);
+  });
+
+  it("does not declare preload", () => {
+    expect(valueOf(buildSecurityHeaders(), "Strict-Transport-Security")).not.toMatch(/preload/i);
   });
 
   it("never repeats a header key", () => {

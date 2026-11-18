@@ -43,6 +43,9 @@ export function createCatalogQueries(repositories: Repositories, theme: ThemeCon
       return isModuleEnabled(theme, "stats") ? repositories.stats.list() : [];
     },
     async getStatByKey(key) {
+      if (!isModuleEnabled(theme, "stats")) {
+        return null;
+      }
       const stats = await repositories.stats.list();
       return stats.find((stat) => stat.key === key) ?? null;
     },

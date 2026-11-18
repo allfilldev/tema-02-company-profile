@@ -202,7 +202,7 @@ describe("getArticleDetailModel", () => {
     expect(model).not.toBeNull();
     expect(model!.article.slug).toBe(article.slug);
     expect(model!.article.author.id).toBe("team-rina");
-    expect(model!.authorFacts).toEqual({ completedProjects: null, yearsExperience: 11 });
+    expect(model!.authorFacts).toEqual({ completedProjects: null });
     expect(model!.related).toEqual(await queries.listRelatedArticles(article.slug));
     expect(model!.related.map((related) => related.slug)).not.toContain(article.slug);
   });
@@ -214,16 +214,20 @@ describe("getArticleDetailModel", () => {
     const [article] = await queries.listAllArticles();
     const model = await getArticleDetailModel(queries, await buildTestContext(), article.slug);
 
-    expect(model!.authorFacts).toEqual({ completedProjects: 87, yearsExperience: 11 });
+    expect(model!.authorFacts).toEqual({ completedProjects: 87 });
   });
 
-  it("returns null years of experience when the author has none", async () => {
-    const queries = buildQueriesFromPack(buildTestPack());
-    const articles = await queries.listAllArticles();
-    const bimaArticle = articles.find((article) => article.authorId === "team-bima")!;
-    const model = await getArticleDetailModel(queries, await buildTestContext(), bimaArticle.slug);
+  it("leaves completedProjects null when the stats module is disabled", async () => {
+    const pack = buildTestPack();
+    pack.stats = [...pack.stats, { key: "completed_projects", label: "Proyek selesai", value: 87, suffix: "+", sortOrder: 3 }];
+    const queries = buildQueriesFromPack(pack, {
+      enabledModules: ["services", "portfolio", "articles", "team", "testimonials", "partners", "vision"],
+    });
+    const [article] = await queries.listAllArticles();
+    const model = await getArticleDetailModel(queries, await buildTestContext(), article.slug);
 
-    expect(model!.authorFacts.yearsExperience).toBeNull();
+    expect(model!.authorFacts).toEqual({ completedProjects: null });
+    expect(model!.article.author.id).toBe("team-rina");
   });
 
   it("builds article metadata with dates, author, and the opengraph route", async () => {
