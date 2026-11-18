@@ -31,6 +31,8 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | `supabase/migrations/` (menyusul) | Skema, RLS, fungsi, bucket storage |
 | `supabase/seed.sql` (menyusul) | Hasil generate dari paket konten, tidak diedit manual |
 | `scripts/` | `import-demo-image.ts`: CLI `npm run image:import -- <file-sumber> <paket> <nama-file> [--logo]` yang mengonversi gambar ke WebP, menulis `public/demo/<paket>/<nama-file>.webp`, dan mencetak `<lebar> <tinggi> <ukuran-byte>`. `generate-favicon.ts`: CLI `npm run favicon -- <gambar-sumber>` yang memakai sharp untuk menulis `favicon.ico` (lewat `buildIco`), `icon.png`, `apple-touch-icon.png`, `icon-192.png`, dan `icon-512.png` ke `public/`, diubah ukurannya dengan `fit: "contain"` dan latar transparan (sumber awal `public/demo/general/logo.webp`). Skrip memakai impor relatif karena `tsconfig.json` mengecualikan `scripts/`. Skrip create-theme, generate-seed, create-admin menyusul |
+| `scripts/theme/` | Logika pembuat tema, modul murni tanpa `.tsx`, diimpor skrip di `scripts/` lewat impor relatif. `theme-name.ts`: `THEME_NAME_MAX_LENGTH` (40) dan `validateThemeName(name)` (`null` bila valid: huruf kecil, angka, tanda hubung tunggal, diawali huruf). `theme-paths.ts`: `resolveThemePaths(boilerplateDir, themeName)` mengembalikan `siteType` (nama folder boilerplate) dan `targetDir` (`themes/<jenis>/<nama>` di samping `boilerplates/`), melempar galat bila folder boilerplate tidak berada di dalam `boilerplates/`. `set-theme-name.ts`: `setThemeName(source, themeName)` mengganti tepat satu baris `themeName` di `src/config/theme.ts` |
+| `tests/scripts/theme/` | Tes modul `scripts/theme/`: `theme-name.test.ts`, `theme-paths.test.ts`, `set-theme-name.test.ts` |
 
 ## src/
 
