@@ -78,7 +78,7 @@ Perhatikan juga keseimbangannya. Bila hanya kecepatan yang diukur, mutu bisa dik
 
 Untuk usaha jasa, contoh di atas bisa diganti dengan ketepatan jadwal kunjungan atau jumlah pekerjaan ulang. Prinsipnya sama: ukur hasil proses paling penting bagi pelanggan.
 
-![${figure.alt}](${figure.url} "Ilustrasi: dasbor sederhana untuk memantau indikator operasional")
+![${figure.alt}](${figure.url} "Ilustrasi: grafik tercetak untuk memantau indikator operasional")
 
 ## Bagaimana menjaga KPI tetap dipakai, bukan sekadar laporan?
 

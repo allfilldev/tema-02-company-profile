@@ -27,7 +27,7 @@ Foto paket demo ini diunduh dari Pexels dan dipakai di bawah Pexels License (gra
 | portfolio-pelatihan-layanan-pelanggan-ritel-2 | Vitaly Gariev (silverkblack) | https://www.pexels.com/photo/young-women-shopping-in-clothing-store-36730433/ | Pexels License |
 | portfolio-migrasi-erp-logistik | Tom Fisk | https://www.pexels.com/photo/high-angle-shot-of-colorful-trucks-2226457/ | Pexels License |
 | portfolio-migrasi-erp-logistik-1 | K (@kelly) | https://www.pexels.com/photo/parked-trucks-and-cargo-containers-on-port-13766346/ | Pexels License |
-| portfolio-migrasi-erp-logistik-2 | Sergey Sergeev | https://www.pexels.com/photo/engineer-at-control-room-monitoring-screens-32845700/ | Pexels License |
+| portfolio-migrasi-erp-logistik-2 | Samon Yu | https://www.pexels.com/photo/a-man-looking-at-multiple-monitors-11783119/ | Pexels License |
 | portfolio-audit-proses-keuangan-koperasi | Mikhail Nilov | https://www.pexels.com/photo/a-person-examining-a-document-8296977/ | Pexels License |
 | portfolio-audit-proses-keuangan-koperasi-1 | Pavel Danilyuk | https://www.pexels.com/photo/close-up-shot-of-a-person-holding-paper-money-7654426/ | Pexels License |
 | portfolio-audit-proses-keuangan-koperasi-2 | Mikhail Nilov | https://www.pexels.com/photo/a-woman-computing-with-a-calculator-8296974/ | Pexels License |
@@ -45,7 +45,7 @@ Foto paket demo ini diunduh dari Pexels dan dipakai di bawah Pexels License (gra
 | article-langkah-awal-transformasi-digital | Ivan S | https://www.pexels.com/photo/high-angle-shot-of-a-notebook-and-a-pen-beside-a-laptop-7213439/ | Pexels License |
 | article-langkah-awal-transformasi-digital-figure | Vasyl Vovk (page shows "Василь Вовк") | https://www.pexels.com/photo/laptop-with-graphic-illustration-on-screen-in-office-4405384/ | Pexels License |
 | article-menentukan-kpi-operasional | Yan Krukau | https://www.pexels.com/photo/using-laptop-in-a-business-meeting-7693683/ | Pexels License |
-| article-menentukan-kpi-operasional-figure | Atlantic Ambience | https://www.pexels.com/photo/close-up-shot-of-a-laptop-computer-12969403/ | Pexels License |
+| article-menentukan-kpi-operasional-figure | RDNE Stock project | https://www.pexels.com/photo/overhead-shot-of-a-pen-and-notebook-on-charts-7947837/ | Pexels License |
 | partner-1 | - | - | Dibuat untuk paket demo |
 | partner-2 | - | - | Dibuat untuk paket demo |
 | partner-3 | - | - | Dibuat untuk paket demo |

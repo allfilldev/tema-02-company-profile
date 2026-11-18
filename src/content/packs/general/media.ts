@@ -220,7 +220,7 @@ export const generalMedia: Record<GeneralMediaKey, MediaAsset> = {
   "portfolio-migrasi-erp-logistik-2": {
     id: "portfolio-migrasi-erp-logistik-2",
     url: "/demo/general/portfolio-migrasi-erp-logistik-2.webp",
-    alt: "Operator memantau banyak layar di ruang kendali operasional",
+    alt: "Petugas membelakangi kamera memantau deretan layar monitor di ruang kendali operasional",
     width: 1920,
     height: 1280,
   },
@@ -346,7 +346,7 @@ export const generalMedia: Record<GeneralMediaKey, MediaAsset> = {
   "article-menentukan-kpi-operasional-figure": {
     id: "article-menentukan-kpi-operasional-figure",
     url: "/demo/general/article-menentukan-kpi-operasional-figure.webp",
-    alt: "Ilustrasi: laptop menampilkan dasbor analitik dengan grafik pemantauan kinerja secara langsung",
+    alt: "Ilustrasi: lembar laporan bergrafik batang di atas meja bersama buku catatan merah dan stabilo merah muda",
     width: 1920,
     height: 1280,
   },
