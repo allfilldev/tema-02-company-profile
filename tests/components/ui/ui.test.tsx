@@ -1,5 +1,6 @@
+import type { ComponentType, ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { Badge } from "@/components/ui/badge";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -189,6 +190,51 @@ describe("SiteImage", () => {
     expect(markup).toContain(`alt="${media.alt}"`);
     expect(markup).toContain('sizes="100vw"');
     expect(markup).toContain("rounded-lg");
+  });
+});
+
+type ImageLoadingProps = { preload?: boolean; loading?: string };
+
+function imageLoadingProps(element: ReactElement): ImageLoadingProps {
+  const { preload, loading } = element.props as ImageLoadingProps;
+  return { preload, loading };
+}
+
+describe("SiteImage loading strategy", () => {
+  const media = generalMedia["hero"];
+
+  it("preloads a priority image and leaves loading to next/image", () => {
+    expect(imageLoadingProps(SiteImage({ media, priority: true }))).toEqual({ preload: true, loading: undefined });
+  });
+
+  it("loads an eager image right away without preloading it", () => {
+    expect(imageLoadingProps(SiteImage({ media, eager: true }))).toEqual({ preload: false, loading: "eager" });
+  });
+
+  it("keeps a priority image free of a loading attribute even when eager is also set", () => {
+    expect(imageLoadingProps(SiteImage({ media, priority: true, eager: true }))).toEqual({ preload: true, loading: undefined });
+  });
+
+  it("lets other images fall back to lazy loading", () => {
+    expect(imageLoadingProps(SiteImage({ media }))).toEqual({ preload: false, loading: undefined });
+  });
+});
+
+describe("next/image server markup for the SiteImage loading props", async () => {
+  const { default: RealImage } = await vi.importActual<{ default: ComponentType<Record<string, unknown>> }>("next/image");
+  const base = { src: "/demo/general/hero.webp", alt: "Hero", width: 1200, height: 800 };
+
+  function loadingAttribute(props: Record<string, unknown>): string | null {
+    const markup = renderToStaticMarkup(<RealImage {...base} {...props} />);
+    expect(markup).toContain("<img");
+    return markup.match(/\sloading="([^"]*)"/)?.[1] ?? null;
+  }
+
+  it("renders the same deterministic loading attribute for each strategy", () => {
+    expect(loadingAttribute({ preload: true })).toBeNull();
+    expect(loadingAttribute({ loading: "eager" })).toBe("eager");
+    expect(loadingAttribute({})).toBe("lazy");
+    expect(loadingAttribute({ preload: false, loading: undefined })).toBe("lazy");
   });
 });
 

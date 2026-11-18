@@ -24,7 +24,7 @@ export function Header({ siteName, logo, navigation }: HeaderProps) {
         <Link href="/" className="inline-flex min-h-11 items-center gap-2">
           {logo ? (
             <>
-              <SiteImage media={logo} priority className="max-h-10 w-auto" />
+              <SiteImage media={logo} eager className="max-h-10 w-auto" />
               <span className="sr-only">{siteName}</span>
             </>
           ) : (

@@ -3,6 +3,7 @@ import { PageHero } from "@/components/site/sections/page-hero";
 import { Pagination } from "@/components/site/sections/pagination";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
+import { isFirstRowCard } from "@/lib/ui/card-grid";
 import type { ArticlesIndexModel } from "@/server/site/models/articles";
 
 type ArticlesIndexViewProps = {
@@ -20,9 +21,9 @@ export function ArticlesIndexView({ model }: ArticlesIndexViewProps) {
       {items.length > 0 ? (
         <Section id="daftar-artikel" title={LIST_TITLE}>
           <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
+            {items.map((item, index) => (
               <li key={item.article.id}>
-                <ArticleCard item={item} />
+                <ArticleCard item={item} eager={isFirstRowCard(index)} />
               </li>
             ))}
           </ul>

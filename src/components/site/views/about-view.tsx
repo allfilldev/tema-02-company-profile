@@ -27,7 +27,7 @@ export function AboutView({ model }: AboutViewProps) {
             <MarkdownContent source={about.bodyMd} />
             {about.image ? (
               <div className="overflow-hidden rounded-xl border border-border shadow-card">
-                <SiteImage media={about.image} sizes={PROFILE_IMAGE_SIZES} className="w-full" />
+                <SiteImage media={about.image} priority sizes={PROFILE_IMAGE_SIZES} className="w-full" />
               </div>
             ) : null}
           </div>

@@ -1,6 +1,7 @@
 import { PageHero } from "@/components/site/sections/page-hero";
 import { ServiceCard } from "@/components/site/sections/services-section";
 import { Section } from "@/components/ui/section";
+import { isFirstRowCard } from "@/lib/ui/card-grid";
 import type { ServicesIndexModel } from "@/server/site/models/services";
 
 type ServicesIndexViewProps = {
@@ -18,9 +19,9 @@ export function ServicesIndexView({ model }: ServicesIndexViewProps) {
       {services.length > 0 ? (
         <Section id="daftar-layanan" title={LIST_TITLE}>
           <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
+            {services.map((service, index) => (
               <li key={service.id}>
-                <ServiceCard service={service} />
+                <ServiceCard service={service} eager={isFirstRowCard(index)} />
               </li>
             ))}
           </ul>

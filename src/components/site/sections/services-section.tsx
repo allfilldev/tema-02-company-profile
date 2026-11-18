@@ -16,12 +16,17 @@ const LINK_CLASS_NAME =
 const MORE_LABEL = "Selengkapnya";
 const ALL_LABEL = "Lihat semua layanan";
 
-export function ServiceCard({ service }: { service: Service }) {
+type ServiceCardProps = {
+  service: Service;
+  eager?: boolean;
+};
+
+export function ServiceCard({ service, eager = false }: ServiceCardProps) {
   return (
     <Card className="flex h-full flex-col gap-4">
       {service.cover ? (
         <div className="aspect-video overflow-hidden rounded-md">
-          <SiteImage media={service.cover} sizes={IMAGE_SIZES} className="w-full" />
+          <SiteImage media={service.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />
         </div>
       ) : null}
       <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>

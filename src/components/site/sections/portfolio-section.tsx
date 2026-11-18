@@ -18,12 +18,17 @@ const MORE_LABEL = "Lihat studi kasus";
 const ALL_LABEL = "Lihat semua portofolio";
 const CLIENT_LABEL = "Klien";
 
-export function PortfolioCard({ item }: { item: PortfolioItem }) {
+type PortfolioCardProps = {
+  item: PortfolioItem;
+  eager?: boolean;
+};
+
+export function PortfolioCard({ item, eager = false }: PortfolioCardProps) {
   return (
     <Card className="flex h-full flex-col gap-4">
       {item.cover ? (
         <div className="aspect-video overflow-hidden rounded-md">
-          <SiteImage media={item.cover} sizes={IMAGE_SIZES} className="w-full" />
+          <SiteImage media={item.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />
         </div>
       ) : null}
       <div>
