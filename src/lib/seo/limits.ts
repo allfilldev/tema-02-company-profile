@@ -1,0 +1,16 @@
+export const TITLE_MIN = 30;
+export const TITLE_MAX = 60;
+export const META_DESCRIPTION_MIN = 120;
+export const META_DESCRIPTION_MAX = 155;
+export const ARTICLE_WORDS_MIN = 800;
+export const ARTICLE_WORDS_MAX = 1200;
+export const LEAD_WORDS_MIN = 50;
+export const LEAD_WORDS_MAX = 100;
+export const H2_MIN = 3;
+export const H2_MAX = 6;
+export const FAQ_MIN = 3;
+export const FAQ_MAX = 6;
+export const INTERNAL_LINKS_MIN = 2;
+export const INTERNAL_LINKS_MAX = 4;
+export const OUTBOUND_LINKS_MIN = 1;
+export const OUTBOUND_LINKS_MAX = 2;

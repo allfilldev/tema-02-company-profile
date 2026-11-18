@@ -21,7 +21,7 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | Path | Tanggung jawab |
 |---|---|
 | `docs/rules/` | Salinan aturan yang sudah disesuaikan: `rules.md`, `seo-rules.md`, `seo-for-new-website.md`, `eeat-rules.md` |
-| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`) |
+| `tests/` | Tes Vitest, mengikuti struktur `src/` (saat ini `tests/lib/text/`, `tests/lib/seo/`, `tests/lib/markdown/`) |
 | `public/` | Aset statis |
 | `public/demo/<paket>/` (menyusul) | Gambar demo WebP per paket konten |
 | `supabase/migrations/` (menyusul) | Skema, RLS, fungsi, bucket storage |
@@ -44,8 +44,8 @@ Boilerplate company profile berbasis Next.js (App Router, TypeScript, Tailwind).
 | `src/server/actions/` (menyusul) | Server actions publik dan admin |
 | `src/server/container.ts` (menyusul) | Memilih repository sesuai `DATA_SOURCE` |
 | `src/lib/text/` | Utilitas teks murni: `slug.ts` berisi `slugify` dan `isValidSlug` |
-| `src/lib/seo/` (menyusul) | Builder metadata, JSON-LD, pemeriksa konten |
-| `src/lib/markdown/` (menyusul) | Parsing dan pemeriksaan heading |
+| `src/lib/seo/` | `limits.ts` (batas panjang dan jumlah untuk SEO), `title.ts` (`titleSuffix`, `maxMetaTitleLength`, `buildPageTitle`), `content-checks.ts` (`runContentChecks` dan `hasBlockingErrors`, pesan dalam bahasa Indonesia). Builder metadata dan JSON-LD menyusul |
+| `src/lib/markdown/` | Analisis markdown murni: `code-blocks.ts` (membuang blok kode berpagar), `headings.ts` (`extractHeadings`, `analyzeHeadings`), `words.ts` (`countWords`), `links.ts` (`countLinks` internal dan eksternal) |
 | `src/config/theme.ts` (menyusul) | Konfigurasi tema |
 | `src/hooks/` (menyusul) | Hook client |
 | `src/styles/` (menyusul) | `tokens.css`, `globals.css`, `fonts.ts` |
