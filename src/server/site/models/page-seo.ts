@@ -19,6 +19,10 @@ type PageSeoParams = {
   ogImagePath: string | null;
   breadcrumbs: BreadcrumbItem[];
   jsonLd: JsonLd[];
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  authorNames?: string[];
 };
 
 export const HOME_BREADCRUMB: BreadcrumbItem = { name: "Beranda", path: "/" };
@@ -31,7 +35,10 @@ export function buildPageSeo(context: SiteContext, params: PageSeoParams): PageS
       description: params.description,
       ogImagePath: params.ogImagePath,
       ogImageAlt: params.title,
-      type: "website",
+      type: params.type ?? "website",
+      ...(params.publishedTime ? { publishedTime: params.publishedTime } : {}),
+      ...(params.modifiedTime ? { modifiedTime: params.modifiedTime } : {}),
+      ...(params.authorNames ? { authorNames: params.authorNames } : {}),
     },
     context.seoSite,
   );
