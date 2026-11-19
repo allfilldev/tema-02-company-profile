@@ -18,17 +18,17 @@ function SkeletonLayout({ kind }: { kind: SkeletonKind }) {
     case "home":
       return (
         <>
-          <SkeletonHero height={SKELETON_HEIGHTS.homeHero} media actions />
-          <SkeletonStats height={SKELETON_HEIGHTS.stats} />
+          <SkeletonHero height={SKELETON_HEIGHTS.homeHero} actions />
+          <SkeletonGrid height={SKELETON_HEIGHTS.partners} count={6} layout="strip" card="logo" withHeading={false} padding="compact" />
+          <SkeletonSplit height={SKELETON_HEIGHTS.homeAbout} />
           <SkeletonGrid height={SKELETON_HEIGHTS.homeServices} count={6} />
+          <SkeletonStats height={SKELETON_HEIGHTS.homeStats} />
+          <SkeletonGrid height={SKELETON_HEIGHTS.homeVision} count={2} layout="two" card="text" />
           <SkeletonGrid height={SKELETON_HEIGHTS.homeSteps} count={4} layout="four" card="text" />
           <SkeletonGrid height={SKELETON_HEIGHTS.homePortfolio} count={3} />
           <SkeletonGrid height={SKELETON_HEIGHTS.homeAdvantages} count={4} layout="two" card="text" />
-          <SkeletonSplit height={SKELETON_HEIGHTS.homeAbout} />
-          <SkeletonGrid height={SKELETON_HEIGHTS.vision} count={2} layout="two" card="text" />
           <SkeletonGrid height={SKELETON_HEIGHTS.team} count={4} layout="four" card="profile" />
           <SkeletonGrid height={SKELETON_HEIGHTS.testimonials} count={5} card="text" />
-          <SkeletonGrid height={SKELETON_HEIGHTS.partners} count={8} layout="logos" card="logo" />
           <SkeletonGrid height={SKELETON_HEIGHTS.homeArticles} count={3} />
           <SkeletonFaq height={SKELETON_HEIGHTS.homeFaq} count={4} withHeading />
           <SkeletonBanner height={SKELETON_HEIGHTS.homeCta} />
@@ -40,9 +40,9 @@ function SkeletonLayout({ kind }: { kind: SkeletonKind }) {
           <SkeletonBreadcrumbs />
           <SkeletonHero height={SKELETON_HEIGHTS.aboutHero} eyebrow={false} />
           <SkeletonSplit height={SKELETON_HEIGHTS.aboutProfile} withHeading={false} />
-          <SkeletonGrid height={SKELETON_HEIGHTS.vision} count={2} layout="two" card="text" />
+          <SkeletonGrid height={SKELETON_HEIGHTS.aboutVision} count={2} layout="two" card="text" />
           <SkeletonGrid height={SKELETON_HEIGHTS.team} count={4} layout="four" card="profile" />
-          <SkeletonStats height={SKELETON_HEIGHTS.stats} />
+          <SkeletonStats height={SKELETON_HEIGHTS.aboutStats} />
         </>
       );
     case "services-index":
@@ -76,7 +76,7 @@ function SkeletonLayout({ kind }: { kind: SkeletonKind }) {
           <SkeletonHero height={SKELETON_HEIGHTS.serviceDetailHero} eyebrow={false} media />
           <SkeletonArticleBody height={SKELETON_HEIGHTS.serviceBody} />
           <SkeletonFaq height={SKELETON_HEIGHTS.serviceFaq} count={3} />
-          <SkeletonGrid height={SKELETON_HEIGHTS.others} count={3} card="text" />
+          <SkeletonGrid height={SKELETON_HEIGHTS.serviceOthers} count={3} card="text" />
         </>
       );
     case "portfolio-detail":
@@ -86,7 +86,7 @@ function SkeletonLayout({ kind }: { kind: SkeletonKind }) {
           <SkeletonHero height={SKELETON_HEIGHTS.portfolioDetailHero} media />
           <SkeletonArticleBody height={SKELETON_HEIGHTS.portfolioBody} withFacts />
           <SkeletonGrid height={SKELETON_HEIGHTS.gallery} count={2} layout="two" card="image" />
-          <SkeletonGrid height={SKELETON_HEIGHTS.others} count={3} card="text" />
+          <SkeletonGrid height={SKELETON_HEIGHTS.portfolioOthers} count={3} card="text" />
         </>
       );
     case "article-detail":

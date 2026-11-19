@@ -4,42 +4,45 @@ import { joinClassNames } from "@/lib/ui/class-names";
 
 export const SKELETON_HEIGHTS = {
   breadcrumbRow: "h-11",
-  homeHero: "lg:min-h-120",
-  aboutHero: "lg:min-h-62",
-  contactHero: "lg:min-h-62",
-  legalHero: "lg:min-h-71",
-  servicesIndexHero: "lg:min-h-81",
-  portfolioIndexHero: "lg:min-h-69",
-  articlesIndexHero: "lg:min-h-81",
-  serviceDetailHero: "lg:min-h-119",
-  portfolioDetailHero: "lg:min-h-119",
-  articleDetailHero: "lg:min-h-156",
-  stats: "lg:min-h-90",
-  homeServices: "lg:min-h-338",
-  homeSteps: "lg:min-h-153",
-  homePortfolio: "lg:min-h-233",
-  homeAdvantages: "lg:min-h-152",
-  homeAbout: "lg:min-h-159",
-  vision: "lg:min-h-209",
-  team: "lg:min-h-207",
-  testimonials: "lg:min-h-200",
-  partners: "lg:min-h-106",
-  homeArticles: "lg:min-h-223",
-  homeFaq: "lg:min-h-169",
-  homeCta: "lg:min-h-115",
-  aboutProfile: "lg:min-h-271",
-  servicesList: "lg:min-h-286",
-  serviceBody: "lg:min-h-309",
-  serviceFaq: "lg:min-h-122",
-  portfolioList: "lg:min-h-332",
-  portfolioBody: "lg:min-h-323",
-  gallery: "lg:min-h-145",
-  others: "lg:min-h-109",
-  articlesList: "lg:min-h-166",
-  articleBody: "lg:min-h-1242",
-  related: "lg:min-h-103",
-  contactForm: "lg:min-h-189",
-  legalText: "lg:min-h-356",
+  homeHero: "lg:min-h-189",
+  aboutHero: "lg:min-h-107",
+  contactHero: "lg:min-h-107",
+  legalHero: "lg:min-h-115",
+  servicesIndexHero: "lg:min-h-126",
+  portfolioIndexHero: "lg:min-h-114",
+  articlesIndexHero: "lg:min-h-114",
+  serviceDetailHero: "lg:min-h-163",
+  portfolioDetailHero: "lg:min-h-154",
+  articleDetailHero: "lg:min-h-193",
+  homeStats: "lg:min-h-142",
+  aboutStats: "lg:min-h-126",
+  partners: "lg:min-h-50",
+  homeAbout: "lg:min-h-174",
+  homeServices: "lg:min-h-248",
+  homeVision: "lg:min-h-125",
+  aboutVision: "lg:min-h-149",
+  homeSteps: "lg:min-h-176",
+  homePortfolio: "lg:min-h-262",
+  homeAdvantages: "lg:min-h-174",
+  team: "lg:min-h-238",
+  testimonials: "lg:min-h-288",
+  homeArticles: "lg:min-h-247",
+  homeFaq: "lg:min-h-235",
+  homeCta: "lg:min-h-131",
+  aboutProfile: "lg:min-h-280",
+  servicesList: "lg:min-h-308",
+  serviceBody: "lg:min-h-332",
+  serviceFaq: "lg:min-h-138",
+  portfolioList: "lg:min-h-364",
+  portfolioBody: "lg:min-h-336",
+  gallery: "lg:min-h-173",
+  serviceOthers: "lg:min-h-162",
+  portfolioOthers: "lg:min-h-144",
+  articlesList: "lg:min-h-200",
+  articleBody: "lg:min-h-1304",
+  related: "lg:min-h-152",
+  contactForm: "lg:min-h-214",
+  legalText: "lg:min-h-400",
 } as const;
 
 export type SkeletonHeight = (typeof SKELETON_HEIGHTS)[keyof typeof SKELETON_HEIGHTS];
@@ -58,13 +61,15 @@ const GRID_LAYOUTS = {
   three: "md:grid-cols-2 lg:grid-cols-3",
   four: "sm:grid-cols-2 lg:grid-cols-4",
   logos: "grid-cols-2 md:grid-cols-4",
+  strip: "grid-cols-2 md:grid-cols-3 lg:grid-cols-6",
 } as const;
 
 type SkeletonGridLayout = keyof typeof GRID_LAYOUTS;
 
 const SECTION_PADDINGS = {
-  default: "py-12 md:py-16",
-  hero: "py-10 md:py-16",
+  default: "py-16 md:py-24",
+  compact: "py-12 md:py-16",
+  hero: "pt-32 pb-16 md:pt-40 md:pb-24",
 } as const;
 
 type SkeletonSectionPadding = keyof typeof SECTION_PADDINGS;
@@ -81,6 +86,7 @@ const BLOCK_TONES = {
   border: "bg-border",
   muted: "bg-surface-muted",
   secondary: "bg-secondary",
+  inverse: "bg-surface-inverse-foreground/10",
 } as const;
 
 type SkeletonBlockRadius = keyof typeof BLOCK_RADII;
@@ -119,15 +125,16 @@ export function SkeletonBlock({ rounded = "md", tone = "border", className }: Sk
 type SkeletonLinesProps = {
   count: number;
   width?: SkeletonLineWidth;
+  tone?: SkeletonBlockTone;
   className?: string;
 };
 
-export function SkeletonLines({ count, width = "full", className }: SkeletonLinesProps) {
+export function SkeletonLines({ count, width = "full", tone = "border", className }: SkeletonLinesProps) {
   return (
     <div className={joinClassNames("space-y-3", className)}>
       {Array.from({ length: count }, (_, index) => (
         <div key={index} data-skeleton="line">
-          <SkeletonBlock className={joinClassNames("h-4", index === count - 1 ? LINE_WIDTHS.half : LINE_WIDTHS[width])} />
+          <SkeletonBlock tone={tone} className={joinClassNames("h-4", index === count - 1 ? LINE_WIDTHS.half : LINE_WIDTHS[width])} />
         </div>
       ))}
     </div>
@@ -163,21 +170,21 @@ type SkeletonHeroProps = {
 
 export function SkeletonHero({ height, eyebrow = true, media = false, actions = false }: SkeletonHeroProps) {
   return (
-    <div data-skeleton="hero" className="border-b border-border bg-surface">
+    <div data-skeleton="hero" className="bg-surface-inverse">
       <SkeletonSection height={height} padding="hero">
         <div className={media ? "grid items-center gap-8 lg:grid-cols-2 lg:gap-12" : "max-w-3xl"}>
           <div className="space-y-4">
-            {eyebrow ? <SkeletonBlock className="h-4 w-32" /> : null}
-            <SkeletonBlock className="h-12 w-full" />
-            <SkeletonLines count={2} />
+            {eyebrow ? <SkeletonBlock tone="inverse" className="h-4 w-32" /> : null}
+            <SkeletonBlock tone="inverse" className="h-12 w-full" />
+            <SkeletonLines count={2} tone="inverse" />
             {actions ? (
               <div className="flex gap-3 pt-4">
-                <SkeletonBlock rounded="lg" className="h-12 w-40" />
-                <SkeletonBlock rounded="lg" className="h-12 w-40" />
+                <SkeletonBlock rounded="lg" tone="inverse" className="h-12 w-40" />
+                <SkeletonBlock rounded="lg" tone="inverse" className="h-12 w-40" />
               </div>
             ) : null}
           </div>
-          {media ? <SkeletonBlock rounded="xl" tone="secondary" className="hidden h-80 w-full lg:block" /> : null}
+          {media ? <SkeletonBlock rounded="xl" tone="inverse" className="hidden h-80 w-full lg:block" /> : null}
         </div>
       </SkeletonSection>
     </div>
@@ -233,11 +240,12 @@ type SkeletonGridProps = {
   layout?: SkeletonGridLayout;
   card?: SkeletonCardVariant;
   withHeading?: boolean;
+  padding?: SkeletonSectionPadding;
 };
 
-export function SkeletonGrid({ height, count, layout = "three", card = "media", withHeading = true }: SkeletonGridProps) {
+export function SkeletonGrid({ height, count, layout = "three", card = "media", withHeading = true, padding = "default" }: SkeletonGridProps) {
   return (
-    <SkeletonSection height={height}>
+    <SkeletonSection height={height} padding={padding}>
       {withHeading ? <SkeletonHeading className="mb-8 md:mb-12" /> : null}
       <div data-skeleton="grid" className={joinClassNames("grid gap-6", GRID_LAYOUTS[layout])}>
         {Array.from({ length: count }, (_, index) => (

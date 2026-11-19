@@ -111,10 +111,29 @@ describe("RouteSkeleton class conflicts", () => {
     }
   });
 
-  it.each(["home", "about"] as const)("gives the stats block on %s the same padding as Section", (kind) => {
+  it.each([
+    ["home", SKELETON_HEIGHTS.homeStats],
+    ["about", SKELETON_HEIGHTS.aboutStats],
+  ] as const)("gives the stats block on %s the same padding as Section", (kind, height) => {
     const classes = sectionClassesContaining(render(kind), "stats");
 
-    expect(classes).toEqual(["py-12", "md:py-16", SKELETON_HEIGHTS.stats]);
+    expect(classes).toEqual(["py-16", "md:py-24", height]);
+  });
+
+  it.each(SKELETON_KINDS)("puts the hero of %s on the inverse surface with its own hero padding", (kind) => {
+    const hero = classLists(render(kind)).find((classes) => classes.includes("bg-surface-inverse"));
+
+    expect(hero).toEqual(["bg-surface-inverse"]);
+    expect(render(kind)).toContain("bg-surface-inverse-foreground/10");
+    expect(render(kind)).toContain("pt-32 pb-16 md:pt-40 md:pb-24");
+  });
+
+  it("gives the home partners strip a compact single-row logo grid", () => {
+    const markup = render("home");
+
+    expect(markup).toContain("grid-cols-2 md:grid-cols-3 lg:grid-cols-6");
+    expect(minHeightClasses(markup)).toContain(SKELETON_HEIGHTS.partners);
+    expect(markup).toContain(`py-12 md:py-16 ${SKELETON_HEIGHTS.partners}`);
   });
 
   it("gives the avatar placeholder only a full radius", () => {
@@ -158,7 +177,7 @@ function blockSequence(markup: string): string[] {
 }
 
 const EXPECTED_SEQUENCES: Record<SkeletonKind, string[]> = {
-  home: ["hero", "stats", "grid", "grid", "grid", "grid", "split", "grid", "grid", "grid", "grid", "grid", "faq", "banner"],
+  home: ["hero", "grid", "split", "grid", "stats", "grid", "grid", "grid", "grid", "grid", "grid", "grid", "faq", "banner"],
   about: ["breadcrumbs", "hero", "split", "grid", "grid", "stats"],
   "services-index": ["breadcrumbs", "hero", "grid"],
   "service-detail": ["breadcrumbs", "hero", "article-body", "faq", "grid"],
