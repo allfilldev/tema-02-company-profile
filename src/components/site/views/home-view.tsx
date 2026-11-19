@@ -54,7 +54,7 @@ function AboutTeaser({ about, intro }: { about: AboutContent; intro?: SectionInt
   );
 
   return (
-    <section id="tentang" aria-labelledby="tentang-title" className="py-16 md:py-24">
+    <section id="tentang" aria-labelledby="tentang-title" className="overflow-x-clip py-16 md:py-24">
       <Container>
         {about.image ? (
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
