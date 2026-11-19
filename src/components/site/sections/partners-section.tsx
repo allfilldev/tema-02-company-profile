@@ -1,15 +1,16 @@
-import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { Partner } from "@/core/domain/partner/partner";
+import { ToneSection, type SectionTone } from "./tone-section";
 
 type PartnersSectionProps = {
   partners: Partner[];
   intro?: SectionIntro;
+  tone?: SectionTone;
 };
 
 const LOGO_SIZES = "144px";
-const ITEM_CLASS_NAME = "flex min-h-20 items-center justify-center rounded-md border border-border bg-surface p-4";
+const ITEM_CLASS_NAME = "flex min-h-20 items-center justify-center rounded-2xl border border-border bg-surface p-4 shadow-soft";
 const LINK_LABEL = "Kunjungi situs";
 
 function PartnerMark({ partner }: { partner: Partner }) {
@@ -23,13 +24,13 @@ function PartnerMark({ partner }: { partner: Partner }) {
   return <span className="font-semibold text-foreground">{partner.name}</span>;
 }
 
-export function PartnersSection({ partners, intro }: PartnersSectionProps) {
+export function PartnersSection({ partners, intro, tone }: PartnersSectionProps) {
   if (partners.length === 0 || !intro) {
     return null;
   }
 
   return (
-    <Section id="mitra" eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
+    <ToneSection id="mitra" tone={tone} eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {partners.map((partner) => (
           <li key={partner.id}>
@@ -46,6 +47,6 @@ export function PartnersSection({ partners, intro }: PartnersSectionProps) {
           </li>
         ))}
       </ul>
-    </Section>
+    </ToneSection>
   );
 }

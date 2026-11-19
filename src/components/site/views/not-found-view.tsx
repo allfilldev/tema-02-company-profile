@@ -9,7 +9,9 @@ export function NotFoundView() {
   return (
     <PageHero title={NOT_FOUND_TITLE} description={NOT_FOUND_DESCRIPTION}>
       <div className="mt-8 flex flex-wrap gap-3">
-        <ButtonLink href="/">Kembali ke beranda</ButtonLink>
+        <ButtonLink href="/" variant="inverse">
+          Kembali ke beranda
+        </ButtonLink>
         <ButtonLink href="/kontak" variant="secondary">
           Hubungi kami
         </ButtonLink>

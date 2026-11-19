@@ -17,11 +17,11 @@ export function ArticleCard({ item, eager = false }: ArticleCardProps) {
   return (
     <Card className="flex h-full flex-col gap-4">
       {article.cover ? (
-        <div className="aspect-video overflow-hidden rounded-md">
+        <div className="aspect-video overflow-hidden rounded-xl">
           <SiteImage media={article.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />
         </div>
       ) : null}
-      <h3 className="text-xl font-semibold text-foreground">
+      <h3 className="text-xl font-bold tracking-tight text-foreground">
         <Link href={`/artikel/${article.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
           {article.title}
         </Link>

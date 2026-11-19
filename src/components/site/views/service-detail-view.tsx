@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FaqList } from "@/components/site/contract/faq-list";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
+import { ToneSection } from "@/components/site/sections/tone-section";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
@@ -20,12 +21,12 @@ function OtherServices({ services }: { services: Service[] }) {
   }
 
   return (
-    <Section id="layanan-lainnya" title={OTHERS_TITLE} className="border-t border-border bg-surface">
+    <ToneSection id="layanan-lainnya" tone="surface-muted" title={OTHERS_TITLE}>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
           <li key={service.id}>
             <Card className="h-full">
-              <h3 className="text-xl font-semibold text-foreground">
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
                 <Link href={`/layanan/${service.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
                   {service.title}
                 </Link>
@@ -35,7 +36,7 @@ function OtherServices({ services }: { services: Service[] }) {
           </li>
         ))}
       </ul>
-    </Section>
+    </ToneSection>
   );
 }
 
@@ -52,7 +53,7 @@ export function ServiceDetailView({ model }: ServiceDetailViewProps) {
       </Section>
       {service.faq.length > 0 ? (
         <Reveal>
-          <Section id="faq-layanan" className="border-t border-border">
+          <Section id="faq-layanan">
             <div className="max-w-3xl">
               <FaqList items={service.faq} />
             </div>

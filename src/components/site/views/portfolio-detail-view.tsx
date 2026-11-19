@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
+import { ToneSection } from "@/components/site/sections/tone-section";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
@@ -19,7 +20,7 @@ const GALLERY_IMAGE_SIZES = "(min-width: 1024px) 560px, (min-width: 768px) 50vw,
 
 function ProjectFacts({ item }: { item: PortfolioItem }) {
   return (
-    <dl className="grid gap-4 rounded-lg border border-border bg-surface p-6 shadow-card sm:grid-cols-3">
+    <dl className="grid gap-4 rounded-2xl border border-border bg-surface p-6 shadow-soft sm:grid-cols-3">
       <div>
         <dt className="text-sm text-muted-foreground">Klien</dt>
         <dd className="font-semibold text-foreground">{item.clientName}</dd>
@@ -46,11 +47,11 @@ function ProjectGallery({ item }: { item: PortfolioItem }) {
   }
 
   return (
-    <Section id="galeri-proyek" title={GALLERY_TITLE} className="border-t border-border">
+    <Section id="galeri-proyek" title={GALLERY_TITLE}>
       <ul className="grid gap-6 md:grid-cols-2">
         {item.gallery.map((media) => (
           <li key={media.id}>
-            <figure className="overflow-hidden rounded-xl border border-border shadow-card">
+            <figure className="overflow-hidden rounded-2xl shadow-soft">
               <SiteImage media={media} sizes={GALLERY_IMAGE_SIZES} className="w-full" />
             </figure>
           </li>
@@ -66,12 +67,12 @@ function OtherItems({ items }: { items: PortfolioItem[] }) {
   }
 
   return (
-    <Section id="portofolio-lainnya" title={OTHERS_TITLE} className="border-t border-border bg-surface">
+    <ToneSection id="portofolio-lainnya" tone="surface-muted" title={OTHERS_TITLE}>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <li key={item.id}>
             <Card className="h-full">
-              <h3 className="text-xl font-semibold text-foreground">
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
                 <Link href={`/portofolio/${item.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
                   {item.title}
                 </Link>
@@ -81,7 +82,7 @@ function OtherItems({ items }: { items: PortfolioItem[] }) {
           </li>
         ))}
       </ul>
-    </Section>
+    </ToneSection>
   );
 }
 

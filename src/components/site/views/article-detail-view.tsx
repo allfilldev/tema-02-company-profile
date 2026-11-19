@@ -5,10 +5,10 @@ import { AuthorByline } from "@/components/site/contract/author-byline";
 import { FaqList } from "@/components/site/contract/faq-list";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
+import { ToneSection } from "@/components/site/sections/tone-section";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { Section } from "@/components/ui/section";
 import type { Article } from "@/core/domain/article/article";
 import type { ArticleDetailModel } from "@/server/site/models/articles";
 
@@ -24,13 +24,13 @@ function RelatedArticles({ articles }: { articles: Article[] }) {
   }
 
   return (
-    <Section id="artikel-terkait" title={RELATED_TITLE} className="border-t border-border bg-surface">
+    <ToneSection id="artikel-terkait" tone="surface-muted" title={RELATED_TITLE}>
       <div data-nosnippet>
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <li key={article.id}>
               <Card className="h-full">
-                <h3 className="text-xl font-semibold text-foreground">
+                <h3 className="text-xl font-bold tracking-tight text-foreground">
                   <Link href={`/artikel/${article.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
                     {article.title}
                   </Link>
@@ -41,7 +41,7 @@ function RelatedArticles({ articles }: { articles: Article[] }) {
           ))}
         </ul>
       </div>
-    </Section>
+    </ToneSection>
   );
 }
 

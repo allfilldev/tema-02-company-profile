@@ -22,7 +22,7 @@ const FORM_HEADING = "Kirim pesan kepada kami";
 const DETAILS_HEADING = "Informasi kontak";
 const MAP_HEADING = "Lokasi kami";
 const WHATSAPP_LINK_LABEL = "Chat lewat WhatsApp";
-const HEADING_CLASS_NAME = "text-2xl font-bold tracking-tight text-foreground md:text-3xl";
+const HEADING_CLASS_NAME = "text-2xl font-extrabold tracking-tighter text-foreground md:text-3xl";
 const LINK_CLASS_NAME =
   "inline-flex min-h-11 items-center font-medium text-primary underline underline-offset-4 hover:text-primary-hover";
 
@@ -33,7 +33,9 @@ function phoneHref(phone: string): string {
 function ContactRow({ icon, label, children }: ContactRowProps) {
   return (
     <div className="flex gap-3">
-      <Icon name={icon} className="mt-1 size-5 shrink-0 text-primary" />
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+        <Icon name={icon} className="size-5 shrink-0" />
+      </span>
       <div>
         <dt className="text-sm font-semibold text-foreground">{label}</dt>
         <dd className="text-base text-muted-foreground">{children}</dd>
@@ -98,7 +100,7 @@ export function ContactView({ model }: ContactViewProps) {
       {settings.mapsEmbedUrl ? (
         <Reveal>
           <Section id="lokasi" title={MAP_HEADING}>
-            <div className="aspect-video overflow-hidden rounded-lg border border-border">
+            <div className="aspect-video overflow-hidden rounded-2xl border border-border shadow-soft">
               <iframe
                 src={settings.mapsEmbedUrl}
                 title={`Peta lokasi ${settings.siteName}`}
