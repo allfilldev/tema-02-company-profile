@@ -45,7 +45,7 @@ describe("AdminShell", () => {
   it("shows who is signed in, a sign out button, and the page content in the main area", () => {
     expect(markup).toContain("admin@contoh.id");
     expect(markup).toMatch(/<button[^>]*type="submit"[^>]*>Keluar<\/button>/);
-    expect(markup).toMatch(/<a[^>]*href="\/"[^>]*target="_blank"[^>]*>Lihat situs<\/a>/);
+    expect(markup).toMatch(/<a[^>]*href="\/"[^>]*target="_blank"[^>]*>(?:<svg[\s\S]*?<\/svg>)?Lihat situs<\/a>/);
     expect(markup).toMatch(/<main[^>]*>[\s\S]*<h1>Layanan baru<\/h1>/);
     expect(markup.match(/<main/g)).toHaveLength(1);
   });

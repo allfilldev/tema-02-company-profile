@@ -29,8 +29,8 @@ export function AdminSearch({ menu }: AdminSearchProps) {
   }
 
   return (
-    <div className="relative min-w-0 flex-1 md:max-w-md">
-      <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+    <div className="relative min-w-0 flex-1 md:max-w-sm">
+      <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
       <input
         type="search"
         aria-label="Cari menu"
@@ -39,7 +39,7 @@ export function AdminSearch({ menu }: AdminSearchProps) {
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         onKeyDown={handleKeyDown}
-        className="min-h-11 w-full rounded-full border border-border bg-surface-muted pl-11 pr-4 text-base text-foreground placeholder:text-muted-foreground focus-visible:border-primary"
+        className="min-h-11 w-full rounded-full border border-transparent bg-surface pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus-visible:border-primary"
       />
       {searching ? (
         <div className="absolute inset-x-0 top-full z-30 mt-2 rounded-2xl border border-border bg-surface p-2 shadow-soft">

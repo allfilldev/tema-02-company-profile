@@ -1,7 +1,7 @@
 "use client";
 
-import { LockKeyhole } from "lucide-react";
 import { useActionState } from "react";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,8 @@ export function LoginForm() {
       <div aria-hidden="true" className="shape-blob absolute -left-24 -top-24 size-80 bg-sidebar opacity-90" />
       <div aria-hidden="true" className="shape-blob absolute -bottom-32 -right-24 size-96 bg-accent" />
       <div className="relative mx-auto w-full max-w-md px-4">
-        <div className="rounded-2xl border border-border bg-surface p-6 shadow-soft md:p-8">
-          <span aria-hidden="true" className="flex size-12 items-center justify-center rounded-full bg-sidebar text-surface-inverse-foreground">
-            <LockKeyhole className="size-6" />
-          </span>
+        <div className="rounded-2xl bg-surface p-6 shadow-soft md:p-8">
+          <BrandLogo tone="on-light" name="Admin" />
           <h1 className="mt-5 font-heading text-2xl font-bold text-foreground">Masuk admin</h1>
           <p className="mt-1 text-muted-foreground">Gunakan akun admin untuk mengelola situs.</p>
           <form action={formAction} className="mt-6 flex flex-col gap-4" noValidate>

@@ -23,7 +23,7 @@ export function AdminBell({ unreadMessages }: AdminBellProps) {
         <span
           data-unread-badge=""
           aria-hidden="true"
-          className="absolute right-0 top-0 inline-flex min-w-5 items-center justify-center rounded-full bg-danger px-1 text-xs font-bold leading-5 text-surface"
+          className="absolute right-1 top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-xs font-bold leading-4 text-surface"
         >
           {visibleCount}
         </span>

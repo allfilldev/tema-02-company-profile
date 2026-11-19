@@ -20,10 +20,10 @@ export function AdminTable<Row>({ rows, columns, rowKey, empty }: AdminTableProp
   return (
     <div className="overflow-x-auto rounded-2xl bg-surface shadow-soft">
       <table className="w-full border-collapse text-left text-sm">
-        <thead className="bg-surface-muted text-muted-foreground">
+        <thead className="bg-surface-muted text-xs text-foreground">
           <tr>
             {columns.map((column) => (
-              <th key={column.header} scope="col" className="whitespace-nowrap px-4 py-3 font-semibold">
+              <th key={column.header} scope="col" className="whitespace-nowrap px-5 py-3 font-semibold">
                 {column.header}
               </th>
             ))}
@@ -31,9 +31,9 @@ export function AdminTable<Row>({ rows, columns, rowKey, empty }: AdminTableProp
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={rowKey(row)} className="border-t border-border align-top even:bg-surface-muted">
+            <tr key={rowKey(row)} className="border-t border-secondary align-top">
               {columns.map((column) => (
-                <td key={column.header} className="px-4 py-3">
+                <td key={column.header} className="px-5 py-3">
                   {column.cell(row)}
                 </td>
               ))}

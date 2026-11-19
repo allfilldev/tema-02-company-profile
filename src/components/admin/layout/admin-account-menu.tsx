@@ -15,6 +15,7 @@ export function AdminAccountMenu({ email, children }: AdminAccountMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const initial = email.trim().charAt(0).toUpperCase();
+  const displayName = email.split("@")[0];
 
   useEffect(() => {
     if (!open) {
@@ -49,12 +50,13 @@ export function AdminAccountMenu({ email, children }: AdminAccountMenuProps) {
         aria-expanded={open}
         aria-controls={PANEL_ID}
         onClick={() => setOpen((current) => !current)}
-        className="inline-flex min-h-11 items-center gap-2 rounded-full pl-1 pr-2 text-foreground transition-colors hover:bg-secondary"
+        className="inline-flex min-h-11 max-w-48 items-center gap-2 rounded-full pl-1 pr-2 text-foreground transition-colors hover:bg-secondary"
       >
         <span aria-hidden="true" className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
           {initial}
         </span>
-        <ChevronDown aria-hidden="true" className="hidden size-4 sm:block" />
+        <span className="hidden min-w-0 truncate text-sm font-medium md:block">{displayName}</span>
+        <ChevronDown aria-hidden="true" className="hidden size-4 shrink-0 sm:block" />
       </button>
       <div
         id={PANEL_ID}

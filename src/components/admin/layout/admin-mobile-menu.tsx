@@ -2,11 +2,13 @@
 
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { AdminNav } from "@/components/admin/layout/admin-nav";
 import type { AdminMenuItem } from "@/lib/admin/admin-menu";
 
 type AdminMobileMenuProps = {
   menu: AdminMenuItem[];
+  siteName?: string;
 };
 
 const PANEL_ID = "admin-mobile-menu";
@@ -14,7 +16,7 @@ const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
 const TRIGGER_CLASS_NAME =
   "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary";
 
-export function AdminMobileMenu({ menu }: AdminMobileMenuProps) {
+export function AdminMobileMenu({ menu, siteName = "Admin" }: AdminMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -71,7 +73,7 @@ export function AdminMobileMenu({ menu }: AdminMobileMenuProps) {
         onClick={() => setOpen((current) => !current)}
         className={TRIGGER_CLASS_NAME}
       >
-        <Menu aria-hidden="true" className="size-6" />
+        <Menu aria-hidden="true" className="size-5" />
       </button>
       {open ? (
         <div className="fixed inset-0 z-40">
@@ -86,7 +88,7 @@ export function AdminMobileMenu({ menu }: AdminMobileMenuProps) {
             className="relative flex h-full w-72 max-w-full flex-col gap-6 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground shadow-soft"
           >
             <div className="flex items-center justify-between gap-3">
-              <p className="px-3 font-heading text-lg font-bold text-surface-inverse-foreground">Admin</p>
+              <BrandLogo tone="on-dark" name={siteName} className="min-w-0 [&>span:last-child]:truncate" />
               <button
                 type="button"
                 aria-label="Tutup menu"
