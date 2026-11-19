@@ -12,6 +12,7 @@ import type { PortfolioItem } from "@/core/domain/portfolio/portfolio-item";
 import type { Repositories } from "@/core/domain/repositories";
 import type { Service } from "@/core/domain/service/service";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import type { SectionKey } from "@/core/domain/shared/section-key";
 import type { Stat } from "@/core/domain/stat/stat";
 import type { TeamMember } from "@/core/domain/team/team-member";
@@ -160,6 +161,13 @@ async function loadContentBlock(key: string): Promise<ContentBlock | null> {
   return readRepositories().contentBlocks.findPublishedByKey(key);
 }
 
+async function loadMediaLibrary(): Promise<MediaAsset[]> {
+  "use cache";
+  cacheLife(PUBLIC_CACHE_LIFE);
+  cacheTag(CACHE_TAGS.media);
+  return readRepositories().media.listAll();
+}
+
 export function createCachedSupabaseRepositories(): Repositories {
   return {
     siteSettings: { get: () => loadSettings() },
@@ -191,5 +199,6 @@ export function createCachedSupabaseRepositories(): Repositories {
       findPublishedBySlug: (slug) => loadArticle(slug),
     },
     contentBlocks: { findPublishedByKey: (key) => loadContentBlock(key) },
+    media: { listAll: () => loadMediaLibrary() },
   };
 }

@@ -1,5 +1,6 @@
 import { Children, isValidElement, type ComponentProps } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import remarkGfm from "remark-gfm";
 import { joinClassNames } from "@/lib/ui/class-names";
 
@@ -10,44 +11,50 @@ const EXTERNAL_LINK_PATTERN = /^(?:https?:)?\/\//i;
 type MarkdownContentProps = {
   source: string;
   className?: string;
+  mediaSizes?: MediaSizes;
 };
 
-function MarkdownImage({ src, alt }: ComponentProps<"img">) {
-  if (!src) {
-    return null;
-  }
-  return (
-    <img
-      src={src}
-      alt={alt ?? ""}
-      width={IMAGE_WIDTH}
-      height={IMAGE_HEIGHT}
-      loading="lazy"
-      decoding="async"
-      style={{ height: "auto" }}
-      className="max-w-full rounded-md"
-    />
-  );
-}
-
-function MarkdownParagraph({ children }: ComponentProps<"p">) {
-  const parts = Children.toArray(children).filter((part) => !(typeof part === "string" && part.trim() === ""));
-  const [only] = parts;
-
-  if (parts.length === 1 && isValidElement<ComponentProps<"img">>(only) && only.type === MarkdownImage) {
-    const { src, alt, title } = only.props;
+function createImageComponents(mediaSizes: MediaSizes | undefined): Pick<Components, "img" | "p"> {
+  function MarkdownImage({ src, alt }: ComponentProps<"img">) {
     if (!src) {
       return null;
     }
+    const size = typeof src === "string" ? mediaSizes?.[src] : undefined;
     return (
-      <figure className="my-6">
-        <MarkdownImage src={src} alt={alt} />
-        {title ? <figcaption className="mt-2 text-sm text-muted-foreground">{title}</figcaption> : null}
-      </figure>
+      <img
+        src={src}
+        alt={alt ?? ""}
+        width={size?.width ?? IMAGE_WIDTH}
+        height={size?.height ?? IMAGE_HEIGHT}
+        loading="lazy"
+        decoding="async"
+        style={{ height: "auto" }}
+        className="max-w-full rounded-md"
+      />
     );
   }
 
-  return <p className="my-4">{children}</p>;
+  function MarkdownParagraph({ children }: ComponentProps<"p">) {
+    const parts = Children.toArray(children).filter((part) => !(typeof part === "string" && part.trim() === ""));
+    const [only] = parts;
+
+    if (parts.length === 1 && isValidElement<ComponentProps<"img">>(only) && only.type === MarkdownImage) {
+      const { src, alt, title } = only.props;
+      if (!src) {
+        return null;
+      }
+      return (
+        <figure className="my-6">
+          <MarkdownImage src={src} alt={alt} />
+          {title ? <figcaption className="mt-2 text-sm text-muted-foreground">{title}</figcaption> : null}
+        </figure>
+      );
+    }
+
+    return <p className="my-4">{children}</p>;
+  }
+
+  return { img: MarkdownImage, p: MarkdownParagraph };
 }
 
 function MarkdownLink({ href, children }: ComponentProps<"a">) {
@@ -82,16 +89,14 @@ function MarkdownBoldHeading({ children }: ComponentProps<"h4">) {
   );
 }
 
-const COMPONENTS: Components = {
+const BASE_COMPONENTS: Components = {
   h1: MarkdownSectionHeading,
   h2: MarkdownSectionHeading,
   h3: ({ children }) => <h3 className="mb-3 mt-8 text-xl font-semibold text-foreground">{children}</h3>,
   h4: MarkdownBoldHeading,
   h5: MarkdownBoldHeading,
   h6: MarkdownBoldHeading,
-  p: MarkdownParagraph,
   a: MarkdownLink,
-  img: MarkdownImage,
   ul: ({ children, className }) => (
     <ul className={joinClassNames("my-4 list-disc space-y-2 pl-6", className)}>{children}</ul>
   ),
@@ -126,10 +131,12 @@ const COMPONENTS: Components = {
   ),
 };
 
-export function MarkdownContent({ source, className }: MarkdownContentProps) {
+export function MarkdownContent({ source, className, mediaSizes }: MarkdownContentProps) {
+  const components: Components = { ...BASE_COMPONENTS, ...createImageComponents(mediaSizes) };
+
   return (
     <div className={joinClassNames("text-base leading-7 text-foreground", className)}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={COMPONENTS}>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {source}
       </ReactMarkdown>
     </div>

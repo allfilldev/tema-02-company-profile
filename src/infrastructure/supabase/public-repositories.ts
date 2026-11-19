@@ -254,6 +254,12 @@ export function createSupabaseRepositories(client: DataClient): Repositories {
         return rows.map((row) => toPartner(row, media));
       },
     },
+    media: {
+      async listAll() {
+        const rows = await selectRows<MediaRow>(client, "media", MEDIA_COLUMNS, (query) => query);
+        return rows.map(toMediaAsset);
+      },
+    },
     articles: {
       async listPublished({ offset, limit }) {
         const { data, count } = await execute(

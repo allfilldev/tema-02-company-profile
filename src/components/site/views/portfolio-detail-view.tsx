@@ -85,7 +85,7 @@ function OtherItems({ items }: { items: PortfolioItem[] }) {
 }
 
 export function PortfolioDetailView({ model }: PortfolioDetailViewProps) {
-  const { item, others } = model;
+  const { item, others, mediaSizes } = model;
 
   return (
     <>
@@ -93,7 +93,7 @@ export function PortfolioDetailView({ model }: PortfolioDetailViewProps) {
       <Section id="studi-kasus">
         <div className="max-w-3xl space-y-8">
           <ProjectFacts item={item} />
-          <MarkdownContent source={item.bodyMd} />
+          <MarkdownContent source={item.bodyMd} mediaSizes={mediaSizes} />
         </div>
       </Section>
       <ProjectGallery item={item} />

@@ -6,6 +6,7 @@ import type { HomeContent } from "@/core/domain/page/home-content";
 import type { LegalPage, LegalSlug } from "@/core/domain/page/legal-page";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import type { SectionKey } from "@/core/domain/shared/section-key";
 import type { ThemeConfig } from "@/core/domain/theme/theme-config";
 import { isModuleEnabled, isModuleKey } from "@/core/application/site/module-guard";
@@ -18,6 +19,7 @@ export type PageQueries = {
   getSectionIntro(key: SectionKey): Promise<SectionIntro | null>;
   getLegalPage(slug: LegalSlug): Promise<LegalPage | null>;
   getContentBlock(key: string): Promise<ContentBlock | null>;
+  getMediaSizes(): Promise<MediaSizes>;
 };
 
 export function createPageQueries(repositories: Repositories, theme: ThemeConfig): PageQueries {
@@ -44,6 +46,10 @@ export function createPageQueries(repositories: Repositories, theme: ThemeConfig
         return null;
       }
       return repositories.contentBlocks.findPublishedByKey(key);
+    },
+    async getMediaSizes() {
+      const assets = await repositories.media.listAll();
+      return Object.fromEntries(assets.map((asset) => [asset.url, { width: asset.width, height: asset.height }]));
     },
   };
 }

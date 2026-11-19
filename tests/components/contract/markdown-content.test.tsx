@@ -167,3 +167,33 @@ describe("MarkdownContent tables and raw html", () => {
     expect(markup).toContain("<em>miring</em>");
   });
 });
+
+describe("MarkdownContent mediaSizes", () => {
+  const mediaSizes = { "/uploads/potret.webp": { width: 800, height: 1200 } };
+
+  function renderWithSizes(source: string): string {
+    return renderToStaticMarkup(<MarkdownContent source={source} mediaSizes={mediaSizes} />);
+  }
+
+  it("renders an image from the library with its real dimensions", () => {
+    const markup = renderWithSizes('![Potret](/uploads/potret.webp "Keterangan")');
+
+    expect(markup).toContain('width="800"');
+    expect(markup).toContain('height="1200"');
+    expect(markup).not.toContain('width="1200"');
+  });
+
+  it("keeps the default 1200x800 for an image that is not in the library", () => {
+    const markup = renderWithSizes("![Luar](/lain.webp)");
+
+    expect(markup).toContain('width="1200"');
+    expect(markup).toContain('height="800"');
+  });
+
+  it("keeps the default size for every image when no sizes are given", () => {
+    const markup = render("![Potret](/uploads/potret.webp)");
+
+    expect(markup).toContain('width="1200"');
+    expect(markup).toContain('height="800"');
+  });
+});

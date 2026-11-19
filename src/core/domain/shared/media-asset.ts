@@ -5,3 +5,5 @@ export type MediaAsset = {
   width: number;
   height: number;
 };
+
+export type MediaSizes = Record<string, { width: number; height: number }>;

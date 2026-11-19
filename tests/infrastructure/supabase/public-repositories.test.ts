@@ -304,3 +304,24 @@ describe("fetchRouteCatalog", () => {
     await expect(fetchRouteCatalog(client)).rejects.toThrow(/route catalog/);
   });
 });
+
+describe("media repository", () => {
+  it("lists every media row as an asset with its url and dimensions", async () => {
+    const { client, calls } = createFakeClient(() =>
+      ok([
+        { id: "m1", url: "https://files.example/a.webp", alt: "A", width: 1920, height: 1280 },
+        { id: "m2", url: "/demo/general/b.webp", alt: "B", width: 600, height: 160 },
+      ]),
+    );
+
+    const media = await createSupabaseRepositories(client).media.listAll();
+
+    expect(calls[0].table).toBe("media");
+    expect(calls[0].columns).toBe("id,url,alt,width,height");
+    expect(media).toEqual([
+      { id: "m1", url: "https://files.example/a.webp", alt: "A", width: 1920, height: 1280 },
+      { id: "m2", url: "/demo/general/b.webp", alt: "B", width: 600, height: 160 },
+    ]);
+  });
+});
+

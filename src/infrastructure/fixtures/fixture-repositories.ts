@@ -1,4 +1,5 @@
 import type { Repositories } from "@/core/domain/repositories";
+import { collectMediaAssets } from "@/infrastructure/fixtures/collect-media";
 import type { ContentPack } from "@/core/domain/content-pack/content-pack";
 
 function sortBySortOrder<Item extends { sortOrder: number }>(items: Item[]): Item[] {
@@ -56,6 +57,9 @@ export function createFixtureRepositories(pack: ContentPack): Repositories {
     },
     contentBlocks: {
       findPublishedByKey: async (key) => pack.contentBlocks.find((block) => block.key === key) ?? null,
+    },
+    media: {
+      listAll: async () => collectMediaAssets(pack),
     },
   };
 }

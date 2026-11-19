@@ -1,4 +1,5 @@
 import type { SiteQueries } from "@/core/application/site/site-queries";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { PortfolioItem } from "@/core/domain/portfolio/portfolio-item";
 import { buildPortfolioJsonLd } from "@/lib/seo/json-ld";
@@ -26,6 +27,7 @@ export type PortfolioDetailModel = {
   seo: PageSeoResult;
   item: PortfolioItem;
   others: PortfolioItem[];
+  mediaSizes: MediaSizes;
 };
 
 export async function getPortfolioIndexModel(
@@ -62,7 +64,7 @@ export async function getPortfolioDetailModel(
     return null;
   }
 
-  const items = await queries.listPortfolio();
+  const [items, mediaSizes] = await Promise.all([queries.listPortfolio(), queries.getMediaSizes()]);
   const path = `${PORTFOLIO_PATH}/${item.slug}`;
 
   return {
@@ -76,6 +78,7 @@ export async function getPortfolioDetailModel(
     }),
     item,
     others: takeOthers(items, item.slug, OTHER_ITEMS_LIMIT),
+    mediaSizes,
   };
 }
 

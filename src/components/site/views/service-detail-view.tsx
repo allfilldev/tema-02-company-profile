@@ -39,14 +39,14 @@ function OtherServices({ services }: { services: Service[] }) {
 }
 
 export function ServiceDetailView({ model }: ServiceDetailViewProps) {
-  const { service, others } = model;
+  const { service, others, mediaSizes } = model;
 
   return (
     <>
       <PageHero title={service.title} description={service.summary} image={service.cover} />
       <Section id="isi-layanan">
         <div className="max-w-3xl">
-          <MarkdownContent source={service.bodyMd} />
+          <MarkdownContent source={service.bodyMd} mediaSizes={mediaSizes} />
         </div>
       </Section>
       {service.faq.length > 0 ? (

@@ -1,4 +1,5 @@
 import type { SiteQueries } from "@/core/application/site/site-queries";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import { LEGAL_SLUGS, type LegalPage, type LegalSlug } from "@/core/domain/page/legal-page";
 import type { SiteContext } from "@/server/site/site-context";
 import { buildPageSeo, HOME_BREADCRUMB, type PageSeoResult } from "@/server/site/models/page-seo";
@@ -6,6 +7,7 @@ import { buildPageSeo, HOME_BREADCRUMB, type PageSeoResult } from "@/server/site
 export type LegalPageModel = {
   seo: PageSeoResult;
   page: LegalPage;
+  mediaSizes: MediaSizes;
 };
 
 function isLegalSlug(slug: string): slug is LegalSlug {
@@ -21,7 +23,7 @@ export async function getLegalPageModel(
     return null;
   }
 
-  const page = await queries.getLegalPage(slug);
+  const [page, mediaSizes] = await Promise.all([queries.getLegalPage(slug), queries.getMediaSizes()]);
   if (!page) {
     return null;
   }
@@ -38,5 +40,6 @@ export async function getLegalPageModel(
       jsonLd: [],
     }),
     page,
+    mediaSizes,
   };
 }

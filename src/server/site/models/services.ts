@@ -1,4 +1,5 @@
 import type { SiteQueries } from "@/core/application/site/site-queries";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { Service } from "@/core/domain/service/service";
 import { buildFaqJsonLd, buildServiceJsonLd, type JsonLd } from "@/lib/seo/json-ld";
@@ -26,6 +27,7 @@ export type ServiceDetailModel = {
   seo: PageSeoResult;
   service: Service;
   others: Service[];
+  mediaSizes: MediaSizes;
 };
 
 export async function getServicesIndexModel(
@@ -62,7 +64,7 @@ export async function getServiceDetailModel(
     return null;
   }
 
-  const services = await queries.listServices();
+  const [services, mediaSizes] = await Promise.all([queries.listServices(), queries.getMediaSizes()]);
   const path = `${SERVICES_PATH}/${service.slug}`;
   const faqJsonLd = buildFaqJsonLd(service.faq);
   const jsonLd: JsonLd[] = [
@@ -81,6 +83,7 @@ export async function getServiceDetailModel(
     }),
     service,
     others: takeOthers(services, service.slug, OTHER_SERVICES_LIMIT),
+    mediaSizes,
   };
 }
 

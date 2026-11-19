@@ -45,7 +45,7 @@ function RelatedArticles({ articles }: { articles: Article[] }) {
 }
 
 export function ArticleDetailView({ model }: ArticleDetailViewProps) {
-  const { article, authorFacts, related } = model;
+  const { article, authorFacts, related, mediaSizes } = model;
 
   return (
     <>
@@ -58,7 +58,7 @@ export function ArticleDetailView({ model }: ArticleDetailViewProps) {
       <Container className="py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-3 lg:items-start lg:gap-12">
           <article className="min-w-0 space-y-12 lg:col-span-2">
-            <MarkdownContent source={article.bodyMd} />
+            <MarkdownContent source={article.bodyMd} mediaSizes={mediaSizes} />
             <FaqList items={article.faq} />
           </article>
           <div className="lg:sticky lg:top-24 lg:col-span-1">

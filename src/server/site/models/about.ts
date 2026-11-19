@@ -2,6 +2,7 @@ import type { SiteQueries } from "@/core/application/site/site-queries";
 import type { AboutContent } from "@/core/domain/page/about-content";
 import type { CompanyVision } from "@/core/domain/page/company-vision";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import type { SectionKey } from "@/core/domain/shared/section-key";
 import type { Stat } from "@/core/domain/stat/stat";
 import type { TeamMember } from "@/core/domain/team/team-member";
@@ -20,15 +21,17 @@ export type AboutPageModel = {
   team: TeamMember[];
   stats: Stat[];
   intros: Partial<Record<SectionKey, SectionIntro>>;
+  mediaSizes: MediaSizes;
 };
 
 export async function getAboutPageModel(queries: SiteQueries, context: SiteContext): Promise<AboutPageModel> {
-  const [about, vision, team, stats, intros] = await Promise.all([
+  const [about, vision, team, stats, intros, mediaSizes] = await Promise.all([
     queries.getAbout(),
     queries.getVision(),
     queries.listTeam(),
     queries.listStats(),
     collectSectionIntros(queries, ABOUT_INTRO_KEYS),
+    queries.getMediaSizes(),
   ]);
 
   return {
@@ -45,5 +48,6 @@ export async function getAboutPageModel(queries: SiteQueries, context: SiteConte
     team,
     stats,
     intros,
+    mediaSizes,
   };
 }

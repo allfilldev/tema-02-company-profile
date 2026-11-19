@@ -1,5 +1,6 @@
 import type { ArticleRepository } from "@/core/domain/article/article-repository";
 import type { ContentBlockRepository } from "@/core/domain/content-block/content-block-repository";
+import type { MediaRepository } from "@/core/domain/media/media-repository";
 import type { PageContentRepository } from "@/core/domain/page/page-content-repository";
 import type { PartnerRepository } from "@/core/domain/partner/partner-repository";
 import type { PortfolioRepository } from "@/core/domain/portfolio/portfolio-repository";
@@ -20,4 +21,5 @@ export type Repositories = {
   partners: PartnerRepository;
   articles: ArticleRepository;
   contentBlocks: ContentBlockRepository;
+  media: MediaRepository;
 };

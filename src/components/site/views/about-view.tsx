@@ -24,7 +24,7 @@ export function AboutView({ model }: AboutViewProps) {
       {hasProfile ? (
         <Section id="profil">
           <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
-            <MarkdownContent source={about.bodyMd} />
+            <MarkdownContent source={about.bodyMd} mediaSizes={model.mediaSizes} />
             {about.image ? (
               <div className="overflow-hidden rounded-xl border border-border shadow-card">
                 <SiteImage media={about.image} priority sizes={PROFILE_IMAGE_SIZES} className="w-full" />

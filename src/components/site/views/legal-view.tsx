@@ -1,3 +1,4 @@
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Container } from "@/components/ui/container";
@@ -11,7 +12,7 @@ type LegalViewProps = {
 
 const UPDATED_LABEL = "Diperbarui terakhir";
 
-export function LegalDocument({ page }: { page: LegalPage }) {
+export function LegalDocument({ page, mediaSizes }: { page: LegalPage; mediaSizes?: MediaSizes }) {
   return (
     <>
       <PageHero title={page.title} description={page.intro} />
@@ -29,7 +30,7 @@ export function LegalDocument({ page }: { page: LegalPage }) {
                   <h2 id={headingId} className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
                     {section.heading}
                   </h2>
-                  <MarkdownContent source={section.bodyMd} className="mt-4" />
+                  <MarkdownContent source={section.bodyMd} className="mt-4" mediaSizes={mediaSizes} />
                 </section>
               );
             })}
@@ -41,5 +42,5 @@ export function LegalDocument({ page }: { page: LegalPage }) {
 }
 
 export function LegalView({ model }: LegalViewProps) {
-  return <LegalDocument page={model.page} />;
+  return <LegalDocument page={model.page} mediaSizes={model.mediaSizes} />;
 }

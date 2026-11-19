@@ -232,3 +232,16 @@ describe("site queries", () => {
     expect((await queries.getLegalPage("privasi"))!.slug).toBe("privasi");
   });
 });
+
+describe("site queries media sizes", () => {
+  it("maps every library image url to its real dimensions", async () => {
+    const pack = buildTestPack();
+    pack.services[0] = { ...pack.services[0], cover: { ...pack.services[0].cover!, width: 640, height: 480 } };
+
+    const sizes = await buildQueries(pack).getMediaSizes();
+
+    expect(sizes[pack.services[0].cover!.url]).toEqual({ width: 640, height: 480 });
+    expect(sizes[pack.settings.logo!.url]).toEqual({ width: 1200, height: 800 });
+  });
+});
+

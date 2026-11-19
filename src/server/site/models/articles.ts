@@ -1,5 +1,6 @@
 import type { SiteQueries } from "@/core/application/site/site-queries";
 import type { Article, ArticleWithAuthor } from "@/core/domain/article/article";
+import type { MediaSizes } from "@/core/domain/shared/media-asset";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { TeamMember } from "@/core/domain/team/team-member";
 import { buildArticleJsonLd, buildFaqJsonLd, type JsonLd } from "@/lib/seo/json-ld";
@@ -42,6 +43,7 @@ export type ArticleDetailModel = {
   article: ArticleWithAuthor;
   authorFacts: AuthorFacts;
   related: Article[];
+  mediaSizes: MediaSizes;
 };
 
 async function resolveCard(queries: SiteQueries, article: Article): Promise<ArticleCardData> {
@@ -106,9 +108,10 @@ export async function getArticleDetailModel(
     return null;
   }
 
-  const [related, completedProjectsStat] = await Promise.all([
+  const [related, completedProjectsStat, mediaSizes] = await Promise.all([
     queries.listRelatedArticles(article.slug),
     queries.getStatByKey("completed_projects"),
+    queries.getMediaSizes(),
   ]);
   const path = `${ARTICLES_PATH}/${article.slug}`;
   const faqJsonLd = buildFaqJsonLd(article.faq);
@@ -135,6 +138,7 @@ export async function getArticleDetailModel(
       completedProjects: completedProjectsStat?.value ?? null,
     },
     related,
+    mediaSizes,
   };
 }
 
