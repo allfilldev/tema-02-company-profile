@@ -59,7 +59,12 @@ Sesuaikan `src/components/skeletons/` dengan susunan dan tinggi section yang bar
 
 ## 9. Cek admin
 
-Panel admin dan mode `DATA_SOURCE=supabase` baru tersedia setelah Rencana 3. Sampai saat itu langkah ini dilewati.
+Mode `DATA_SOURCE=supabase` dan login admin sudah tersedia. Panel di balik login masih berupa dashboard sementara sampai antarmuka admin selesai (Rencana 3b), jadi langkah ini baru memeriksa bahwa website publik berjalan di atas Supabase dengan token tema dan login berfungsi.
+
+1. Siapkan `.env.local` di folder tema berisi `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `SUPABASE_DB_URL`, dan `CONTACT_IP_SALT` dari project Supabase pengembangan bersama (jangan di-commit).
+2. `npm run db:migrate` (bila migrasi belum diterapkan), lalu `npm run seed:generate` dan `npm run db:seed -- --yes`. Perintah terakhir mengosongkan data konten, media, dan pesan di project bersama, lalu mengisinya dari paket konten tema ini.
+3. `npm run admin:create -- <email>` bila akun admin belum ada (password diketik di terminal).
+4. Jalankan pratinjau dengan `DATA_SOURCE=supabase` (entri `company-profile-supabase` di `.claude/launch.json`, port 3002), lalu periksa beranda, halaman layanan, artikel, dan kontak dengan token tema, serta login di `/admin/login`.
 
 ## 10. Demo
 

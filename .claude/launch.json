@@ -1,1 +1,12 @@
-{"version":"0.0.1","configurations":[{"name":"company-profile-dev","runtimeExecutable":"npm","runtimeArgs":["run","dev"],"port":3000}]}
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "company-profile-dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 3000 },
+    {
+      "name": "company-profile-supabase",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "DATA_SOURCE=supabase npm run dev -- --port 3002"],
+      "port": 3002
+    }
+  ]
+}
