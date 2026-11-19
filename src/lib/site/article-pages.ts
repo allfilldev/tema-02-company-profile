@@ -1,4 +1,5 @@
-const ARTICLES_PATH = "/artikel";
+import { SITE_ROUTES } from "@/lib/site/routes";
+const ARTICLES_PATH = SITE_ROUTES.articles;
 const PAGE_PARAM_PATTERN = /^[1-9][0-9]*$/;
 export const FIRST_PAGINATED_PAGE = 2;
 

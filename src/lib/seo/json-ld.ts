@@ -6,6 +6,7 @@ import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import type { TeamMember } from "@/core/domain/team/team-member";
 import { absoluteAssetUrl, absoluteUrl } from "@/lib/seo/site-url";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
 export type JsonLd = Record<string, unknown>;
 
@@ -90,7 +91,7 @@ export function buildServiceJsonLd(service: Service, settings: SiteSettings, sit
     name: service.title,
     description: service.summary,
     provider: organizationReference(settings, siteUrl),
-    url: absoluteUrl(siteUrl, `/layanan/${service.slug}`),
+    url: absoluteUrl(siteUrl, `${SITE_ROUTES.services}/${service.slug}`),
     ...imageField(service.cover, siteUrl),
   };
 }
@@ -104,12 +105,12 @@ export function buildPortfolioJsonLd(item: PortfolioItem, settings: SiteSettings
     creator: organizationReference(settings, siteUrl),
     ...(item.completedOn ? { dateCreated: item.completedOn } : {}),
     ...imageField(item.cover, siteUrl),
-    url: absoluteUrl(siteUrl, `/portofolio/${item.slug}`),
+    url: absoluteUrl(siteUrl, `${SITE_ROUTES.portfolio}/${item.slug}`),
   };
 }
 
 export function buildArticleJsonLd(article: ArticleWithAuthor, settings: SiteSettings, siteUrl: string): JsonLd {
-  const articleUrl = absoluteUrl(siteUrl, `/artikel/${article.slug}`);
+  const articleUrl = absoluteUrl(siteUrl, `${SITE_ROUTES.articles}/${article.slug}`);
   return {
     "@context": SCHEMA_CONTEXT,
     "@type": "BlogPosting",
@@ -123,7 +124,7 @@ export function buildArticleJsonLd(article: ArticleWithAuthor, settings: SiteSet
       name: article.author.name,
       jobTitle: article.author.jobTitle,
       worksFor: organizationReference(settings, siteUrl),
-      url: absoluteUrl(siteUrl, "/tentang"),
+      url: absoluteUrl(siteUrl, SITE_ROUTES.about),
       ...(article.author.profiles.length > 0 ? { sameAs: article.author.profiles } : {}),
     },
     publisher: {

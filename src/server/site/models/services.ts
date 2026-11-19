@@ -10,8 +10,9 @@ import {
   takeOthers,
   type PageSeoResult,
 } from "@/server/site/models/page-seo";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
-const SERVICES_PATH = "/layanan";
+const SERVICES_PATH = SITE_ROUTES.services;
 const SERVICES_BREADCRUMB = { name: "Layanan", path: SERVICES_PATH };
 const OTHER_SERVICES_LIMIT = 3;
 

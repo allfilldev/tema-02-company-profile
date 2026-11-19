@@ -7,6 +7,7 @@ import type { SitemapPage } from "@/lib/seo/sitemap";
 import { articlePageHref } from "@/lib/site/article-pages";
 import { LEGAL_LINKS } from "@/server/site/navigation";
 import type { SiteContext } from "@/server/site/site-context";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
 function toIso(isoDate: string): string {
   return new Date(isoDate).toISOString();
@@ -27,8 +28,8 @@ async function getServicePages(queries: SiteQueries, fallbackDate: string): Prom
 
   const services = await queries.listServices();
   return [
-    { path: "/layanan", lastModified: newestIsoDate(services.map((service) => service.updatedAt), fallbackDate) },
-    ...services.map((service) => ({ path: `/layanan/${service.slug}`, lastModified: toIso(service.updatedAt) })),
+    { path: SITE_ROUTES.services, lastModified: newestIsoDate(services.map((service) => service.updatedAt), fallbackDate) },
+    ...services.map((service) => ({ path: `${SITE_ROUTES.services}/${service.slug}`, lastModified: toIso(service.updatedAt) })),
   ];
 }
 
@@ -39,8 +40,8 @@ async function getPortfolioPages(queries: SiteQueries, fallbackDate: string): Pr
 
   const items = await queries.listPortfolio();
   return [
-    { path: "/portofolio", lastModified: newestIsoDate(items.map((item) => item.updatedAt), fallbackDate) },
-    ...items.map((item) => ({ path: `/portofolio/${item.slug}`, lastModified: toIso(item.updatedAt) })),
+    { path: SITE_ROUTES.portfolio, lastModified: newestIsoDate(items.map((item) => item.updatedAt), fallbackDate) },
+    ...items.map((item) => ({ path: `${SITE_ROUTES.portfolio}/${item.slug}`, lastModified: toIso(item.updatedAt) })),
   ];
 }
 
@@ -72,7 +73,7 @@ async function getArticlePages(queries: SiteQueries, fallbackDate: string): Prom
 
   return [
     ...listPages,
-    ...articles.map((article) => ({ path: `/artikel/${article.slug}`, lastModified: toIso(article.updatedAt) })),
+    ...articles.map((article) => ({ path: `${SITE_ROUTES.articles}/${article.slug}`, lastModified: toIso(article.updatedAt) })),
   ];
 }
 
@@ -90,8 +91,8 @@ export async function getSitemapPages(queries: SiteQueries, context: SiteContext
 
   return [
     { path: "/", lastModified: newestIsoDate([settings.updatedAt, home.updatedAt], settings.updatedAt) },
-    { path: "/tentang", lastModified: toIso(about.updatedAt) },
-    { path: "/kontak", lastModified: fallbackDate },
+    { path: SITE_ROUTES.about, lastModified: toIso(about.updatedAt) },
+    { path: SITE_ROUTES.contact, lastModified: fallbackDate },
     ...legalPages,
     ...servicePages,
     ...portfolioPages,

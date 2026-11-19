@@ -8,8 +8,9 @@ import type { TeamMember } from "@/core/domain/team/team-member";
 import { buildPersonJsonLd } from "@/lib/seo/json-ld";
 import type { SiteContext } from "@/server/site/site-context";
 import { buildPageSeo, collectSectionIntros, HOME_BREADCRUMB, type PageSeoResult } from "@/server/site/models/page-seo";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
-const ABOUT_PATH = "/tentang";
+const ABOUT_PATH = SITE_ROUTES.about;
 const ABOUT_INTRO_KEYS: readonly SectionKey[] = ["about", "vision", "team", "stats"];
 
 export type AboutPageModel = {

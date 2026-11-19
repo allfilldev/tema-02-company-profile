@@ -13,8 +13,9 @@ import {
   requireSectionIntro,
   type PageSeoResult,
 } from "@/server/site/models/page-seo";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
-const ARTICLES_PATH = "/artikel";
+const ARTICLES_PATH = SITE_ROUTES.articles;
 const ARTICLES_BREADCRUMB = { name: "Artikel", path: ARTICLES_PATH };
 
 export type ArticleCardData = {

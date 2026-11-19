@@ -1,5 +1,6 @@
 import type { LegalSlug } from "@/core/domain/page/legal-page";
 import type { ModuleKey } from "@/core/domain/shared/module-key";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
 export type NavigationItem = {
   label: string;
@@ -16,12 +17,12 @@ export type LegalLink = {
 type NavigationEntry = NavigationItem & { module: ModuleKey | null };
 
 const NAVIGATION_ENTRIES: readonly NavigationEntry[] = [
-  { label: "Beranda", href: "/", module: null },
-  { label: "Tentang", href: "/tentang", module: null },
-  { label: "Layanan", href: "/layanan", module: "services" },
-  { label: "Portofolio", href: "/portofolio", module: "portfolio" },
-  { label: "Artikel", href: "/artikel", module: "articles" },
-  { label: "Kontak", href: "/kontak", module: null },
+  { label: "Beranda", href: SITE_ROUTES.home, module: null },
+  { label: "Tentang", href: SITE_ROUTES.about, module: null },
+  { label: "Layanan", href: SITE_ROUTES.services, module: "services" },
+  { label: "Portofolio", href: SITE_ROUTES.portfolio, module: "portfolio" },
+  { label: "Artikel", href: SITE_ROUTES.articles, module: "articles" },
+  { label: "Kontak", href: SITE_ROUTES.contact, module: null },
 ];
 
 export const LEGAL_LINKS: readonly LegalLink[] = [

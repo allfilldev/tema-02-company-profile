@@ -3,6 +3,7 @@ import type { Service } from "@/core/domain/service/service";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import { absoluteUrl } from "@/lib/seo/site-url";
 import type { NavigationItem } from "@/server/site/navigation";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
 function singleLine(value: string): string {
   return value.replace(/\s+/g, " ").trim();
@@ -28,10 +29,10 @@ export function buildLlmsTxt(input: {
 
   const pageLines = navigation.map((item) => buildLink(item.label, absoluteUrl(siteUrl, item.href)));
   const serviceLines = services.map((service) =>
-    buildLink(service.title, absoluteUrl(siteUrl, `/layanan/${service.slug}`), service.summary),
+    buildLink(service.title, absoluteUrl(siteUrl, `${SITE_ROUTES.services}/${service.slug}`), service.summary),
   );
   const articleLines = articles.map((article) =>
-    buildLink(article.title, absoluteUrl(siteUrl, `/artikel/${article.slug}`), article.lead),
+    buildLink(article.title, absoluteUrl(siteUrl, `${SITE_ROUTES.articles}/${article.slug}`), article.lead),
   );
 
   const lines = [

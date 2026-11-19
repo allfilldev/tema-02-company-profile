@@ -8,8 +8,9 @@ import {
   requireSectionIntro,
   type PageSeoResult,
 } from "@/server/site/models/page-seo";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
-const CONTACT_PATH = "/kontak";
+const CONTACT_PATH = SITE_ROUTES.contact;
 
 export type ContactPageModel = {
   seo: PageSeoResult;

@@ -10,8 +10,9 @@ import {
   takeOthers,
   type PageSeoResult,
 } from "@/server/site/models/page-seo";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
-const PORTFOLIO_PATH = "/portofolio";
+const PORTFOLIO_PATH = SITE_ROUTES.portfolio;
 const PORTFOLIO_BREADCRUMB = { name: "Portofolio", path: PORTFOLIO_PATH };
 const OTHER_ITEMS_LIMIT = 3;
 

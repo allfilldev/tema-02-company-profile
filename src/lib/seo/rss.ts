@@ -2,6 +2,7 @@ import type { ArticleWithAuthor } from "@/core/domain/article/article";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import { newestIsoDate } from "@/lib/seo/dates";
 import { absoluteUrl } from "@/lib/seo/site-url";
+import { SITE_ROUTES } from "@/lib/site/routes";
 
 const XML_ESCAPES: Record<string, string> = {
   "&": "&amp;",
@@ -20,7 +21,7 @@ function toRfc822(isoDate: string): string {
 }
 
 function buildItem(siteUrl: string, article: ArticleWithAuthor): string {
-  const link = escapeXml(absoluteUrl(siteUrl, `/artikel/${article.slug}`));
+  const link = escapeXml(absoluteUrl(siteUrl, `${SITE_ROUTES.articles}/${article.slug}`));
 
   return [
     "    <item>",
