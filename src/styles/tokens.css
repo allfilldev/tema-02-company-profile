@@ -1,33 +1,35 @@
 @theme {
   --color-*: initial;
 
-  --color-primary: #0f766e;
+  --color-primary: #1172cb;
   --color-primary-foreground: #ffffff;
-  --color-primary-hover: #115e59;
-  --color-primary-soft: #d7efec;
-  --color-highlight: #f97316;
-  --color-highlight-foreground: #0f172a;
-  --color-highlight-hover: #ea580c;
-  --color-highlight-soft: #ffedd5;
-  --color-secondary: #e2e8f0;
-  --color-accent: #ccfbf1;
-  --color-accent-foreground: #134e4a;
-  --color-background: #f8fafc;
+  --color-primary-hover: #0b5fae;
+  --color-primary-soft: #dcebfa;
+  --color-highlight: #f9a825;
+  --color-highlight-foreground: #0a1a3a;
+  --color-highlight-hover: #e8920c;
+  --color-highlight-soft: #fff1d6;
+  --color-secondary: #e3ebf5;
+  --color-accent: #e1eefc;
+  --color-accent-foreground: #0b4a8a;
+  --color-background: #f7f9fd;
   --color-surface: #ffffff;
-  --color-surface-muted: #f1f5f9;
-  --color-foreground: #0f172a;
-  --color-muted-foreground: #475569;
-  --color-border: #cbd5e1;
-  --color-border-strong: #64748b;
+  --color-surface-muted: #eaf0f8;
+  --color-foreground: #0a1a3a;
+  --color-muted-foreground: #52627c;
+  --color-border: #d5deea;
+  --color-border-strong: #6b7a90;
   --color-success: #15803d;
   --color-warning: #b45309;
   --color-danger: #b91c1c;
   --color-whatsapp: #25d366;
-  --color-surface-inverse: #0b2f2c;
-  --color-surface-inverse-foreground: #f0fdfa;
-  --color-sidebar: #0a2e2b;
-  --color-sidebar-foreground: #ccfbf1;
-  --color-sidebar-active: #0f766e;
+  --color-brand: #0f766e;
+  --color-brand-foreground: #ffffff;
+  --color-surface-inverse: #0a1a3a;
+  --color-surface-inverse-foreground: #ffffff;
+  --color-sidebar: #0c1e42;
+  --color-sidebar-foreground: #d6e4f5;
+  --color-sidebar-active: #1d4a82;
 
   --font-heading: var(--font-heading-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-body-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
@@ -41,7 +43,7 @@
   --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.06), 0 4px 12px -2px rgb(15 23 42 / 0.08);
   --shadow-card-hover: 0 2px 4px 0 rgb(15 23 42 / 0.08), 0 16px 32px -8px rgb(15 23 42 / 0.18);
 
-  --shadow-soft: 0 2px 6px 0 rgb(11 47 44 / 0.05), 0 12px 40px -12px rgb(11 47 44 / 0.18);
+  --shadow-soft: 0 2px 6px 0 rgb(10 26 58 / 0.05), 0 12px 40px -12px rgb(10 26 58 / 0.18);
 
   --container-site: 72rem;
 }

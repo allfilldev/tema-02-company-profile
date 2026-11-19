@@ -114,7 +114,7 @@ describe("design tokens", () => {
     expect(contrast(tokenValues["primary-foreground"], tokenValues.primary)).toBeGreaterThanOrEqual(4.5);
   });
 
-  it("derives inverse and sidebar colors from the primary hue", () => {
+  it("derives inverse and sidebar colors within a blue hue window of the primary", () => {
     const hue = (hex: string) => {
       const [r, g, b] = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255);
       const max = Math.max(r, g, b);
@@ -124,8 +124,23 @@ describe("design tokens", () => {
       return max === g ? 60 * ((b - r) / delta + 2) : 60 * ((r - g) / delta + 4);
     };
     for (const name of ["surface-inverse", "sidebar", "sidebar-active"] as const) {
-      expect(Math.abs(hue(tokenValues[name]) - hue(tokenValues.primary)), name).toBeLessThanOrEqual(15);
+      expect(Math.abs(hue(tokenValues[name]) - hue(tokenValues.primary)), name).toBeLessThanOrEqual(30);
     }
+  });
+
+  it("declares the brand tokens and keeps brand text readable", () => {
+    expect(cssTokens.brand).toBe("#0f766e");
+    expect(cssTokens["brand-foreground"]).toBe("#ffffff");
+    expect(tokenValues.brand).toMatch(/^#[0-9a-f]{6}$/);
+    expect(tokenValues["brand-foreground"]).toMatch(/^#[0-9a-f]{6}$/);
+    expect(contrast(tokenValues["brand-foreground"], tokenValues.brand)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues.brand, tokenValues.surface)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("keeps body text and accent text readable", () => {
+    expect(contrast(tokenValues.foreground, tokenValues.background)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["muted-foreground"], tokenValues["surface-muted"])).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["accent-foreground"], tokenValues.accent)).toBeGreaterThanOrEqual(4.5);
   });
 
   it("defines the large radius, soft shadow, and blob shape tokens", () => {

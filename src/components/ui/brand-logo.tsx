@@ -5,12 +5,12 @@ type BrandLogoTone = "on-dark" | "on-light";
 
 const NAME_CLASS_NAMES: Record<BrandLogoTone, string> = {
   "on-dark": "text-surface-inverse-foreground",
-  "on-light": "text-primary",
+  "on-light": "text-brand",
 };
 
 const MARK_CLASS_NAMES: Record<BrandLogoTone, string> = {
   "on-dark": "bg-surface-inverse-foreground text-surface-inverse",
-  "on-light": "bg-primary text-primary-foreground",
+  "on-light": "bg-brand text-brand-foreground",
 };
 
 const ROOT_CLASS_NAME = "inline-flex min-h-11 items-center gap-2";

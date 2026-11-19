@@ -3,15 +3,15 @@ import { describe, expect, it } from "vitest";
 import { BrandLogo } from "@/components/ui/brand-logo";
 
 describe("BrandLogo", () => {
-  it("renders the light tone with the primary mark and name", () => {
+  it("renders the light tone with the brand mark and name", () => {
     const markup = renderToStaticMarkup(<BrandLogo tone="on-light" name="Nusa Karya" />);
 
     expect(markup).toContain("Nusa Karya");
     expect(markup).toContain("font-heading");
     expect(markup).toContain("font-bold");
-    expect(markup).toContain("text-primary");
-    expect(markup).toContain("bg-primary");
-    expect(markup).toContain("text-primary-foreground");
+    expect(markup).toContain("text-brand");
+    expect(markup).toContain("bg-brand");
+    expect(markup).toContain("text-brand-foreground");
     expect(markup).toContain(">N<");
   });
 
