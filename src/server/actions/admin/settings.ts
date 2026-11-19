@@ -3,6 +3,7 @@
 import { updateSiteSettings, previewTitleImpacts } from "@/core/application/admin/settings-admin";
 import { failedState, invalidState, savedState, type AdminFormState } from "@/lib/admin/form-state";
 import { readSettingsForm } from "@/lib/admin/form-data";
+import { flattenSettingsValues } from "@/lib/admin/settings-values";
 import type { TitleImpact } from "@/lib/seo/title-impact";
 import { getAdminDeps } from "@/server/admin/admin-deps";
 import { resolveMedia } from "@/server/admin/resolve-media";
@@ -12,7 +13,7 @@ import { revalidateAdminChange } from "@/server/data/revalidation";
 export async function saveSettings(_state: AdminFormState, formData: FormData): Promise<AdminFormState> {
   const deps = await getAdminDeps();
   const form = readSettingsForm(formData);
-  const preserved = { ...form.values, ...form.mediaIds };
+  const preserved = flattenSettingsValues({ ...form.values, ...form.mediaIds });
 
   try {
     const media = await resolveMedia(form.mediaIds, deps.repos.media);

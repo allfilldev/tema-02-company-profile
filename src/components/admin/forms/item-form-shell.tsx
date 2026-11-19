@@ -28,7 +28,7 @@ type ItemFormShellProps = {
   media: MediaAsset[];
   isPublishable: boolean;
   isPublished: boolean;
-  cancelHref: string;
+  cancelHref?: string;
   children: ReactNode;
 };
 
@@ -71,9 +71,11 @@ export function ItemFormShell({ action, initial, media, isPublishable, isPublish
               Simpan
             </Button>
           )}
-          <Link href={cancelHref} className="inline-flex min-h-11 items-center px-3 font-semibold text-primary underline underline-offset-4">
-            Kembali ke daftar
-          </Link>
+          {cancelHref ? (
+            <Link href={cancelHref} className="inline-flex min-h-11 items-center px-3 font-semibold text-primary underline underline-offset-4">
+              Kembali ke daftar
+            </Link>
+          ) : null}
         </div>
       </form>
     </ItemFormContext.Provider>

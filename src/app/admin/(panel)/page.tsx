@@ -1,7 +1,8 @@
-import { AdminPlaceholder } from "@/components/admin/admin-placeholder";
-import { requireAdmin } from "@/server/admin/admin-session";
+import type { Metadata } from "next";
+import { DashboardPage } from "@/components/admin/pages/dashboard-page";
 
-export default async function AdminDashboardPage() {
-  const session = await requireAdmin();
-  return <AdminPlaceholder email={session.email} />;
+export const metadata: Metadata = { title: "Dashboard | Admin" };
+
+export default function Page() {
+  return <DashboardPage />;
 }

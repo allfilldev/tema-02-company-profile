@@ -2,10 +2,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { INITIAL_ADMIN_FORM_STATE } from "@/lib/admin/form-state";
 import { buildTestPack } from "../../../fixtures/content-pack";
 
-const mocks = vi.hoisted(() => ({ getAdminDeps: vi.fn(), revalidate: vi.fn(), getSiteQueries: vi.fn() }));
+const mocks = vi.hoisted(() => ({ getAdminDeps: vi.fn(), revalidate: vi.fn(), revalidatePath: vi.fn(), getSiteQueries: vi.fn() }));
 
 vi.mock("@/server/admin/admin-deps", () => ({ getAdminDeps: mocks.getAdminDeps }));
 vi.mock("@/server/data/revalidation", () => ({ revalidateAdminChange: mocks.revalidate }));
+vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidatePath }));
 vi.mock("@/server/container", () => ({ getSiteQueries: mocks.getSiteQueries }));
 
 import { markMessageAsRead, removeMessage } from "@/server/actions/admin/messages";
@@ -49,6 +50,7 @@ function depsWith(settingsUpdate = vi.fn(async (settings) => settings)) {
 beforeEach(() => {
   mocks.getAdminDeps.mockReset();
   mocks.revalidate.mockReset();
+  mocks.revalidatePath.mockReset();
   mocks.getSiteQueries.mockReset();
 });
 
@@ -111,6 +113,8 @@ describe("message actions", () => {
     expect(deps.repos.messages.markRead).toHaveBeenCalledWith("c1");
     expect(deps.repos.messages.remove).toHaveBeenCalledWith("c1");
     expect(mocks.getAdminDeps).toHaveBeenCalledTimes(2);
+    expect(mocks.revalidatePath).toHaveBeenCalledTimes(2);
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/admin/pesan");
   });
 
   it("reports a failure without throwing", async () => {
@@ -120,5 +124,6 @@ describe("message actions", () => {
     vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     expect(await removeMessage("c1")).toEqual({ ok: false, message: "Gagal menghapus. Coba lagi." });
+    expect(mocks.revalidatePath).not.toHaveBeenCalled();
   });
 });

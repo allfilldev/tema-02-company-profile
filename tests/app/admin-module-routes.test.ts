@@ -13,3 +13,9 @@ describe.each(ADMIN_MODULES)("%s admin routes", (module) => {
     expect(existsSync(path.join(PANEL_DIR, segment, file))).toBe(true);
   });
 });
+
+describe.each(["media", "pesan", "pengaturan"])("%s admin route", (segment) => {
+  it("has page.tsx", () => {
+    expect(existsSync(path.join(PANEL_DIR, segment, "page.tsx"))).toBe(true);
+  });
+});
