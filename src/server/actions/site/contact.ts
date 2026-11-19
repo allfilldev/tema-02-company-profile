@@ -26,13 +26,19 @@ export async function submitContactMessage(values: ContactFormValues): Promise<C
     });
 
     if (error) {
+      console.error(`Contact message was not stored: ${error.message}`);
       return "failed";
     }
     if (data === "rate_limited") {
       return "rate-limited";
     }
-    return data === "sent" ? "sent" : "failed";
-  } catch {
+    if (data !== "sent") {
+      console.error(`Contact message was not stored: unexpected result ${String(data)}`);
+      return "failed";
+    }
+    return "sent";
+  } catch (caught) {
+    console.error(`Contact message was not stored: ${caught instanceof Error ? caught.message : String(caught)}`);
     return "failed";
   }
 }

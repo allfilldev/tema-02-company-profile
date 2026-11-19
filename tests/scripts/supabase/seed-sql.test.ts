@@ -73,6 +73,23 @@ describe("buildSeedSql", () => {
     expect(withSizes).toContain("54321");
   });
 
+  it("skips the insert for every empty collection instead of emitting invalid sql", () => {
+    const pack: ContentPack = structuredClone(generalPack);
+    pack.partners = [];
+    pack.testimonials = [];
+    pack.contentBlocks = [];
+    pack.stats = [];
+    pack.vision.missions = [];
+
+    const emptySql = buildSeedSql(pack);
+
+    expect(emptySql).not.toMatch(/values\n;/);
+    for (const table of ["partners", "testimonials", "content_blocks", "content_block_items", "stats", "mission_items"]) {
+      expect(emptySql).not.toContain(`insert into public.${table} `);
+    }
+    expect(emptySql).toContain("insert into public.services ");
+  });
+
   it("rejects a pack that fails the content pack schema", () => {
     const pack: ContentPack = structuredClone(generalPack);
     pack.services[0].slug = "Slug Tidak Valid";

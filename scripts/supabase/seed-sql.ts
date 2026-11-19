@@ -53,6 +53,9 @@ function uuidArrayLiteral(ids: readonly string[]): string {
 }
 
 function insert(table: string, columns: readonly string[], rows: readonly string[][]): string {
+  if (rows.length === 0) {
+    return "";
+  }
   const values = rows.map((row) => `(${row.join(", ")})`).join(",\n");
   return `insert into public.${table} (${columns.join(", ")}) values\n${values};\n`;
 }
@@ -288,15 +291,13 @@ export function buildSeedSql(pack: ContentPack, options: SeedOptions = {}): stri
       literal(item.link?.label ?? null), literal(item.link?.href ?? null), literal(index + 1),
     ]),
   );
-  if (blockItemRows.length > 0) {
-    statements.push(
-      insert(
-        "content_block_items",
-        ["id", "block_id", "title", "description", "icon", "media_id", "link_label", "link_href", "sort_order"],
-        blockItemRows,
-      ),
-    );
-  }
+  statements.push(
+    insert(
+      "content_block_items",
+      ["id", "block_id", "title", "description", "icon", "media_id", "link_label", "link_href", "sort_order"],
+      blockItemRows,
+    ),
+  );
 
   statements.push(
     insert(

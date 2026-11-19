@@ -38,6 +38,16 @@ Tiga variabel lingkungan ditanam saat build untuk halaman yang diprarender (cano
 
 - `SITE_URL`: alamat produksi tanpa path, query, atau hash, misalnya `https://contoh.co.id`. Build produksi dengan `SITE_INDEXING=on` akan gagal bila kosong atau mengarah ke localhost.
 - `SITE_INDEXING`: biarkan `off` (atau kosong) sampai situs resmi tayang, lalu ubah ke `on` dan build ulang.
-- `DATA_SOURCE`: `demo` untuk paket konten demo. `supabase` belum tersedia.
+- `DATA_SOURCE`: `demo` untuk paket konten demo, atau `supabase` untuk membaca data dari Supabase dan mengaktifkan login admin.
 
 Build mengunduh font dari jaringan, jadi lingkungan build harus punya akses internet.
+
+### Mode Supabase
+
+Dengan `DATA_SOURCE=supabase`, host (misalnya Vercel) wajib memiliki variabel berikut, dan semuanya harus ada sebelum `npm run build`:
+
+- `SUPABASE_URL`: alamat project (`https://...supabase.co`).
+- `SUPABASE_PUBLISHABLE_KEY`: kunci publik (anon atau publishable).
+- `CONTACT_IP_SALT`: garam acak panjang untuk menghash alamat IP pengirim form kontak. Tanpa ini setiap pesan dari form kontak gagal dan hanya tercatat di log server.
+
+`SUPABASE_SECRET_KEY` dan `SUPABASE_DB_URL` hanya dipakai skrip di komputer pengembang (`.env.local`, `npm run db:migrate`, `db:seed`, `admin:create`). Jangan atur keduanya di host.

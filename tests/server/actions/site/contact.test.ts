@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({ rpc: vi.fn(), headers: vi.fn() }));
 
@@ -23,7 +23,24 @@ beforeEach(() => {
   mocks.headers.mockResolvedValue(new Headers({ "x-forwarded-for": "203.0.113.7" }));
 });
 
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe("submitContactMessage", () => {
+  it("logs why a message failed so a misconfigured deploy is visible", async () => {
+    const logged = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    mocks.rpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+
+    await submitContactMessage(VALUES);
+    vi.stubEnv("CONTACT_IP_SALT", "");
+    await submitContactMessage(VALUES);
+
+    expect(logged).toHaveBeenCalledTimes(2);
+    expect(String(logged.mock.calls[0][0])).toContain("boom");
+    expect(String(logged.mock.calls[1][0])).toContain("salt");
+  });
+
   it("stores the message with a hashed ip and reports sent", async () => {
     mocks.rpc.mockResolvedValue({ data: "sent", error: null });
 

@@ -34,26 +34,44 @@ describe.skipIf(!enabled)("supabase public reads", () => {
     expect(services.every((service) => !service.slug.startsWith(PREFIX))).toBe(true);
   });
 
-  it.skipIf(!SECRET_KEY)("never exposes drafts to the public client", async () => {
+  it.skipIf(!SECRET_KEY)("never exposes drafts to the public client, checked on the raw tables", async () => {
     const draftService = `${PREFIX}layanan`;
     const draftArticle = `${PREFIX}artikel`;
     createdSlugs.push(draftService, draftArticle);
-    await secretClient().from("services").insert({ slug: draftService, title: "Draf layanan", sort_order: 9999, is_published: false });
-    await secretClient().from("articles").insert({ slug: draftArticle, title: "Draf artikel", status: "draft" });
+    const insertedService = await secretClient()
+      .from("services")
+      .insert({ slug: draftService, title: "Draf layanan", sort_order: 9999, is_published: false });
+    const insertedArticle = await secretClient().from("articles").insert({ slug: draftArticle, title: "Draf artikel", status: "draft" });
 
-    const repositories = createSupabaseRepositories(publicClient());
-    const services = await repositories.services.listPublished();
+    expect(insertedService.error).toBeNull();
+    expect(insertedArticle.error).toBeNull();
 
-    expect(services.map((service) => service.slug)).not.toContain(draftService);
-    expect(await repositories.services.findPublishedBySlug(draftService)).toBeNull();
-    expect(await repositories.articles.findPublishedBySlug(draftArticle)).toBeNull();
+    const rawServices = await publicClient().from("services").select("slug").eq("slug", draftService);
+    const rawArticles = await publicClient().from("articles").select("slug").eq("slug", draftArticle);
+
+    expect(rawServices.error).toBeNull();
+    expect(rawServices.data).toEqual([]);
+    expect(rawArticles.error).toBeNull();
+    expect(rawArticles.data).toEqual([]);
     expect((await fetchRouteCatalog(publicClient())).services).not.toContain(draftService);
   });
 
-  it("does not let the public client read contact messages", async () => {
-    const { data } = await publicClient().from("contact_messages").select("id");
+  it.skipIf(!SECRET_KEY)("does not let the public client read an existing contact message", async () => {
+    const inserted = await secretClient()
+      .from("contact_messages")
+      .insert({ name: `${PREFIX}pesan`, email: "tes@contoh.id", message: "Pesan uji integrasi.", ip_hash: `${PREFIX}hash` })
+      .select("id")
+      .single();
 
-    expect(data ?? []).toEqual([]);
+    expect(inserted.error).toBeNull();
+
+    try {
+      const visible = await publicClient().from("contact_messages").select("id");
+
+      expect(visible.data ?? []).toEqual([]);
+    } finally {
+      await secretClient().from("contact_messages").delete().eq("ip_hash", `${PREFIX}hash`);
+    }
   });
 
   it("builds a route catalog from published slugs only", async () => {
