@@ -20,14 +20,21 @@ function promptHidden(question: string): Promise<string> {
     let state = INITIAL_HIDDEN_INPUT;
 
     function onData(chunk: string): void {
+      const previousLength = state.value.length;
       state = applyKeystrokes(state, chunk);
+      const delta = state.value.length - previousLength;
+      if (delta > 0) {
+        process.stdout.write("*".repeat(delta));
+      } else if (delta < 0) {
+        process.stdout.write("\b \b".repeat(-delta));
+      }
       if (!state.done) {
         return;
       }
       stdin.removeListener("data", onData);
       stdin.setRawMode(false);
       stdin.pause();
-      process.stdout.write("\n");
+      process.stdout.write(` (${state.value.length} characters)\n`);
       if (state.cancelled) {
         reject(new Error("Cancelled."));
         return;
