@@ -12,9 +12,9 @@ npm run theme:new -- <nama-tema>
 
 - Nama tema: huruf kecil, angka, dan tanda hubung tunggal, diawali huruf, maksimal 40 karakter (contoh `arunika`, `kopi-nusantara`).
 - Boilerplate harus bersih (tanpa perubahan yang belum di-commit), karena hanya commit yang disalin.
-- Hasilnya repo git di `themes/company-profile/<nama-tema>/` dengan remote `upstream` ke boilerplate (push ke `upstream` dinonaktifkan), `themeName` terisi di `src/config/theme.ts`, dan satu commit `init: create <nama-tema> theme`.
+- Hasilnya repo git di `themes/company-profile/<nama-tema>/` dengan remote `upstream` ke boilerplate (URL `origin` boilerplate bila ada, kalau tidak path lokalnya; push ke `upstream` dinonaktifkan), `themeName` terisi di `src/config/theme.ts`, dan satu commit `init: create <nama-tema> theme`.
 
-Lanjutkan di folder tema: `npm install`. Untuk pratinjau, tambahkan satu entri ke `template-builder/.claude/launch.json` dengan nama unik, port yang belum dipakai, dan `runtimeArgs` `["--prefix", "themes/company-profile/<nama-tema>", "run", "dev"]`.
+Lanjutkan di folder tema: `npm install`. Untuk pratinjau, tambahkan satu entri ke `template-builder/.claude/launch.json` dengan nama unik, port yang belum dipakai, dan `runtimeArgs` `["--prefix", "themes/company-profile/<nama-tema>", "run", "dev", "--", "--port", "<port>"]` (nilai `<port>` sama dengan field `port` entri itu).
 
 ## 2. Terima desain
 
@@ -23,6 +23,8 @@ Desain datang sebagai link Figma, screenshot, atau HTML. Catat semua teks, gamba
 ## 3. Token
 
 Isi `src/styles/tokens.css` (warna semantik, font, radius, bayangan, lebar container) dan cerminannya di `src/styles/tokens.ts` (`tokenValues` dan `ogTheme`), lalu font di `src/styles/fonts.ts`. Komponen hanya boleh memakai kelas Tailwind berbasis token: tanpa warna mentah dan tanpa arbitrary value.
+
+Token warna ditulis sebagai hex 6 digit (`#rrggbb`), karena itulah yang dibaca tes kesamaan; nilai `oklch`, `rgba`, atau hex 3 digit dari desain dikonversi dulu.
 
 Periksa: `npx vitest run tests/styles/tokens.test.ts` (kesamaan CSS dan TypeScript, serta disiplin token).
 
@@ -38,7 +40,7 @@ Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan 
 
 Periksa dengan menjalankan tes di `tests/components/` satu berkas per perintah. Ada dua jenis tes:
 
-- **Tes kontrak, tidak boleh diubah:** satu `<h1>` per halaman, urutan heading, tautan, komponen kontrak, tombol WhatsApp, `route-guard`, dan `loading` (`tests/components/contract/`, `tests/components/layout/`, `tests/components/sections/`, `tests/components/ui/`, `tests/components/views/articles.test.tsx`, `tests/components/views/catalog.test.tsx`, `tests/components/views/not-found.test.tsx`, `tests/components/views/image-priority.test.tsx`, `tests/components/skeletons/loading.test.tsx`). Mengubah tes ini agar tema lolos adalah tanda aturan dilanggar.
+- **Tes kontrak, tidak boleh diubah:** satu `<h1>` per halaman, urutan heading, tautan, komponen kontrak, tombol WhatsApp, `route-guard`, dan `loading` (`tests/components/contract/`, `tests/components/og/`, `tests/components/layout/`, `tests/components/sections/`, `tests/components/ui/`, `tests/components/views/articles.test.tsx`, `tests/components/views/catalog.test.tsx`, `tests/components/views/not-found.test.tsx`, `tests/components/views/image-priority.test.tsx`, `tests/components/skeletons/loading.test.tsx`). Mengubah tes ini agar tema lolos adalah tanda aturan dilanggar.
 - **Tes kalibrasi desain, wajib disesuaikan oleh tema:** `tests/components/skeletons/skeletons.test.tsx` (urutan blok skeleton, kelas, dan tinggi tiap halaman) dan `tests/components/views/pages.test.tsx` (urutan section beranda). Keduanya mengunci desain bawaan, jadi tema dengan susunan section berbeda mengubah ekspektasinya sesuai desainnya sendiri. Jangan melemahkan pemeriksaan satu `<h1>` dan urutan heading di dalamnya.
 
 ## 6. Section tanpa modul
@@ -77,7 +79,7 @@ Jalankan `npm run theme:check`. Perintah ini harus lolos: ia melaporkan berkas f
 
 ## Yang boleh diubah
 
-`src/styles/`, `src/components/ui/` (gaya saja), `src/components/site/layout/` (kecuali `src/components/site/layout/route-guard.tsx`), `src/components/site/sections/`, `src/components/site/views/`, `src/components/skeletons/`, `src/config/theme.ts`, dan favicon di `public/`.
+`src/styles/`, `src/components/ui/` (gaya saja), `src/components/site/layout/` (kecuali `src/components/site/layout/route-guard.tsx`), `src/components/site/sections/`, `src/components/site/views/`, `src/components/site/og/` (kartu gambar Open Graph, memakai token), `src/components/skeletons/`, `src/config/theme.ts`, dan favicon di `public/`.
 
 ## Yang tidak boleh diubah
 
@@ -96,6 +98,8 @@ Folder berikut terkunci. Perubahan di sini dikerjakan di boilerplate, lalu ditar
 - `docs/rules/`
 - `scripts/`
 - `next.config.ts`
+- `public/demo/`
+- `docs/credits/`
 
 ## Yang perlu ditinjau
 

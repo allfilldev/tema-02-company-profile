@@ -50,6 +50,17 @@ describe("createTheme", () => {
     expect((await git(themeDir, "status", "--porcelain")).trim()).toBe("");
   }, TIMEOUT);
 
+  it("uses the boilerplate origin URL as upstream when one exists", async () => {
+    await git(workspace.boilerplateDir, "remote", "add", "origin", "https://example.test/boilerplate-demo.git");
+
+    await create("arunika");
+    const themeDir = workspace.themeDir("arunika");
+
+    expect((await git(themeDir, "remote", "get-url", "upstream")).trim()).toBe("https://example.test/boilerplate-demo.git");
+    expect((await git(themeDir, "remote", "get-url", "--push", "upstream")).trim()).toBe("DISABLED");
+    expect((await git(themeDir, "remote")).trim()).toBe("upstream");
+  }, TIMEOUT);
+
   it("merges upstream changes", async () => {
     await create("arunika");
     const themeDir = workspace.themeDir("arunika");
@@ -76,6 +87,13 @@ describe("createTheme", () => {
 
     await expect(create("arunika")).rejects.toThrow(/uncommitted/);
     expect(await exists(workspace.themeDir("arunika"))).toBe(false);
+  }, TIMEOUT);
+
+  it("refuses untracked files even when git hides them from status", async () => {
+    await git(workspace.boilerplateDir, "config", "status.showUntrackedFiles", "no");
+    await writeFile(path.join(workspace.boilerplateDir, "new-file.ts"), "x\n");
+
+    await expect(create("arunika")).rejects.toThrow(/uncommitted/);
   }, TIMEOUT);
 
   it.each([

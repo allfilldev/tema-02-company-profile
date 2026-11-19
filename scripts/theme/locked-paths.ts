@@ -12,6 +12,8 @@ export const LOCKED_PATHS: readonly string[] = [
   "docs/rules/",
   "scripts/",
   "next.config.ts",
+  "public/demo/",
+  "docs/credits/",
 ];
 
 export const REVIEW_PATHS: readonly string[] = [

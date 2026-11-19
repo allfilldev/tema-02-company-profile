@@ -17,6 +17,8 @@ describe("classifyChangedFiles", () => {
       "docs/rules/",
       "scripts/",
       "next.config.ts",
+      "public/demo/",
+      "docs/credits/",
     ]);
     expect([...REVIEW_PATHS]).toEqual([
       "src/components/site/contract/",
@@ -41,6 +43,8 @@ describe("classifyChangedFiles", () => {
       "src/infrastructure/images/optimize-webp.ts",
       "scripts/create-theme.ts",
       "next.config.ts",
+      "public/demo/general/hero.webp",
+      "docs/credits/general.md",
     ];
 
     expect(classifyChangedFiles(files)).toEqual({ locked: [...files].sort(), review: [] });
@@ -60,6 +64,7 @@ describe("classifyChangedFiles", () => {
       "src/components/site/views/home-view.tsx",
       "src/components/site/layout/header.tsx",
       "src/components/skeletons/route-skeleton.tsx",
+      "src/components/site/og/og-card.tsx",
       "public/favicon.ico",
       "THEME.md",
     ];

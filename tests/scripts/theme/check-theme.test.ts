@@ -44,6 +44,15 @@ describe("checkTheme", () => {
     expect(report.review).toEqual([]);
   }, TIMEOUT);
 
+  it("reports locked files whose names contain non-ASCII characters", async () => {
+    await mkdir(path.join(themeDir, "src/core"), { recursive: true });
+    await writeFile(path.join(themeDir, "src/core/café.ts"), "export const c = 1;\n");
+
+    const report = await checkTheme(themeDir, workspace.env);
+
+    expect(report.locked).toEqual(["src/core/café.ts"]);
+  }, TIMEOUT);
+
   it("reports a file moved out of a locked folder under its old path", async () => {
     await git(themeDir, "mv", "src/lib/a.ts", "src/styles/a.ts");
     await git(themeDir, "commit", "--quiet", "-m", "feat: move a");

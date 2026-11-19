@@ -7,14 +7,14 @@ const themeSource = readFileSync(path.join(process.cwd(), "src/config/theme.ts")
 
 describe("setThemeName", () => {
   it("replaces only the themeName value", () => {
-    const result = setThemeName(themeSource, "arunika");
+    const result = setThemeName(themeSource, "tema-uji-nama");
 
-    expect(result).toContain('themeName: "arunika",');
+    expect(result).toContain('themeName: "tema-uji-nama",');
     const before = themeSource.split("\n");
     const after = result.split("\n");
     expect(after).toHaveLength(before.length);
     const changedLines = after.filter((line, index) => line !== before[index]);
-    expect(changedLines).toEqual(['  themeName: "arunika",']);
+    expect(changedLines).toEqual(['  themeName: "tema-uji-nama",']);
   });
 
   it("throws when no themeName line exists", () => {

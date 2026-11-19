@@ -38,6 +38,14 @@ async function isOnMainBranch(directory: string, env?: NodeJS.ProcessEnv): Promi
   }
 }
 
+async function readOriginUrl(directory: string, env?: NodeJS.ProcessEnv): Promise<string | null> {
+  try {
+    return (await runGit(directory, ["remote", "get-url", "origin"], env)).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
 export async function createTheme(options: CreateThemeOptions): Promise<CreateThemeResult> {
   const { boilerplateDir, themeName, env } = options;
 
@@ -52,7 +60,7 @@ export async function createTheme(options: CreateThemeOptions): Promise<CreateTh
     throw new Error("The boilerplate must be on the main branch, because themes track upstream/main. Switch to main first.");
   }
 
-  const pendingChanges = (await runGit(boilerplateDir, ["status", "--porcelain"], env)).trim();
+  const pendingChanges = (await runGit(boilerplateDir, ["status", "--porcelain", "--untracked-files=normal"], env)).trim();
   if (pendingChanges) {
     throw new Error("The boilerplate has uncommitted changes. Commit or stash them first, because only committed work is copied into the theme.");
   }
@@ -61,10 +69,15 @@ export async function createTheme(options: CreateThemeOptions): Promise<CreateTh
     throw new Error(`Theme folder already exists: ${targetDir}`);
   }
 
+  const originUrl = await readOriginUrl(boilerplateDir, env);
+
   try {
     await runGit(boilerplateDir, ["clone", "--no-hardlinks", "--quiet", boilerplateDir, targetDir], env);
     await runGit(targetDir, ["remote", "rename", "origin", "upstream"], env);
     await runGit(targetDir, ["branch", "--unset-upstream"], env);
+    if (originUrl) {
+      await runGit(targetDir, ["remote", "set-url", "upstream", originUrl], env);
+    }
     await runGit(targetDir, ["remote", "set-url", "--push", "upstream", DISABLED_PUSH_URL], env);
 
     const configPath = path.join(targetDir, THEME_CONFIG_PATH);

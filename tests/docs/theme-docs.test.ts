@@ -37,6 +37,15 @@ describe("theme guides", () => {
     },
   );
 
+  it.each([
+    ["THEME.md", "--port", () => themeGuide],
+    ["THEME.md", "#rrggbb", () => themeGuide],
+    ["UPDATING.md", "git checkout upstream/main --", () => updatingGuide],
+    ["UPDATING.md", "git remote set-url upstream", () => updatingGuide],
+  ])("%s explains %s", (_file, phrase, getText) => {
+    expect(getText()).toContain(phrase);
+  });
+
   it("only mentions npm scripts that exist", () => {
     const mentioned = [...npmScriptsMentioned(themeGuide), ...npmScriptsMentioned(updatingGuide)];
 

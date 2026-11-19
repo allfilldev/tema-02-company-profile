@@ -16,10 +16,15 @@ Memakai `git merge upstream/main` dan bukan `git pull upstream` disengaja: caban
 
 ## Konflik
 
-- **Folder terkunci** (daftar lengkap di `THEME.md`): konflik di sini berarti tema mengubah folder yang seharusnya tidak disentuh. Kembalikan berkas itu ke versi boilerplate dan pindahkan kebutuhannya ke boilerplate.
+- **Folder terkunci** (daftar lengkap di `THEME.md`): konflik di sini berarti tema mengubah folder yang seharusnya tidak disentuh. Kembalikan berkas itu ke versi boilerplate dengan `git checkout upstream/main -- <path>` dan pindahkan kebutuhannya ke boilerplate.
 - **`src/config/theme.ts`**: pertahankan `themeName` milik tema, ambil sisanya dari boilerplate bila itu pembaruan inti, dan pertahankan `enabledModules`, `contentPack`, dan `contentBlocks` pilihan tema.
+- **`structure.md`**: berkasnya dipakai bersama, dan barisnya panjang sehingga konflik mudah terjadi. Ambil baris boilerplate untuk berkas milik boilerplate, pertahankan baris tema untuk berkas milik tema.
 - **Tes kalibrasi desain** (`tests/components/skeletons/skeletons.test.tsx` dan `tests/components/views/pages.test.tsx`, lihat `THEME.md`): pertahankan versi tema, lalu baca perubahan boilerplate pada berkas itu dan terapkan pemeriksaan barunya (misalnya pemeriksaan heading) pada ekspektasi tema.
 - **`package.json` dan `package-lock.json`**: gabungkan dependensi tema dengan dependensi baru boilerplate, lalu `npm install` untuk membangun ulang lockfile.
+
+## Mengarahkan ulang `upstream`
+
+`upstream` memakai URL `origin` boilerplate saat tema dibuat, atau path lokal bila boilerplate belum punya `origin`. Bila folder berpindah atau tema di-clone di mesin lain, arahkan ulang dengan `git remote set-url upstream <url-boilerplate>`, dan nonaktifkan push dengan `git remote set-url --push upstream DISABLED`.
 
 ## Aturan migrasi database
 

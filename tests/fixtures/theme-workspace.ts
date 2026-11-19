@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promi
 import os from "node:os";
 import path from "node:path";
 import { runGit } from "../../scripts/theme/git";
+import { setThemeName } from "../../scripts/theme/set-theme-name";
 
 export interface ThemeWorkspace {
   rootDir: string;
@@ -36,7 +37,7 @@ export async function buildThemeWorkspace(): Promise<ThemeWorkspace> {
   await runGit(boilerplateDir, ["init", "--quiet", "-b", "main"], GIT_ENV);
 
   const files: Record<string, string> = {
-    "src/config/theme.ts": realThemeSource.replace("Company Profile Default", "Demo"),
+    "src/config/theme.ts": setThemeName(realThemeSource, "demo"),
     "src/lib/a.ts": "export const a = 1;\n",
     "src/core/b.ts": "export const b = 1;\n",
     "src/styles/c.css": ".c { color: red; }\n",
