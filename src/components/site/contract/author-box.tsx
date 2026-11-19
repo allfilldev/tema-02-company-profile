@@ -13,7 +13,7 @@ const LINK_CLASS_NAME = "inline-flex min-h-11 items-center font-medium text-prim
 
 export function AuthorBox({ author, facts }: AuthorBoxProps) {
   return (
-    <aside id="author-bio" aria-labelledby={HEADING_ID} className="rounded-lg border border-border bg-surface p-6 shadow-card">
+    <aside id="author-bio" aria-labelledby={HEADING_ID} className="rounded-lg border border-border bg-surface p-6">
       <h2 id={HEADING_ID} className="text-xl font-bold text-foreground">
         Tentang penulis
       </h2>

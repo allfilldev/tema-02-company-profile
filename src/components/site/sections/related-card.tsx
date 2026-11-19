@@ -15,6 +15,7 @@ type RelatedCardProps = {
 export function RelatedCard({ href, title, summary, icon, featured = false }: RelatedCardProps) {
   return (
     <Card
+      interactive
       className={joinClassNames(
         "relative flex h-full flex-col gap-4",
         featured ? "border-primary bg-primary text-primary-foreground" : "",

@@ -51,7 +51,7 @@ export function ConfirmDelete({ itemName, action }: ConfirmDeleteProps) {
       </button>
       {open ? (
         <div ref={dialogRef} role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-surface p-6 shadow-soft">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-6">
             <p id={titleId} className="text-base font-semibold text-foreground">
               {`Hapus ${itemName}? Tindakan ini tidak bisa dibatalkan.`}
             </p>

@@ -27,7 +27,7 @@ export function AdminTable<Row>({ rows, columns, rowKey, empty, emptyHint = DEFA
   const lastColumnIndex = columns.length - 1;
 
   return (
-    <div className="overflow-x-auto rounded-2xl bg-surface shadow-soft">
+    <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
       <table className="w-full border-collapse text-left text-sm">
         <thead className="bg-surface-muted text-xs text-foreground">
           <tr>

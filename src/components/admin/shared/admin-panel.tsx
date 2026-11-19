@@ -13,7 +13,7 @@ type AdminPanelProps = {
 
 export function AdminPanel({ icon: Icon, title, action, className, bodyClassName = "p-5", children }: AdminPanelProps) {
   return (
-    <section className={joinClassNames("flex min-w-0 flex-col overflow-hidden rounded-2xl bg-surface shadow-soft", className)}>
+    <section className={joinClassNames("flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-surface", className)}>
       <header className="flex items-center gap-3 border-b border-secondary px-5 py-3">
         <span aria-hidden="true" className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-border text-muted-foreground">
           <Icon className="size-4" />

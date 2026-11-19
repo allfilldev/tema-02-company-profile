@@ -19,7 +19,7 @@ const ALL_LABEL = "Lihat semua artikel";
 
 export function ArticleCard({ article }: { article: Article }) {
   return (
-    <Card className="flex h-full flex-col gap-4 p-3">
+    <Card interactive className="flex h-full flex-col gap-4 p-3">
       {article.cover ? (
         <div className="aspect-video overflow-hidden rounded-xl">
           <SiteImage media={article.cover} sizes={IMAGE_SIZES} className="w-full" />

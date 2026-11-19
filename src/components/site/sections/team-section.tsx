@@ -24,7 +24,7 @@ export function TeamSection({ team, intro, tone, id = "tim" }: TeamSectionProps)
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {team.map((member, index) => (
           <Reveal key={member.id} as="li" stagger={index}>
-            <Card className="flex h-full flex-col items-center gap-4 text-center">
+            <Card interactive className="flex h-full flex-col items-center gap-4 text-center">
               {member.photo ? (
                 <div className="relative">
                   <BlobImage src={member.photo.url} alt={member.photo.alt} sizes={AVATAR_SIZES} className="size-36" />

@@ -11,7 +11,7 @@ type AdminErrorProps = {
 
 export default function AdminError({ reset }: AdminErrorProps) {
   return (
-    <section role="alert" className="flex flex-col items-start gap-4 rounded-2xl border border-danger bg-surface p-6 shadow-soft md:p-8">
+    <section role="alert" className="flex flex-col items-start gap-4 rounded-2xl border border-danger bg-surface p-6 md:p-8">
       <span aria-hidden="true" className="flex size-12 items-center justify-center rounded-full bg-danger text-surface">
         <TriangleAlert className="size-6" />
       </span>

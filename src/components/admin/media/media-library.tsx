@@ -17,13 +17,13 @@ function formatSize(bytes: number): string {
 
 export function MediaLibrary({ media, actions }: MediaLibraryProps) {
   if (media.length === 0) {
-    return <p className="rounded-2xl bg-surface p-6 text-muted-foreground shadow-soft">Pustaka media masih kosong.</p>;
+    return <p className="rounded-2xl border border-border bg-surface p-6 text-muted-foreground">Pustaka media masih kosong.</p>;
   }
 
   return (
     <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {media.map((asset) => (
-        <li key={asset.id} className="flex flex-col gap-3 rounded-2xl bg-surface p-5 shadow-soft">
+        <li key={asset.id} className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5">
           <img src={asset.url} alt={asset.alt} width={asset.width} height={asset.height} loading="lazy" className="h-40 w-full rounded-md bg-surface-muted object-contain" />
           <p className="text-sm text-muted-foreground">{`${asset.width} × ${asset.height} · ${formatSize(asset.sizeBytes)}`}</p>
           <MediaAltEditor alt={asset.alt} action={actions.updateAlt.bind(null, asset.id)} />

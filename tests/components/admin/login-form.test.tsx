@@ -29,7 +29,7 @@ describe("LoginForm", () => {
 
   it("uses the large rounded card on the muted canvas and a full-size submit button", () => {
     expect(markup).toMatch(/<main[^>]*class="[^"]*bg-surface-muted/);
-    expect(markup).toMatch(/<div[^>]*class="[^"]*rounded-2xl[^"]*shadow-soft/);
+    expect(markup).toMatch(/<div[^>]*class="[^"]*rounded-2xl[^"]*border-border/);
     expect(markup).toMatch(/<button[^>]*class="[^"]*w-full[^"]*"[^>]*type="submit"|<button[^>]*type="submit"[^>]*class="[^"]*w-full/);
   });
 });

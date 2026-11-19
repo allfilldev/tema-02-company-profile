@@ -9,7 +9,7 @@ import { ADMIN_MODULE_LABELS } from "@/lib/admin/admin-menu";
 import { ADMIN_MODULE_PATHS, ADMIN_ROUTES } from "@/lib/site/routes";
 import { joinClassNames } from "@/lib/ui/class-names";
 
-const CARD_CLASS_NAME = "flex h-full min-h-11 min-w-0 flex-col gap-1 rounded-2xl bg-surface p-4 shadow-soft transition-shadow hover:shadow-card-hover";
+const CARD_CLASS_NAME = "flex h-full min-h-11 min-w-0 flex-col gap-1 rounded-2xl border border-border bg-surface p-4 transition-shadow duration-300 ease-out hover:shadow-card-hover focus-within:shadow-card-hover motion-reduce:transition-none";
 const MODULE_CARD_LIMIT = 3;
 const LINE_TONES = ["text-primary", "text-highlight", "text-success"];
 

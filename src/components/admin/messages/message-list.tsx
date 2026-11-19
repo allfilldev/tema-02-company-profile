@@ -27,7 +27,7 @@ export function MessageList({ messages, actions }: MessageListProps) {
   return (
     <ul className="flex flex-col gap-4">
       {newestFirst.map((message) => (
-        <li key={message.id} className="flex flex-col gap-3 rounded-2xl bg-surface p-5 shadow-soft">
+        <li key={message.id} className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className={message.isRead ? "break-words text-base font-normal text-foreground" : "break-words text-base font-bold text-foreground"}>{message.name}</h2>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">

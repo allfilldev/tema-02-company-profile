@@ -77,7 +77,7 @@ export function MediaUpload({ action }: MediaUploadProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 rounded-2xl bg-surface p-5 shadow-soft">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5">
       <h2 className="font-heading text-lg font-bold text-foreground">Unggah gambar baru</h2>
       <FormNotice state={state} />
       <Field label="Berkas gambar" htmlFor={`${baseId}-file`} error={errors.file}>

@@ -27,7 +27,7 @@ export function MediaPicker({ media, onSelect, onClose }: MediaPickerProps) {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Pilih gambar" className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
-      <div className="flex max-h-full w-full max-w-3xl flex-col rounded-2xl bg-surface p-6 shadow-soft">
+      <div className="flex max-h-full w-full max-w-3xl flex-col rounded-2xl border border-border bg-surface p-6">
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-heading text-lg font-bold text-foreground">Pilih gambar</h2>
           <Button type="button" variant="secondary" onClick={onClose}>

@@ -21,7 +21,7 @@ const GALLERY_IMAGE_SIZES = "(min-width: 1024px) 560px, (min-width: 768px) 50vw,
 
 function ProjectFacts({ item }: { item: PortfolioItem }) {
   return (
-    <dl className="grid gap-4 rounded-2xl border border-border bg-surface p-6 shadow-soft sm:grid-cols-3">
+    <dl className="grid gap-4 rounded-2xl border border-border bg-surface p-6 sm:grid-cols-3">
       <div className={FACT_CLASS_NAME}>
         <dt className="text-sm text-muted-foreground">Klien</dt>
         <dd className="font-semibold text-foreground">{item.clientName}</dd>
@@ -52,7 +52,7 @@ function ProjectGallery({ item }: { item: PortfolioItem }) {
       <ul className="grid gap-6 md:grid-cols-2">
         {item.gallery.map((media) => (
           <li key={media.id}>
-            <figure className="overflow-hidden rounded-2xl border border-border bg-surface p-2 shadow-soft">
+            <figure className="overflow-hidden rounded-2xl border border-border bg-surface p-2">
               <SiteImage media={media} sizes={GALLERY_IMAGE_SIZES} className="w-full" />
             </figure>
           </li>

@@ -42,7 +42,7 @@ type ServiceCardProps = {
 
 export function ServiceCard({ service, eager = false }: ServiceCardProps) {
   return (
-    <Card className="flex h-full flex-col gap-4">
+    <Card interactive className="flex h-full flex-col gap-4">
       {service.cover ? (
         <div className="aspect-video overflow-hidden rounded-xl">
           <SiteImage media={service.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />

@@ -17,7 +17,7 @@ export function LegalDocument({ page, mediaSizes }: { page: LegalPage; mediaSize
     <div className="page-enter">
       <PageHero title={page.title} description={page.intro} />
       <Container className="py-10 md:py-14">
-        <div className="max-w-3xl rounded-2xl border border-border bg-surface p-6 shadow-soft md:p-10">
+        <div className="max-w-3xl rounded-2xl border border-border bg-surface p-6 md:p-10">
           <p className="inline-flex rounded-full bg-primary-soft px-4 py-1.5 text-sm font-medium text-foreground">
             {`${UPDATED_LABEL}: `}
             <time dateTime={page.updatedAt}>{formatIndonesianDate(page.updatedAt)}</time>

@@ -79,7 +79,7 @@ export function VisionSection({ vision, intro, tone, variant = "section", id = "
 
   const titleId = `${id}-title`;
   const card = (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-soft md:p-10">
+    <div className="rounded-2xl border border-border bg-surface p-6 md:p-10">
       <SectionHeading id={titleId} eyebrow={intro.eyebrow} title={intro.title} description={intro.description} />
       <VisionTabs idPrefix={id} tabs={buildTabs(vision)} />
     </div>

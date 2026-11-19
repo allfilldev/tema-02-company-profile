@@ -16,7 +16,7 @@ export function ArticleCard({ item, eager = false }: ArticleCardProps) {
   const { article, author } = item;
 
   return (
-    <Card className="relative flex h-full flex-col gap-4 p-3">
+    <Card interactive className="relative flex h-full flex-col gap-4 p-3">
       {article.cover ? (
         <div className="aspect-video overflow-hidden rounded-xl">
           <SiteImage media={article.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />
