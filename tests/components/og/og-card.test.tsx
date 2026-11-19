@@ -14,7 +14,7 @@ function textOf(markup: string): string {
 
 describe("OgCard", () => {
   it("fills the frame with the og theme background and foreground", () => {
-    const markup = render({ title: "Judul", footer: "Arunika Solusi" });
+    const markup = render({ title: "Judul", footer: "Contoh Solusi" });
 
     expect(markup).toContain(`background-color:${ogTheme.background}`);
     expect(markup).toContain(`color:${ogTheme.foreground}`);
@@ -22,15 +22,15 @@ describe("OgCard", () => {
   });
 
   it("shows the title, the eyebrow, and the site name in the footer", () => {
-    const markup = render({ eyebrow: "Layanan", title: "Penyusunan SOP", footer: "Arunika Solusi" });
+    const markup = render({ eyebrow: "Layanan", title: "Penyusunan SOP", footer: "Contoh Solusi" });
 
-    expect(textOf(markup)).toBe("Layanan Penyusunan SOP Arunika Solusi");
+    expect(textOf(markup)).toBe("Layanan Penyusunan SOP Contoh Solusi");
   });
 
   it("shows the subtitle for the default image", () => {
-    const markup = render({ title: "Arunika Solusi", subtitle: "Mitra operasional UMKM" });
+    const markup = render({ title: "Contoh Solusi", subtitle: "Mitra operasional UMKM" });
 
-    expect(textOf(markup)).toBe("Arunika Solusi Mitra operasional UMKM");
+    expect(textOf(markup)).toBe("Contoh Solusi Mitra operasional UMKM");
   });
 
   it("omits optional parts that are not given", () => {

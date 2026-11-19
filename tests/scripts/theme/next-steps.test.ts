@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { formatNextSteps } from "../../../scripts/theme/next-steps";
 
 describe("formatNextSteps", () => {
-  const lines = formatNextSteps("/work/my themes/arunika");
+  const lines = formatNextSteps("/work/my themes/contoh");
 
   it("quotes the folder so paths with spaces still work", () => {
-    expect(lines).toContain('  cd "/work/my themes/arunika"');
+    expect(lines).toContain('  cd "/work/my themes/contoh"');
   });
 
   it("installs dependencies and points to the theme guide", () => {

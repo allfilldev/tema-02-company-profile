@@ -30,11 +30,11 @@ describe("buildManifest", () => {
   });
 
   it("shortens a long site name at a word boundary to at most 12 characters", () => {
-    const settings = { ...buildTestPack().settings, siteName: "Arunika Solusi Digital" };
+    const settings = { ...buildTestPack().settings, siteName: "Contoh Solusi Digital" };
     const manifest = buildManifest(settings, COLORS);
 
-    expect(manifest.name).toBe("Arunika Solusi Digital");
-    expect(manifest.short_name).toBe("Arunika");
+    expect(manifest.name).toBe("Contoh Solusi Digital");
+    expect(manifest.short_name).toBe("Contoh");
   });
 
   it("cuts a single long word at 12 characters", () => {

@@ -13,11 +13,11 @@ describe("resolveSiteUrl", () => {
   });
 
   it("removes the trailing slash", () => {
-    expect(resolveSiteUrl("https://arunika.id/")).toBe("https://arunika.id");
+    expect(resolveSiteUrl("https://contoh.id/")).toBe("https://contoh.id");
   });
 
   it("keeps a clean url unchanged", () => {
-    expect(resolveSiteUrl("https://arunika.id")).toBe("https://arunika.id");
+    expect(resolveSiteUrl("https://contoh.id")).toBe("https://contoh.id");
   });
 
   it("throws for a non http url", () => {
@@ -61,7 +61,7 @@ describe("resolveSiteUrl when an explicit url is required", () => {
   });
 
   it("accepts a real domain", () => {
-    expect(resolveSiteUrl("https://arunika.id/", required)).toBe("https://arunika.id");
+    expect(resolveSiteUrl("https://contoh.id/", required)).toBe("https://contoh.id");
   });
 
   it("accepts a domain that only contains the word localhost", () => {
@@ -70,8 +70,8 @@ describe("resolveSiteUrl when an explicit url is required", () => {
   });
 
   it("still rejects a path or a non http protocol", () => {
-    expect(() => resolveSiteUrl("https://arunika.id/blog", required)).toThrow();
-    expect(() => resolveSiteUrl("ftp://arunika.id", required)).toThrow();
+    expect(() => resolveSiteUrl("https://contoh.id/blog", required)).toThrow();
+    expect(() => resolveSiteUrl("ftp://contoh.id", required)).toThrow();
   });
 });
 

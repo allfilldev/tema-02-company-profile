@@ -3,7 +3,7 @@ import { parseThemeArgs } from "../../../scripts/theme/theme-args";
 
 describe("parseThemeArgs", () => {
   it("returns the single theme name", () => {
-    expect(parseThemeArgs(["arunika"])).toBe("arunika");
+    expect(parseThemeArgs(["contoh"])).toBe("contoh");
   });
 
   it.each([[[]], [["kopi", "nusantara"]]])("rejects %j with the usage text", (args) => {

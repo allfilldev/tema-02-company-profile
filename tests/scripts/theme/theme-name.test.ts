@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { THEME_NAME_MAX_LENGTH, validateThemeName } from "../../../scripts/theme/theme-name";
 
 describe("validateThemeName", () => {
-  it.each(["arunika", "kopi-nusantara", "a1", "tema-2", "x".repeat(THEME_NAME_MAX_LENGTH)])(
+  it.each(["contoh", "kopi-nusantara", "a1", "tema-2", "x".repeat(THEME_NAME_MAX_LENGTH)])(
     "accepts %s",
     (name) => {
       expect(validateThemeName(name)).toBeNull();
@@ -11,10 +11,10 @@ describe("validateThemeName", () => {
 
   it.each([
     "",
-    "Arunika",
+    "Contoh",
     "kopi nusantara",
-    "-arunika",
-    "arunika-",
+    "-contoh",
+    "contoh-",
     "kopi--nusantara",
     "../keluar",
     "a/b",

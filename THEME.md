@@ -10,7 +10,7 @@ Dari folder boilerplate (`template-builder/boilerplates/company-profile/`) jalan
 npm run theme:new -- <nama-tema>
 ```
 
-- Nama tema: huruf kecil, angka, dan tanda hubung tunggal, diawali huruf, maksimal 40 karakter (contoh `arunika`, `kopi-nusantara`).
+- Nama tema: huruf kecil, angka, dan tanda hubung tunggal, diawali huruf, maksimal 40 karakter (contoh `tema-baru`, `kopi-nusantara`).
 - Boilerplate harus bersih (tanpa perubahan yang belum di-commit), karena hanya commit yang disalin.
 - Hasilnya repo git di `themes/company-profile/<nama-tema>/` dengan remote `upstream` ke boilerplate (URL `origin` boilerplate bila ada, kalau tidak path lokalnya; push ke `upstream` dinonaktifkan), `themeName` terisi di `src/config/theme.ts`, dan satu commit `init: create <nama-tema> theme`.
 

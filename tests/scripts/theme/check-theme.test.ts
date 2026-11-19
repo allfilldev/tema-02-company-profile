@@ -14,8 +14,8 @@ describe("checkTheme", () => {
 
   beforeEach(async () => {
     workspace = await buildThemeWorkspace();
-    await createTheme({ boilerplateDir: workspace.boilerplateDir, themeName: "arunika", env: workspace.env });
-    themeDir = workspace.themeDir("arunika");
+    await createTheme({ boilerplateDir: workspace.boilerplateDir, themeName: "contoh", env: workspace.env });
+    themeDir = workspace.themeDir("contoh");
   });
 
   afterEach(async () => {

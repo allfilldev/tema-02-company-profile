@@ -94,7 +94,7 @@ describe("resolveLinkClick clicks that do not change the skeleton", () => {
     ["a protocol relative external link", { href: "//example.com/layanan" }],
     ["a link to another port", { href: "http://localhost:4000/layanan" }],
     ["a link to another protocol on the same host", { href: "https://localhost:3000/layanan" }],
-    ["a mailto link", { href: "mailto:halo@arunika.example" }],
+    ["a mailto link", { href: "mailto:halo@contoh.example" }],
     ["a tel link", { href: "tel:+6281234567890" }],
     ["a javascript link", { href: "javascript:void(0)" }],
     ["an anchor without href", { href: null }],

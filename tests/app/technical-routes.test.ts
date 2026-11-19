@@ -7,7 +7,7 @@ import manifest from "@/app/manifest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 
-const SITE_URL = "https://arunika.example";
+const SITE_URL = "https://contoh.example";
 
 afterEach(() => {
   vi.unstubAllEnvs();

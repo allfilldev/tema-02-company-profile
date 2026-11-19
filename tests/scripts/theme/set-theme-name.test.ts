@@ -18,11 +18,11 @@ describe("setThemeName", () => {
   });
 
   it("throws when no themeName line exists", () => {
-    expect(() => setThemeName("export const themeConfig = {};\n", "arunika")).toThrow();
+    expect(() => setThemeName("export const themeConfig = {};\n", "contoh")).toThrow();
   });
 
   it("throws when themeName appears twice", () => {
     const duplicated = `${themeSource}\n  themeName: "other",\n`;
-    expect(() => setThemeName(duplicated, "arunika")).toThrow();
+    expect(() => setThemeName(duplicated, "contoh")).toThrow();
   });
 });
