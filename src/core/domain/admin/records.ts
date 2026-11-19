@@ -5,6 +5,10 @@ export const ADMIN_MODULES = ["services", "portfolio", "team", "stats", "testimo
 
 export type AdminModule = (typeof ADMIN_MODULES)[number];
 
+export function isAdminModule(value: string): value is AdminModule {
+  return (ADMIN_MODULES as readonly string[]).includes(value);
+}
+
 export type ServiceRecord = {
   id: string;
   slug: string;

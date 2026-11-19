@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ADMIN_ROUTES, isUnderRoute, SITE_ROUTES } from "@/lib/site/routes";
+import { ADMIN_MODULE_PATHS, ADMIN_ROUTES, isUnderRoute, SITE_ROUTES } from "@/lib/site/routes";
 
 describe("route constants", () => {
   it("lists the public routes", () => {
@@ -15,7 +15,25 @@ describe("route constants", () => {
   });
 
   it("lists the admin routes", () => {
-    expect(ADMIN_ROUTES).toEqual({ root: "/admin", login: "/admin/login" });
+    expect(ADMIN_ROUTES).toEqual({
+      root: "/admin",
+      login: "/admin/login",
+      media: "/admin/media",
+      messages: "/admin/pesan",
+      settings: "/admin/pengaturan",
+    });
+  });
+
+  it("lists one admin path per module under /admin", () => {
+    expect(ADMIN_MODULE_PATHS).toEqual({
+      services: "/admin/layanan",
+      portfolio: "/admin/portofolio",
+      team: "/admin/tim",
+      stats: "/admin/statistik",
+      testimonials: "/admin/testimoni",
+      partners: "/admin/partner",
+      articles: "/admin/artikel",
+    });
   });
 });
 
