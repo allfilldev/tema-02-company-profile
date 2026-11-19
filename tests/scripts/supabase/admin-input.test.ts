@@ -10,10 +10,11 @@ describe("validateAdminEmail", () => {
 });
 
 describe("validateAdminPassword", () => {
-  it("requires at least 12 characters", () => {
-    expect(validateAdminPassword("pendek", "pendek")).toMatch(/12/);
+  it("requires at least 8 characters", () => {
+    expect(validateAdminPassword("pendek", "pendek")).toMatch(/8/);
     expect(validateAdminPassword("pendek", "pendek")).toContain("received 6");
-    expect(validateAdminPassword("123456789012", "123456789012")).toBeNull();
+    expect(validateAdminPassword("1234567", "1234567")).toMatch(/8/);
+    expect(validateAdminPassword("12345678", "12345678")).toBeNull();
   });
 
   it("requires the confirmation to match", () => {

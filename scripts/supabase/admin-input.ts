@@ -1,5 +1,5 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const ADMIN_PASSWORD_MIN_LENGTH = 12;
+export const ADMIN_PASSWORD_MIN_LENGTH = 8;
 
 export function validateAdminEmail(email: string): string | null {
   return EMAIL_PATTERN.test(email) ? null : "Provide a valid email address.";
