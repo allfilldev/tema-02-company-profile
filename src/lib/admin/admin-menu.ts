@@ -18,6 +18,16 @@ export const ADMIN_MODULE_LABELS: Record<AdminModule, string> = {
   articles: "Artikel",
 };
 
+export const ADMIN_MODULE_ITEM_NAMES: Record<AdminModule, string> = {
+  services: "layanan",
+  portfolio: "portofolio",
+  team: "anggota tim",
+  stats: "statistik",
+  testimonials: "testimoni",
+  partners: "partner",
+  articles: "artikel",
+};
+
 export function buildAdminMenu(enabledModules: readonly ModuleKey[]): AdminMenuItem[] {
   return [
     { label: "Dashboard", href: ADMIN_ROUTES.root },

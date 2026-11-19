@@ -10,7 +10,7 @@ export type ResolvedMedia = {
 
 const UNKNOWN_MEDIA_MESSAGE = "Gambar tidak ditemukan di pustaka media.";
 
-function toAsset(record: { id: string; url: string; alt: string; width: number; height: number }): MediaAsset {
+export function toMediaAsset(record: { id: string; url: string; alt: string; width: number; height: number }): MediaAsset {
   return { id: record.id, url: record.url, alt: record.alt, width: record.width, height: record.height };
 }
 
@@ -23,11 +23,11 @@ export async function resolveMedia(selection: MediaSelection, repository: Pick<M
       assets[field] = null;
     } else if (Array.isArray(selected)) {
       const found = await Promise.all(selected.map((id) => repository.findById(id)));
-      assets[field] = found.flatMap((record) => (record ? [toAsset(record)] : []));
+      assets[field] = found.flatMap((record) => (record ? [toMediaAsset(record)] : []));
       if (found.some((record) => record === null)) errors[field] = UNKNOWN_MEDIA_MESSAGE;
     } else {
       const record = await repository.findById(selected);
-      assets[field] = record ? toAsset(record) : null;
+      assets[field] = record ? toMediaAsset(record) : null;
       if (!record) errors[field] = UNKNOWN_MEDIA_MESSAGE;
     }
   }
