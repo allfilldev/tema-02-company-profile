@@ -16,6 +16,11 @@ export const tokenValues = {
   warning: "#b45309",
   danger: "#b91c1c",
   whatsapp: "#25d366",
+  "surface-inverse": "#0b2f2c",
+  "surface-inverse-foreground": "#f0fdfa",
+  sidebar: "#0a2e2b",
+  "sidebar-foreground": "#ccfbf1",
+  "sidebar-active": "#0f766e",
 } as const;
 
 export type OgTheme = {

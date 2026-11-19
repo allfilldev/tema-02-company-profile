@@ -16,13 +16,13 @@ export function Section({ id, eyebrow, title, description, className, children }
   const hasHeader = Boolean(eyebrow || title || description);
 
   return (
-    <section id={id} aria-labelledby={titleId} className={joinClassNames("py-12 md:py-16", className)}>
+    <section id={id} aria-labelledby={titleId} className={joinClassNames("py-16 md:py-24", className)}>
       <Container>
         {hasHeader ? (
-          <header className="mb-8 max-w-3xl md:mb-12">
-            {eyebrow ? <p className="text-sm font-semibold uppercase tracking-wide text-primary">{eyebrow}</p> : null}
+          <header className="mb-10 max-w-3xl md:mb-14">
+            {eyebrow ? <p className="text-sm font-bold uppercase tracking-widest text-primary">{eyebrow}</p> : null}
             {title ? (
-              <h2 id={titleId} className="mt-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              <h2 id={titleId} className="mt-3 text-3xl font-extrabold tracking-tighter text-foreground md:text-5xl">
                 {title}
               </h2>
             ) : null}

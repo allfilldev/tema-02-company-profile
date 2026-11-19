@@ -42,6 +42,19 @@ function parseColorTokens(css: string): Record<string, string> {
   return tokens;
 }
 
+function luminance(hex: string): number {
+  const channels = [1, 3, 5].map((start) => {
+    const value = Number.parseInt(hex.slice(start, start + 2), 16) / 255;
+    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrast(foreground: string, background: string): number {
+  const [light, dark] = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+  return (light + 0.05) / (dark + 0.05);
+}
+
 function listScannedFiles(): string[] {
   return readdirSync(SRC_DIR, { recursive: true, withFileTypes: true })
     .filter((entry) => entry.isFile())
@@ -67,6 +80,46 @@ describe("design tokens", () => {
     for (const [name, value] of Object.entries(cssTokens)) {
       expect(tokenValues[name as keyof typeof tokenValues], name).toBe(value);
     }
+  });
+
+  it("declares the inverse and sidebar tokens as 6 digit hex values", () => {
+    for (const name of [
+      "surface-inverse",
+      "surface-inverse-foreground",
+      "sidebar",
+      "sidebar-foreground",
+      "sidebar-active",
+    ] as const) {
+      expect(cssTokens[name], name).toMatch(/^#[0-9a-f]{6}$/);
+      expect(tokenValues[name], name).toMatch(/^#[0-9a-f]{6}$/);
+    }
+  });
+
+  it("keeps dark surfaces readable with at least 4.5:1 contrast", () => {
+    expect(contrast(tokenValues["surface-inverse-foreground"], tokenValues["surface-inverse"])).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["sidebar-foreground"], tokenValues.sidebar)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["sidebar-foreground"], tokenValues["sidebar-active"])).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["primary-foreground"], tokenValues.primary)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("derives inverse and sidebar colors from the primary hue", () => {
+    const hue = (hex: string) => {
+      const [r, g, b] = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255);
+      const max = Math.max(r, g, b);
+      const delta = max - Math.min(r, g, b);
+      if (delta === 0) return 0;
+      if (max === r) return (60 * (((g - b) / delta) % 6) + 360) % 360;
+      return max === g ? 60 * ((b - r) / delta + 2) : 60 * ((r - g) / delta + 4);
+    };
+    for (const name of ["surface-inverse", "sidebar", "sidebar-active"] as const) {
+      expect(Math.abs(hue(tokenValues[name]) - hue(tokenValues.primary)), name).toBeLessThanOrEqual(15);
+    }
+  });
+
+  it("defines the large radius, soft shadow, and blob shape tokens", () => {
+    expect(TOKENS_CSS).toMatch(/--radius-2xl\s*:/);
+    expect(TOKENS_CSS).toMatch(/--shadow-soft\s*:/);
+    expect(TOKENS_CSS).toMatch(/--shape-blob\s*:/);
   });
 
   it("derives the og theme from token values", () => {

@@ -18,6 +18,11 @@
   --color-warning: #b45309;
   --color-danger: #b91c1c;
   --color-whatsapp: #25d366;
+  --color-surface-inverse: #0b2f2c;
+  --color-surface-inverse-foreground: #f0fdfa;
+  --color-sidebar: #0a2e2b;
+  --color-sidebar-foreground: #ccfbf1;
+  --color-sidebar-active: #0f766e;
 
   --font-heading: var(--font-heading-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-body-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
@@ -26,14 +31,18 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  --radius-2xl: 1.75rem;
 
   --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.06), 0 4px 12px -2px rgb(15 23 42 / 0.08);
   --shadow-card-hover: 0 2px 4px 0 rgb(15 23 42 / 0.08), 0 16px 32px -8px rgb(15 23 42 / 0.18);
+
+  --shadow-soft: 0 2px 6px 0 rgb(11 47 44 / 0.05), 0 12px 40px -12px rgb(11 47 44 / 0.18);
 
   --container-site: 72rem;
 }
 
 :root {
+  --shape-blob: 62% 38% 54% 46% / 48% 56% 44% 52%;
   --motion-duration-fast: 150ms;
   --motion-duration-base: 300ms;
   --motion-duration-slow: 700ms;
@@ -47,4 +56,8 @@
   --motion-duration: var(--motion-duration-slow);
   --motion-distance: 2rem;
   --motion-ease: var(--motion-ease-out);
+}
+
+@utility shape-blob {
+  border-radius: var(--shape-blob);
 }
