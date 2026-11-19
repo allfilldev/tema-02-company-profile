@@ -8,7 +8,7 @@ export function WhatsAppButton({ href }: WhatsAppButtonProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full bg-whatsapp py-4 pl-5 pr-6 text-lg font-extrabold text-foreground transition-transform hover:scale-105 sm:py-3.5"
+      className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full bg-whatsapp py-4 pl-5 pr-6 text-lg font-extrabold text-foreground shadow-soft transition-transform hover:scale-105 sm:py-3.5"
     >
       <span
         aria-hidden="true"

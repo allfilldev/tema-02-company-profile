@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LEGAL_LINKS } from "@/server/site/navigation";
 
-const LINK_CLASS_NAME = "inline-flex min-h-11 items-center text-sm text-muted-foreground underline underline-offset-4 hover:text-primary";
+const LINK_CLASS_NAME = "inline-flex min-h-11 items-center text-sm text-surface-inverse-foreground/80 underline underline-offset-4 hover:text-accent";
 
 export function LegalFooterNav() {
   return (

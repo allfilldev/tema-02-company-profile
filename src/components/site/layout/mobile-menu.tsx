@@ -14,13 +14,13 @@ const MENU_ID = "menu-mobile";
 const LIST_CLASS_NAME_CLOSED = "hidden md:flex md:items-center md:gap-1";
 
 const LIST_CLASS_NAME_OPEN =
-  "menu-enter absolute inset-x-0 top-full flex flex-col border-b border-border bg-surface px-4 py-2 shadow-card md:static md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none";
+  "menu-enter absolute inset-x-0 top-full flex flex-col rounded-b-2xl bg-surface-inverse px-4 py-3 text-surface-inverse-foreground shadow-soft md:static md:flex-row md:items-center md:gap-1 md:rounded-none md:bg-transparent md:p-0 md:text-inherit md:shadow-none";
 
 const LINK_CLASS_NAME =
-  "inline-flex min-h-11 w-full items-center rounded-md px-3 font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:w-auto";
+  "inline-flex min-h-11 w-full items-center rounded-full px-4 font-medium transition-colors hover:bg-current/10 md:w-auto";
 
 const TOGGLE_CLASS_NAME =
-  "inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:hidden";
+  "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:bg-current/10 md:hidden";
 
 export function MobileMenu({ navigation }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
