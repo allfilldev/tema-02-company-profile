@@ -10,7 +10,11 @@
     "image:import": "tsx scripts/import-demo-image.ts",
     "favicon": "tsx scripts/generate-favicon.ts",
     "theme:new": "tsx scripts/create-theme.ts",
-    "theme:check": "tsx scripts/check-theme.ts"
+    "theme:check": "tsx scripts/check-theme.ts",
+    "seed:generate": "tsx scripts/generate-seed.ts",
+    "db:migrate": "tsx scripts/db-migrate.ts",
+    "db:seed": "tsx scripts/apply-seed.ts",
+    "admin:create": "tsx scripts/create-admin.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

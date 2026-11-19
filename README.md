@@ -18,6 +18,10 @@ Buka [http://localhost:3000](http://localhost:3000). Nilai bawaan: `DATA_SOURCE=
 | `npm run dev`, `npm run build`, `npm run start` | Server pengembangan, build, dan server produksi |
 | `npm run theme:new -- <nama-tema>` | Membuat tema baru di `../../themes/company-profile/<nama-tema>/` (dijalankan dari boilerplate) |
 | `npm run theme:check` | Melaporkan perubahan di folder terkunci (dijalankan di dalam tema) |
+| `npm run seed:generate` | Menulis `supabase/seed.sql` dari paket konten tema (tidak di-commit) |
+| `npm run db:migrate` | Menerapkan migrasi ke project di `SUPABASE_DB_URL` (`.env.local`) |
+| `npm run db:seed -- --yes` | Mengosongkan lalu mengisi data konten project Supabase dari `seed.sql` |
+| `npm run admin:create -- <email>` | Membuat akun admin (password diketik di terminal) |
 | `npm run favicon -- <simbol.png>` | Membuat set favicon dari simbol persegi |
 | `npm run image:import -- <file> <paket> <nama> [--logo]` | Mengonversi gambar demo ke WebP |
 
