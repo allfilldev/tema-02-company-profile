@@ -4,7 +4,6 @@ import { ArticleDates } from "@/components/site/contract/article-dates";
 import { AuthorBox } from "@/components/site/contract/author-box";
 import { AuthorByline } from "@/components/site/contract/author-byline";
 import { Breadcrumbs } from "@/components/site/contract/breadcrumbs";
-import { DemoNotice } from "@/components/site/contract/demo-notice";
 import { FaqList } from "@/components/site/contract/faq-list";
 import { JsonLd } from "@/components/site/contract/json-ld";
 import { LegalFooterNav } from "@/components/site/contract/legal-footer-nav";
@@ -163,12 +162,6 @@ describe("ArticleDates", () => {
     expect(markup).toContain('<time dateTime="2026-10-20T08:00:00.000Z">20 Oktober 2026</time>');
     expect(markup).toContain('<time dateTime="2026-11-05T08:00:00.000Z">5 November 2026</time>');
     expect(countOccurrences(markup, "<time")).toBe(2);
-  });
-});
-
-describe("DemoNotice", () => {
-  it("renders the exact demo statement", () => {
-    expect(renderToStaticMarkup(<DemoNotice />)).toMatch(/<p[^>]*>Situs demo\. Perusahaan dan isinya fiktif\.<\/p>/);
   });
 });
 

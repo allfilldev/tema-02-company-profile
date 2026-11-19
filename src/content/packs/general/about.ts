@@ -3,9 +3,9 @@ import { generalMedia } from "@/content/packs/general/media";
 
 const bodyMd = `## Siapa kami?
 
-Arunika Solusi berdiri di Jakarta pada 2017. Kami berawal dari tim kecil yang membantu usaha keluarga menuliskan cara kerja mereka, lalu berkembang menjadi konsultan manajemen dan transformasi digital untuk UMKM maupun korporasi.
+All Fill Dev berdiri di Jakarta pada 2017. Kami berawal dari tim kecil yang membantu usaha keluarga menuliskan cara kerja mereka, lalu berkembang menjadi konsultan manajemen dan transformasi digital untuk UMKM maupun korporasi.
 
-Arunika berarti cahaya matahari pagi. Begitu pula cara kami memandang pekerjaan ini: membuat proses yang selama ini samar menjadi terang, sehingga pemilik dan tim bisa mengambil keputusan dengan lebih yakin.
+Cara kami memandang pekerjaan ini sederhana: membuat proses yang selama ini samar menjadi terang, sehingga pemilik dan tim bisa mengambil keputusan dengan lebih yakin.
 
 ## Bagaimana kami bekerja?
 
@@ -21,11 +21,11 @@ Setelah itu kami bekerja berdampingan dengan tim klien sampai solusinya berjalan
 
 export const generalAbout: AboutContent = {
   summary:
-    "Arunika Solusi adalah konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses, mengukur kinerja, dan memakai teknologi secara tepat guna.",
+    "All Fill Dev adalah konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses, mengukur kinerja, dan memakai teknologi secara tepat guna.",
   bodyMd,
   image: generalMedia.about,
-  metaTitle: "Tentang Arunika Solusi",
+  metaTitle: "Tentang All Fill Dev",
   metaDescription:
-    "Kenali Arunika Solusi, konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses dan mengukur kinerja.",
+    "Kenali All Fill Dev, konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses dan mengukur kinerja.",
   updatedAt: "2026-11-10T03:00:00.000Z",
 };

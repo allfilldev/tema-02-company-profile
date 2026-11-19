@@ -17,11 +17,10 @@ describe("general pack media", () => {
   });
 
   it("has every required key", () => {
-    expect(Object.keys(generalMedia)).toHaveLength(50);
+    expect(Object.keys(generalMedia)).toHaveLength(49);
   });
 
-  it("keeps the logo transparent", async () => {
-    const meta = await sharp(path.join(process.cwd(), "public", generalMedia.logo.url)).metadata();
-    expect(meta.hasAlpha).toBe(true);
+  it("ships no logo for the demo company", () => {
+    expect(generalMedia).not.toHaveProperty("logo");
   });
 });

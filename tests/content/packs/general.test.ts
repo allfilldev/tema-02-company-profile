@@ -30,10 +30,18 @@ describe("general content pack", () => {
 
   it("uses the demo identity and WhatsApp defaults", () => {
     expect(generalPack.settings).toMatchObject({
-      siteName: "Arunika Solusi",
+      siteName: "All Fill Dev",
       whatsappNumber: "62895326422692",
       whatsappMessage: "Halo, saya ingin konsultasi pembuatan website. Paket mana yang cocok untuk usaha saya?",
     });
+  });
+
+  it("uses text branding without a logo image until the owner supplies one", () => {
+    expect(generalPack.settings.logo).toBeNull();
+  });
+
+  it("carries no fictional company name anywhere in the pack", () => {
+    expect(JSON.stringify(generalPack)).not.toMatch(/arunika/i);
   });
 
   it("has the required amount of content", () => {

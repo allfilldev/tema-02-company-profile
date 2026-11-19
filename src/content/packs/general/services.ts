@@ -51,7 +51,7 @@ Di setiap sesi, rencana dibandingkan dengan hasil untuk menyepakati apa yang per
           "Cukup data yang sudah Anda miliki, seperti laporan penjualan, catatan biaya, dan struktur tim. Bila datanya belum rapi, merapikannya menjadi bagian dari pekerjaan awal.",
       },
       {
-        question: "Apakah Arunika ikut menjalankan strateginya?",
+        question: "Apakah All Fill Dev ikut menjalankan strateginya?",
         answer:
           "Kami mendampingi lewat sesi tinjauan berkala. Pelaksanaan sehari-hari tetap dipegang tim Anda agar perubahan berjalan berkelanjutan.",
       },
@@ -100,7 +100,7 @@ Setelah sistem berjalan, kami mengadakan evaluasi bersama pemakai untuk memastik
       "Pendampingan transformasi digital dari pemetaan proses, pemilihan aplikasi, migrasi data, sampai pelatihan tim agar sistem baru benar-benar dipakai.",
     faq: [
       {
-        question: "Apakah Arunika menjual atau membuat aplikasi?",
+        question: "Apakah All Fill Dev menjual atau membuat aplikasi?",
         answer:
           "Tidak. Kami berperan sebagai pendamping yang membantu Anda memilih dan menerapkan solusi. Pengembangan atau lisensi aplikasi tetap dilakukan oleh vendor pilihan Anda.",
       },
@@ -220,7 +220,7 @@ Di akhir proyek, kami menyusun catatan pelajaran yang bisa dipakai untuk proyek 
       "Pendampingan manajemen proyek untuk pembukaan cabang, peluncuran produk, atau penerapan sistem: rencana, pemantauan rutin, dan evaluasi akhir proyek.",
     faq: [
       {
-        question: "Apakah Arunika bertindak sebagai manajer proyek penuh?",
+        question: "Apakah All Fill Dev bertindak sebagai manajer proyek penuh?",
         answer:
           "Bisa keduanya. Kami dapat memegang peran manajer proyek, atau mendampingi manajer proyek internal Anda sebagai penasihat.",
       },

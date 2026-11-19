@@ -23,8 +23,8 @@ function renderHeader(): string {
   );
 }
 
-function renderFooter(isDemo: boolean, settings = context.settings): string {
-  return renderToStaticMarkup(<Footer settings={settings} navigation={context.navigation} isDemo={isDemo} />);
+function renderFooter(settings = context.settings): string {
+  return renderToStaticMarkup(<Footer settings={settings} navigation={context.navigation} />);
 }
 
 describe("Header", () => {
@@ -77,11 +77,11 @@ describe("Header", () => {
 
 describe("Footer", () => {
   it("is marked data-nosnippet", () => {
-    expect(renderFooter(true)).toMatch(/^<footer[^>]*data-nosnippet/);
+    expect(renderFooter()).toMatch(/^<footer[^>]*data-nosnippet/);
   });
 
   it("shows the NAP exactly as the organization json-ld does", () => {
-    const markup = renderFooter(true);
+    const markup = renderFooter();
     const { contactPoint, address } = context.organizationJsonLd as {
       contactPoint: { telephone: string; email: string };
       address: { streetAddress: string; addressLocality: string; addressRegion: string; postalCode: string; addressCountry: string };
@@ -100,7 +100,7 @@ describe("Footer", () => {
   });
 
   it("links to Tentang and Kontak and renders the legal navigation", () => {
-    const markup = renderFooter(true);
+    const markup = renderFooter();
 
     expect(markup).toContain('href="/tentang"');
     expect(markup).toContain('href="/kontak"');
@@ -111,7 +111,7 @@ describe("Footer", () => {
   });
 
   it("renders social links as safe external links", () => {
-    const markup = renderFooter(true);
+    const markup = renderFooter();
 
     for (const link of context.settings.socialLinks) {
       expect(markup).toMatch(new RegExp(`<a[^>]*href="${link.url}"[^>]*>`));
@@ -122,19 +122,18 @@ describe("Footer", () => {
   });
 
   it("omits the social block when there are no social links", () => {
-    const markup = renderFooter(true, { ...context.settings, socialLinks: [] });
+    const markup = renderFooter({ ...context.settings, socialLinks: [] });
 
     expect(markup).not.toContain("Media sosial");
     expect(markup).not.toContain("noopener");
   });
 
-  it("renders the demo notice only in demo mode", () => {
-    expect(renderFooter(true)).toContain("Situs demo. Perusahaan dan isinya fiktif.");
-    expect(renderFooter(false)).not.toContain("Situs demo");
+  it("renders no demo notice", () => {
+    expect(renderFooter()).not.toContain("Situs demo");
   });
 
   it("renders no h1", () => {
-    expect(renderFooter(true)).not.toContain("<h1");
+    expect(renderFooter()).not.toContain("<h1");
   });
 });
 
@@ -197,11 +196,7 @@ describe("SiteShell", () => {
     expect(markup).toContain(`href="${context.whatsappUrl}"`);
   });
 
-  it("keeps the demo notice only when the env is demo", async () => {
-    const live = await buildTestContext({ env: { isDemo: false } });
-    const markup = renderToStaticMarkup(<SiteShell context={live}>x</SiteShell>);
-
-    expect(markup).not.toContain("Situs demo");
-    expect(renderShell()).toContain("Situs demo");
+  it("renders no demo notice in demo mode either", () => {
+    expect(renderShell()).not.toContain("Situs demo");
   });
 });

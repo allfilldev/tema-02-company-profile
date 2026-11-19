@@ -34,7 +34,7 @@ Sesuaikan gaya `src/components/ui/` bila desain memintanya (misalnya tombol pill
 
 ## 5. Tampilan
 
-Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan `src/components/site/views/` mengikuti desain. Data datang dari model yang sudah disediakan rute, jadi tidak ada pengambilan data baru. Komponen di `src/components/site/contract/` (breadcrumb, byline dan kotak penulis, isi markdown, FAQ, navigasi hukum, tanggal artikel, DemoNotice, JSON-LD) hanya boleh berubah kelas gayanya, bukan elemen, atribut, id, atau teks labelnya.
+Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan `src/components/site/views/` mengikuti desain. Data datang dari model yang sudah disediakan rute, jadi tidak ada pengambilan data baru. Komponen di `src/components/site/contract/` (breadcrumb, byline dan kotak penulis, isi markdown, FAQ, navigasi hukum, tanggal artikel, JSON-LD) hanya boleh berubah kelas gayanya, bukan elemen, atribut, id, atau teks labelnya.
 
 `src/components/site/layout/route-guard.tsx` tetap milik boilerplate: ia menjaga satu `<h1>` di DOM setelah navigasi klien, jadi hanya bagian tampilan lain di `layout/` yang boleh ditulis ulang.
 
@@ -63,6 +63,8 @@ Panel admin dan mode `DATA_SOURCE=supabase` baru tersedia setelah Rencana 3. Sam
 
 ## 10. Demo
 
+Identitas paket demo `general` adalah All Fill Dev: nama situs, nomor WhatsApp, dan teks nama tanpa logo gambar. Email, telepon, alamat, dan seluruh isi lain adalah contoh yang disesuaikan per tema lewat paket konten. Identitas ini hanya untuk demo katalog, situs klien memakai nama, logo, kontak, dan WhatsApp klien. Set favicon yang sudah ada di `public/` masih dibuat dari logo lama paket demo dan harus dibuat ulang dari simbol All Fill Dev.
+
 1. Siapkan simbol persegi dari logo (wordmark panjang tidak terbaca di 16 dan 32 px), lalu jalankan `npm run favicon -- <simbol.png>`. Skrip menolak sumber yang tidak persegi.
 2. Deploy ke Vercel dengan `DATA_SOURCE=demo` dan `SITE_INDEXING=off`. `SITE_URL` diisi alamat demo.
 3. Catatan lisensi: foto manusia nyata dari Pexels di paket demo dipasangkan dengan testimoni fiktif. Foto itu harus diganti sebelum tema dipakai di situs klien.
@@ -74,7 +76,6 @@ Jalankan `npm run theme:check`. Perintah ini harus lolos: ia melaporkan berkas f
 - Satu `<h1>` per halaman dan komponen kontrak utuh.
 - Tidak ada nilai warna mentah dan tidak ada teks section yang ditulis langsung di view.
 - Tombol "Chat WhatsApp Sekarang" ada.
-- DemoNotice tampil di footer.
 - `structure.md` sudah diperbarui bila ada berkas yang ditambah, diganti nama, atau dipindah.
 
 ## Yang boleh diubah

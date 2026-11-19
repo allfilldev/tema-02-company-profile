@@ -11,12 +11,12 @@ describe("getSiteQueries", () => {
 
   it("serves the general pack in demo mode by default", async () => {
     vi.stubEnv("DATA_SOURCE", "");
-    expect((await getSiteQueries().getSettings()).siteName).toBe("Arunika Solusi");
+    expect((await getSiteQueries().getSettings()).siteName).toBe("All Fill Dev");
   });
 
   it("treats an unset data source as demo", async () => {
     vi.stubEnv("DATA_SOURCE", undefined);
-    expect((await getSiteQueries().getSettings()).siteName).toBe("Arunika Solusi");
+    expect((await getSiteQueries().getSettings()).siteName).toBe("All Fill Dev");
   });
 
   it("serves the general pack when the data source is demo", async () => {

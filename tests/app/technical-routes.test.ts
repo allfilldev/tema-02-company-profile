@@ -75,7 +75,7 @@ describe("manifest route", () => {
   it("describes the site with the two icons and the og theme colors", async () => {
     const result = await manifest();
 
-    expect(result.name).toBe("Arunika Solusi");
+    expect(result.name).toBe("All Fill Dev");
     expect(result.icons?.map((icon) => icon.src)).toEqual(["/icon-192.png", "/icon-512.png"]);
     expect(result.theme_color).toBe(ogTheme.primary);
     expect(result.background_color).toBe(ogTheme.background);
@@ -119,7 +119,7 @@ describe("llms.txt route", () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toBe("text/plain; charset=utf-8");
-    expect(body).toContain("Arunika Solusi");
+    expect(body).toContain("All Fill Dev");
     expect(body).toContain(`${SITE_URL}/layanan/penyusunan-sop`);
     expect(body).not.toMatch(/<rss\b/);
   });

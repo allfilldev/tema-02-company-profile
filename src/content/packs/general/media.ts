@@ -1,7 +1,6 @@
 import type { MediaAsset } from "@/core/domain/shared/media-asset";
 
 export const GENERAL_MEDIA_KEYS = [
-  "logo",
   "hero",
   "about",
   "service-konsultasi-strategi-bisnis",
@@ -56,13 +55,6 @@ export const GENERAL_MEDIA_KEYS = [
 export type GeneralMediaKey = (typeof GENERAL_MEDIA_KEYS)[number];
 
 export const generalMedia: Record<GeneralMediaKey, MediaAsset> = {
-  "logo": {
-    id: "logo",
-    url: "/demo/general/logo.webp",
-    alt: "Logo Arunika Solusi",
-    width: 600,
-    height: 160,
-  },
   "hero": {
     id: "hero",
     url: "/demo/general/hero.webp",

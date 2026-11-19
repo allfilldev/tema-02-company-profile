@@ -1,10 +1,9 @@
 # Kredit gambar paket demo general
 
-Foto paket demo ini diunduh dari Pexels dan dipakai di bawah Pexels License (gratis untuk penggunaan komersial, atribusi tidak wajib, tetapi dicatat di sini). Logo Arunika Solusi dan logo mitra dibuat khusus untuk paket demo, dan semua nama mitra bersifat fiktif.
+Foto paket demo ini diunduh dari Pexels dan dipakai di bawah Pexels License (gratis untuk penggunaan komersial, atribusi tidak wajib, tetapi dicatat di sini). Logo mitra dibuat khusus untuk paket demo, dan semua nama mitra bersifat fiktif.
 
 | Kunci | Fotografer | Halaman Pexels | Lisensi |
 |---|---|---|---|
-| logo | - | - | Dibuat untuk paket demo |
 | hero | Thirdman | https://www.pexels.com/photo/a-group-of-people-having-a-meeting-in-the-office-7652183/ | Pexels License |
 | about | Thirdman | https://www.pexels.com/photo/colleagues-in-an-office-7653580/ | Pexels License |
 | service-konsultasi-strategi-bisnis | Felicity Tai | https://www.pexels.com/photo/employees-on-a-conference-room-7964146/ | Pexels License |

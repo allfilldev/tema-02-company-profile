@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DemoNotice } from "@/components/site/contract/demo-notice";
 import { LegalFooterNav } from "@/components/site/contract/legal-footer-nav";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -9,7 +8,6 @@ import type { NavigationItem } from "@/server/site/navigation";
 type FooterProps = {
   settings: SiteSettings;
   navigation: NavigationItem[];
-  isDemo: boolean;
 };
 
 const CONTACT_LINK_CLASS_NAME = "inline-flex min-h-11 items-center underline underline-offset-4 hover:text-primary";
@@ -20,7 +18,7 @@ function phoneHref(phone: string): string {
   return `tel:${phone.replace(/\s+/g, "")}`;
 }
 
-export function Footer({ settings, navigation, isDemo }: FooterProps) {
+export function Footer({ settings, navigation }: FooterProps) {
   const { address } = settings;
 
   return (
@@ -74,7 +72,6 @@ export function Footer({ settings, navigation, isDemo }: FooterProps) {
         ) : null}
         <div className="flex flex-col gap-3 border-t border-border pt-6 md:col-span-3">
           <LegalFooterNav />
-          {isDemo ? <DemoNotice /> : null}
           <p className="text-sm text-muted-foreground">&copy; {settings.siteName}. Seluruh hak cipta dilindungi.</p>
         </div>
       </Container>
