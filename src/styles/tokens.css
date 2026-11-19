@@ -4,6 +4,11 @@
   --color-primary: #0f766e;
   --color-primary-foreground: #ffffff;
   --color-primary-hover: #115e59;
+  --color-primary-soft: #d7efec;
+  --color-highlight: #f97316;
+  --color-highlight-foreground: #0f172a;
+  --color-highlight-hover: #ea580c;
+  --color-highlight-soft: #ffedd5;
   --color-secondary: #e2e8f0;
   --color-accent: #ccfbf1;
   --color-accent-foreground: #134e4a;

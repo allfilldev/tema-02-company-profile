@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentProps, ComponentPropsWithoutRef } from "react";
 import { joinClassNames } from "@/lib/ui/class-names";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "inverse";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "inverse" | "highlight";
 type ButtonSize = "md" | "lg";
 
 type ButtonStyleProps = {
@@ -16,6 +16,7 @@ const BASE_CLASS_NAME =
 const VARIANT_CLASS_NAMES: Record<ButtonVariant, string> = {
   primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
   secondary: "bg-secondary text-foreground hover:bg-border",
+  highlight: "bg-highlight text-highlight-foreground hover:bg-highlight-hover",
   ghost: "text-primary hover:bg-accent hover:text-accent-foreground",
   inverse: "bg-surface text-surface-inverse hover:bg-accent hover:text-accent-foreground",
 };

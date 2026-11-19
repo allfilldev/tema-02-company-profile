@@ -95,6 +95,18 @@ describe("design tokens", () => {
     }
   });
 
+  it("declares the highlight tokens as 6 digit hex values in css and ts", () => {
+    for (const name of ["highlight", "highlight-foreground", "highlight-hover", "highlight-soft", "primary-soft"] as const) {
+      expect(cssTokens[name], name).toMatch(/^#[0-9a-f]{6}$/);
+      expect(tokenValues[name], name).toMatch(/^#[0-9a-f]{6}$/);
+    }
+  });
+
+  it("keeps highlight text readable with at least 4.5:1 contrast", () => {
+    expect(contrast(tokenValues["highlight-foreground"], tokenValues.highlight)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tokenValues["highlight-foreground"], tokenValues["highlight-hover"])).toBeGreaterThanOrEqual(4.5);
+  });
+
   it("keeps dark surfaces readable with at least 4.5:1 contrast", () => {
     expect(contrast(tokenValues["surface-inverse-foreground"], tokenValues["surface-inverse"])).toBeGreaterThanOrEqual(4.5);
     expect(contrast(tokenValues["sidebar-foreground"], tokenValues.sidebar)).toBeGreaterThanOrEqual(4.5);
