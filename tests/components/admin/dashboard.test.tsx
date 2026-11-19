@@ -43,3 +43,12 @@ describe("dashboard cards", () => {
     expect(markup).toContain("3 belum dibaca");
   });
 });
+
+describe("dashboard cards sparklines", () => {
+  it("renders a flat sparkline per card when there is no activity data", () => {
+    const markup = renderToStaticMarkup(<DashboardCards counts={counts} />);
+
+    expect(markup.match(/role="img"/g)).toHaveLength(3);
+    expect(markup).not.toContain("NaN");
+  });
+});
