@@ -90,10 +90,13 @@ describe("Motion classes on primitives", () => {
   it("fades only images that are neither priority nor eager", () => {
     const media = generalMedia["hero"];
 
-    expect(renderToStaticMarkup(<SiteImage media={media} />)).toContain("image-enter");
-    expect(renderToStaticMarkup(<SiteImage media={media} priority />)).not.toContain("image-enter");
-    expect(renderToStaticMarkup(<SiteImage media={media} eager />)).not.toContain("image-enter");
-    expect(renderToStaticMarkup(<SiteImage media={media} />)).toContain("bg-secondary");
+    const lazy = renderToStaticMarkup(<SiteImage media={media} />);
+
+    expect(lazy).not.toContain("data-image");
+    expect(lazy).not.toContain("opacity-0");
+    expect(SiteImage({ media }).type).not.toBe(SiteImage({ media, priority: true }).type);
+    expect(SiteImage({ media, eager: true }).type).toBe(SiteImage({ media, priority: true }).type);
+    expect(renderToStaticMarkup(<SiteImage media={media} />)).not.toContain("bg-secondary");
   });
 });
 

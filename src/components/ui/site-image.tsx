@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FadeImage } from "@/components/ui/fade-image";
 import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import { joinClassNames } from "@/lib/ui/class-names";
 
@@ -13,9 +14,10 @@ type SiteImageProps = {
 export function SiteImage({ media, priority = false, eager = false, sizes, className }: SiteImageProps) {
   const fades = !priority && !eager;
   const loading = eager && !priority ? "eager" : undefined;
+  const Component = fades ? FadeImage : Image;
 
   return (
-    <Image
+    <Component
       src={media.url}
       alt={media.alt}
       width={media.width}
@@ -23,7 +25,7 @@ export function SiteImage({ media, priority = false, eager = false, sizes, class
       preload={priority}
       loading={loading}
       sizes={sizes}
-      className={joinClassNames("h-auto max-w-full bg-secondary", fades && "image-enter", className)}
+      className={joinClassNames("h-auto max-w-full", className)}
     />
   );
 }

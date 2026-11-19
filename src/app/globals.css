@@ -120,8 +120,12 @@
   animation: page-enter var(--motion-enter-duration) var(--motion-ease-out) both;
 }
 
-.image-enter {
-  animation: page-enter var(--motion-duration-base) var(--motion-ease-out) both;
+img[data-image] {
+  transition: opacity var(--motion-duration-base) var(--motion-ease-out);
+}
+
+img[data-image="pending"] {
+  opacity: 0;
 }
 
 .menu-enter {
@@ -150,8 +154,15 @@
   }
 
   .page-enter,
-  .image-enter,
   .menu-enter {
     animation: none;
+  }
+
+  img[data-image] {
+    transition: none;
+  }
+
+  img[data-image="pending"] {
+    opacity: 1;
   }
 }
