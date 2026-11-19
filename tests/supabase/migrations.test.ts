@@ -83,6 +83,32 @@ describe("supabase migrations", () => {
     }
   });
 
+  it("grants table privileges explicitly: anon reads content only, never admins or contact messages", () => {
+    const grants = files.find((file) => file.name.endsWith("_grants.sql"));
+    expect(grants).toBeDefined();
+    const sql = grants!.sql;
+
+    expect(sql).toContain("grant usage on schema public to anon, authenticated");
+    for (const table of CONTENT_TABLES) {
+      expect(sql).toContain(`grant select on public.${table} to anon, authenticated;`);
+      expect(sql).toContain(`grant insert, update, delete on public.${table} to authenticated;`);
+    }
+    expect(sql).toContain("grant select, insert, update, delete on public.contact_messages to authenticated;");
+    expect(sql).toContain("grant select, insert, update, delete on public.admins to authenticated;");
+    expect(sql).not.toMatch(/on public\.(contact_messages|admins)[^;]*\bto anon/);
+  });
+
+  it("lets the service role use the tables for scripts, now and for future tables", () => {
+    expect(allSql).toContain("grant usage on schema public to service_role;");
+    expect(allSql).toContain("grant all on all tables in schema public to service_role;");
+    expect(allSql).toContain("alter default privileges in schema public grant all on tables to service_role;");
+  });
+
+  it("pins the search path of the trigger functions", () => {
+    expect(allSql).toMatch(/alter function public\.set_updated_at\(\) set search_path/);
+    expect(allSql).toMatch(/alter function public\.articles_published_at\(\) set search_path/);
+  });
+
   it("limits the contact rate by hashed ip", () => {
     expect(allSql).toContain("p_ip_hash");
     expect(allSql).toContain("rate_limited");

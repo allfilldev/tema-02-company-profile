@@ -1,18 +1,46 @@
-import { spawn } from "node:child_process";
+import { readdir, readFile } from "node:fs/promises";
+import path from "node:path";
+import postgres from "postgres";
 import { loadEnvLocal, requireEnv } from "./lib/load-env";
+import { pendingMigrations } from "./supabase/migration-runner";
+
+const MIGRATIONS_DIR = path.join(process.cwd(), "supabase", "migrations");
 
 async function main(): Promise<void> {
   await loadEnvLocal();
-  const dbUrl = requireEnv("SUPABASE_DB_URL");
+  const sql = postgres(requireEnv("SUPABASE_DB_URL"), { max: 1, ssl: "require" });
 
-  const exitCode = await new Promise<number>((resolve, reject) => {
-    const child = spawn("npx", ["supabase", "db", "push", "--db-url", dbUrl], { stdio: "inherit" });
-    child.on("error", reject);
-    child.on("close", (code) => resolve(code ?? 1));
-  });
+  try {
+    await sql`create schema if not exists supabase_migrations`;
+    await sql`
+      create table if not exists supabase_migrations.schema_migrations (
+        version text primary key,
+        statements text[],
+        name text
+      )
+    `;
 
-  if (exitCode !== 0) {
-    throw new Error(`supabase db push exited with code ${exitCode}`);
+    const applied = (await sql`select version from supabase_migrations.schema_migrations`).map((row) => String(row.version));
+    const pending = pendingMigrations(await readdir(MIGRATIONS_DIR), applied);
+
+    if (pending.length === 0) {
+      console.log("No pending migrations.");
+      return;
+    }
+
+    for (const migration of pending) {
+      const statements = await readFile(path.join(MIGRATIONS_DIR, migration.fileName), "utf8");
+      await sql.begin(async (transaction) => {
+        await transaction.unsafe(statements);
+        await transaction`
+          insert into supabase_migrations.schema_migrations (version, name, statements)
+          values (${migration.version}, ${migration.name}, ${[statements]})
+        `;
+      });
+      console.log(`Applied ${migration.fileName}`);
+    }
+  } finally {
+    await sql.end();
   }
 }
 
