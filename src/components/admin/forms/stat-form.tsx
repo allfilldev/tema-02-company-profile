@@ -13,7 +13,7 @@ export function StatForm({ record, action }: StatFormProps) {
     <ItemFormShell action={action} initial={record ?? {}} media={[]} isPublishable={false} isPublished={false} cancelHref={ADMIN_MODULE_PATHS.stats}>
       <TextField name="key" label="Kunci" required hint="Huruf kecil tanpa spasi, misalnya projects." />
       <TextField name="label" label="Label" required />
-      <NumberField name="value" label="Nilai" required />
+      <NumberField name="value" label="Nilai" required decimal />
       <TextField name="suffix" label="Akhiran" hint="Misalnya + atau %." />
     </ItemFormShell>
   );

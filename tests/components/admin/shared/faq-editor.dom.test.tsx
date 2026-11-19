@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { FaqEditor } from "@/components/admin/shared/faq-editor";
 
 function fieldNames(container: HTMLElement): string[] {
@@ -38,5 +38,18 @@ describe("FaqEditor", () => {
 
     expect((screen.getByLabelText("Pertanyaan 1") as HTMLInputElement).value).toBe("Siapa menulis?");
     expect((screen.getByLabelText("Pertanyaan 2") as HTMLInputElement).value).toBe("Apa itu SOP?");
+  });
+
+  it("tells the surrounding form that its content changed when a question is added", async () => {
+    const onInput = vi.fn();
+    render(
+      <form onInput={onInput}>
+        <FaqEditor initial={[]} />
+      </form>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Tambah pertanyaan" }));
+
+    expect(onInput).toHaveBeenCalled();
   });
 });

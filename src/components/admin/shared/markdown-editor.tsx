@@ -9,6 +9,7 @@ import { MediaPicker } from "@/components/admin/shared/media-picker";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import { insertImageMarkdown } from "@/lib/admin/markdown-insert";
+import { useFormChangeNotifier } from "@/lib/admin/use-form-change-notifier";
 
 type MarkdownEditorProps = {
   name: string;
@@ -27,6 +28,8 @@ export function MarkdownEditor({ name, label, initial, media }: MarkdownEditorPr
   const [pickerOpen, setPickerOpen] = useState(false);
   const [caption, setCaption] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [insertions, setInsertions] = useState(0);
+  useFormChangeNotifier(textareaRef, insertions);
   const baseId = useId();
   const textareaId = `${baseId}-text`;
 
@@ -35,6 +38,7 @@ export function MarkdownEditor({ name, label, initial, media }: MarkdownEditorPr
     const start = textarea?.selectionStart ?? value.length;
     const end = textarea?.selectionEnd ?? value.length;
     setValue(insertImageMarkdown(value, start, end, asset, caption).value);
+    setInsertions((count) => count + 1);
     setCaption("");
     setPickerOpen(false);
     textarea?.focus();

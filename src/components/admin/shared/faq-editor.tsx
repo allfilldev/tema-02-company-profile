@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useFormChangeNotifier } from "@/lib/admin/use-form-change-notifier";
 import type { FaqItem } from "@/core/domain/shared/faq-item";
 
 type FaqEditorProps = {
@@ -15,7 +16,10 @@ type Entry = FaqItem & { key: number };
 
 export function FaqEditor({ initial }: FaqEditorProps) {
   const nextKey = useRef(initial.length);
+  const rootRef = useRef<HTMLDivElement>(null);
   const [entries, setEntries] = useState<Entry[]>(() => initial.map((item, index) => ({ ...item, key: index })));
+
+  useFormChangeNotifier(rootRef, entries.map((entry) => entry.key).join(","));
 
   function update(index: number, patch: Partial<FaqItem>) {
     setEntries((current) => current.map((entry, position) => (position === index ? { ...entry, ...patch } : entry)));
@@ -43,7 +47,7 @@ export function FaqEditor({ initial }: FaqEditorProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div ref={rootRef} className="flex flex-col gap-4">
       {entries.map((entry, index) => (
         <fieldset key={entry.key} className="flex flex-col gap-3 rounded-md border border-border p-4">
           <legend className="px-1 text-sm font-semibold text-foreground">{`Pertanyaan ${index + 1}`}</legend>

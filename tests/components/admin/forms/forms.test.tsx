@@ -202,3 +202,10 @@ describe("article form with an unpublished author", () => {
   });
 });
 
+describe("stat form", () => {
+  it("lets phone keyboards type decimals in the value field", () => {
+    const markup = renderToStaticMarkup(<StatForm record={buildStatRecord()} action={action} />);
+
+    expect(/<input[^>]*name="value"[^>]*>/.exec(markup)?.[0]).toContain('inputMode="decimal"');
+  });
+});

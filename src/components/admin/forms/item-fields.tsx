@@ -80,13 +80,13 @@ export function TextareaField({ name, label, required, hint, rows = 4 }: BaseFie
   );
 }
 
-export function NumberField({ name, label, required, hint }: BaseFieldProps) {
+export function NumberField({ name, label, required, hint, decimal = false }: BaseFieldProps & { decimal?: boolean }) {
   const { values, errors } = useItemForm();
   const id = useId();
 
   return (
     <Field label={label} htmlFor={id} error={errors[name]} required={required}>
-      <Input id={id} name={name} type="number" inputMode="numeric" min={0} defaultValue={textOf(values[name])} invalid={Boolean(errors[name])} />
+      <Input id={id} name={name} type="number" inputMode={decimal ? "decimal" : "numeric"} min={0} step={decimal ? "any" : undefined} defaultValue={textOf(values[name])} invalid={Boolean(errors[name])} />
       {hint ? <Hint>{hint}</Hint> : null}
     </Field>
   );

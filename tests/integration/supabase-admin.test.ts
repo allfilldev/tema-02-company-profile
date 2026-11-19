@@ -80,4 +80,15 @@ describe.skipIf(!enabled)("supabase admin repositories against the real project"
     const counts = await repos.articleAuthors.countByAuthor(member.id);
     expect(counts.all).toBeGreaterThanOrEqual(counts.published);
   });
+
+  it("does not let an anonymous client write", async () => {
+    const anon = createClient(URL ?? "", PUBLISHABLE_KEY ?? "", { auth: { persistSession: false, autoRefreshToken: false } });
+    const slug = `${PREFIX}anon`;
+
+    const { error } = await anon.from("services").insert({ slug, title: "Tidak boleh", body_md: "" });
+    const { data } = await anon.from("services").select("id").eq("slug", slug);
+
+    expect(error).not.toBeNull();
+    expect(data ?? []).toHaveLength(0);
+  });
 });

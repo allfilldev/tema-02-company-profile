@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { MarkdownEditor } from "@/components/admin/shared/markdown-editor";
 
 const media = [{ id: "m1", url: "/demo/a.webp", alt: "Tim rapat", width: 800, height: 600 }];
@@ -40,5 +40,19 @@ describe("MarkdownEditor", () => {
     await userEvent.click(screen.getByRole("button", { name: "Tim rapat" }));
 
     expect(textarea().value).toBe("![Tim rapat](/demo/a.webp)");
+  });
+
+  it("tells the surrounding form that its content changed after an image is inserted", async () => {
+    const onInput = vi.fn();
+    render(
+      <form onInput={onInput}>
+        <MarkdownEditor name="bodyMd" label="Isi" initial="" media={media} />
+      </form>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Sisipkan gambar" }));
+    await userEvent.click(screen.getByRole("button", { name: "Tim rapat" }));
+
+    expect(onInput).toHaveBeenCalled();
   });
 });
