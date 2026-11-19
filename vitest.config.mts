@@ -25,7 +25,7 @@ export default defineConfig({
           name: "dom",
           environment: "jsdom",
           include: [DOM_TEST_PATTERN],
-          setupFiles: SETUP_FILES,
+          setupFiles: [...SETUP_FILES, "tests/setup/dom-cleanup.ts"],
         },
       },
     ],

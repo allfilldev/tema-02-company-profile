@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense, type ReactNode } from "react";
+import { AdminShell } from "@/components/admin/layout/admin-shell";
+import { themeConfig } from "@/config/theme";
+import { buildAdminMenu } from "@/lib/admin/admin-menu";
 import { requireAdmin } from "@/server/admin/admin-session";
 
 export const metadata: Metadata = {
@@ -8,8 +11,13 @@ export const metadata: Metadata = {
 };
 
 async function AdminGate({ children }: { children: ReactNode }) {
-  await requireAdmin();
-  return <>{children}</>;
+  const session = await requireAdmin();
+
+  return (
+    <AdminShell menu={buildAdminMenu(themeConfig.enabledModules)} adminEmail={session.email}>
+      {children}
+    </AdminShell>
+  );
 }
 
 export default function AdminPanelLayout({ children }: { children: ReactNode }) {
