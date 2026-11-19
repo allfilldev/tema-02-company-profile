@@ -185,3 +185,20 @@ describe("portfolio form", () => {
     expect(markup.match(/name="gallery" value="media-\d"/g)).toEqual(['name="gallery" value="media-2"', 'name="gallery" value="media-5"']);
   });
 });
+
+describe("article form with an unpublished author", () => {
+  it("keeps the current author selectable so saving a draft does not clear it", () => {
+    const markup = renderToStaticMarkup(
+      <ArticleForm
+        record={buildArticleRecord({ authorId: "team-2" })}
+        media={media}
+        siteName={siteName}
+        authors={[buildTeamMemberRecord({ id: "team-2", name: "Bayu Pratama", isPublished: false })]}
+        action={action}
+      />,
+    );
+
+    expect(markup).toContain("Bayu Pratama (belum terbit)");
+  });
+});
+

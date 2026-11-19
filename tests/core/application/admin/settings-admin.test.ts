@@ -34,6 +34,7 @@ describe("updateSiteSettings", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(Object.keys(result.fieldErrors).sort()).toEqual(["email", "whatsappNumber"]);
+      expect(result.fieldErrors.email).toBe("Alamat email tidak valid.");
     }
     expect(repo.update).not.toHaveBeenCalled();
   });

@@ -12,6 +12,8 @@ import {
   type AdminActionOutcome,
   type AdminFormState,
 } from "@/lib/admin/form-state";
+import { duplicateFieldFrom } from "@/lib/admin/db-errors";
+import { fieldLabel } from "@/lib/admin/field-labels";
 import { readCollectionForm } from "@/lib/admin/form-data";
 import { ADMIN_MODULE_PATHS } from "@/lib/site/routes";
 import { getAdminDeps, type AdminDeps } from "@/server/admin/admin-deps";
@@ -20,6 +22,7 @@ import { revalidateAdminChange } from "@/server/data/revalidation";
 
 const DELETE_FAILED_MESSAGE = "Gagal menghapus. Coba lagi.";
 const ACTION_FAILED_MESSAGE = "Gagal memproses permintaan. Coba lagi.";
+const DUPLICATE_MESSAGES = { slug: "Slug ini sudah dipakai item lain.", key: "Kunci ini sudah dipakai statistik lain." };
 const BLOCKED_MESSAGE = "Belum bisa diproses. Periksa isian berikut:";
 
 function moduleFrom(name: string): AdminModule {
@@ -44,7 +47,7 @@ function describeFailure(failure: AdminFailure): string {
   const fields = Object.keys(failure.fieldErrors);
   const parts = [...failure.blocking];
   if (fields.length > 0) {
-    parts.push(`${BLOCKED_MESSAGE} ${fields.join(", ")}.`);
+    parts.push(`${BLOCKED_MESSAGE} ${fields.map(fieldLabel).join(", ")}.`);
   }
   return parts.join(" ") || ACTION_FAILED_MESSAGE;
 }
@@ -79,6 +82,10 @@ export async function saveItem(
     revalidateAdminChange({ kind: "collection", affected: result.affected });
     warnings = result.warnings;
   } catch (error) {
+    const duplicate = duplicateFieldFrom(error);
+    if (duplicate) {
+      return invalidState({ fieldErrors: { [duplicate]: DUPLICATE_MESSAGES[duplicate] }, blocking: [], warnings: [] }, preserved);
+    }
     console.error(`Saving ${module} failed: ${error instanceof Error ? error.message : String(error)}`);
     return failedState(preserved);
   }

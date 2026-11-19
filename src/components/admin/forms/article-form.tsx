@@ -15,7 +15,9 @@ type ArticleFormProps = {
 };
 
 export function ArticleForm({ record, media, siteName, authors, action }: ArticleFormProps) {
-  const authorOptions = authors.filter((author) => author.isPublished).map((author) => ({ value: author.id, label: author.name }));
+  const authorOptions = authors
+    .filter((author) => author.isPublished || author.id === record?.authorId)
+    .map((author) => ({ value: author.id, label: author.isPublished ? author.name : `${author.name} (belum terbit)` }));
 
   return (
     <ItemFormShell

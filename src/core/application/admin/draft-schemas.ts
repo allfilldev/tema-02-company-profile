@@ -35,7 +35,7 @@ const portfolioDraft = z.object({
   bodyMd: z.string(),
   cover: optionalMedia,
   gallery: z.array(mediaAssetSchema),
-  completedOn: z.iso.date().nullable(),
+  completedOn: z.iso.date({ error: "Tanggal tidak valid." }).nullable(),
   metaTitle: optionalText,
   metaDescription: optionalText,
 });
@@ -45,14 +45,14 @@ const teamDraft = z.object({
   jobTitle: optionalText,
   bio: optionalText,
   photo: optionalMedia,
-  yearsExperience: z.number().int().min(0).nullable(),
+  yearsExperience: z.number({ error: "Isi dengan angka." }).int().min(0).nullable(),
   profiles: z.array(httpUrlField),
 });
 
 const statDraft = z.object({
   key: z.string().regex(STAT_KEY_PATTERN, "Key statistik harus snake_case huruf kecil, contoh completed_projects."),
   label: requiredText,
-  value: z.number().min(0),
+  value: z.number({ error: "Isi dengan angka." }).min(0),
   suffix: optionalText,
 });
 

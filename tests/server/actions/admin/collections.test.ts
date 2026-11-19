@@ -157,3 +157,36 @@ describe("deleteItem, moveItem, and setItemPublished", () => {
     expect(await moveItem("articles", "a1", "up")).toMatchObject({ ok: false });
   });
 });
+
+describe("friendly failures", () => {
+  it("reports a duplicate slug as a field error instead of a generic failure", async () => {
+    const deps = buildDeps();
+    deps.repos.collections.services.create = vi.fn(async () => {
+      throw new Error('Supabase services: duplicate key value violates unique constraint "services_slug_key"');
+    }) as never;
+    mocks.getAdminDeps.mockResolvedValue(deps);
+
+    const state = await saveItem("services", null, INITIAL_ADMIN_FORM_STATE, formWith(VALID_SERVICE));
+
+    expect(state.status).toBe("invalid");
+    expect(state.fieldErrors).toEqual({ slug: "Slug ini sudah dipakai item lain." });
+    expect(mocks.revalidate).not.toHaveBeenCalled();
+  });
+
+  it("names the missing fields by their form labels when a list publish is blocked", async () => {
+    const deps = buildDeps();
+    mocks.getAdminDeps.mockResolvedValue(deps);
+    await expect(
+      saveItem("services", null, INITIAL_ADMIN_FORM_STATE, formWith([["slug", "layanan-draf"], ["title", "Layanan Draf"]])),
+    ).rejects.toThrow("NEXT_REDIRECT");
+    const id = deps.repos.collections.services.records[0].id;
+
+    const outcome = await setItemPublished("services", id, true);
+
+    expect(outcome.ok).toBe(false);
+    const message = outcome.ok ? "" : outcome.message;
+    expect(message).toContain("Ringkasan");
+    expect(message).toContain("Meta title");
+    expect(message).not.toContain("metaTitle");
+  });
+});

@@ -68,4 +68,11 @@ describe("message list", () => {
   it("shows a message when there are no messages", () => {
     expect(renderToStaticMarkup(<MessageList messages={[]} actions={actions} />)).toContain("Belum ada pesan masuk.");
   });
+
+  it("does not turn an email that carries mailto parameters into a link", () => {
+    const markup = renderToStaticMarkup(<MessageList messages={[buildMessage({ email: "a@x.com?cc=evil%40x.com&body=halo" })]} actions={actions} />);
+
+    expect(markup).not.toContain("mailto:");
+    expect(markup).toContain("a@x.com?cc=evil%40x.com&amp;body=halo");
+  });
 });

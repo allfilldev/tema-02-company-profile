@@ -52,3 +52,18 @@ describe("draftSchemaFor", () => {
     expect(draftSchemaFor("partners").safeParse({ name: "Mitra", logo: null, url: "bukan-url" }).success).toBe(false);
   });
 });
+
+describe("Indonesian validation messages", () => {
+  function messageFor(module: "partners" | "stats", values: Record<string, unknown>, field: string): string | undefined {
+    const result = draftSchemaFor(module).safeParse(values);
+    return result.success ? undefined : result.error.issues.find((issue) => issue.path[0] === field)?.message;
+  }
+
+  it("explains a partner url without a protocol", () => {
+    expect(messageFor("partners", { name: "Mitra", logo: null, url: "www.contoh.co.id" }, "url")).toBe("Alamat harus diawali http:// atau https://.");
+  });
+
+  it("asks for a number when a stat value is missing", () => {
+    expect(messageFor("stats", { key: "projects", label: "Proyek", suffix: null }, "value")).toBe("Isi dengan angka.");
+  });
+});

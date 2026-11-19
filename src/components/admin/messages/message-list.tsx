@@ -12,7 +12,8 @@ type MessageListProps = {
   };
 };
 
-const LINK_CLASS_NAME = "font-semibold text-primary underline underline-offset-4";
+const LINK_CLASS_NAME = "inline-flex min-h-11 items-center font-semibold text-primary underline underline-offset-4";
+const SAFE_EMAIL_PATTERN = /^[^@\s?&#%]+@[^@\s?&#%]+\.[^@\s?&#%]+$/;
 
 export function MessageList({ messages, actions }: MessageListProps) {
   if (messages.length === 0) {
@@ -33,9 +34,13 @@ export function MessageList({ messages, actions }: MessageListProps) {
             </div>
           </div>
           <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-            <a href={`mailto:${message.email}`} className={LINK_CLASS_NAME}>
-              {message.email}
-            </a>
+            {SAFE_EMAIL_PATTERN.test(message.email) ? (
+              <a href={`mailto:${message.email}`} className={LINK_CLASS_NAME}>
+                {message.email}
+              </a>
+            ) : (
+              <span>{message.email}</span>
+            )}
             {message.phone ? (
               <a href={`tel:${message.phone}`} className={LINK_CLASS_NAME}>
                 {message.phone}
