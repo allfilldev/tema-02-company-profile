@@ -40,10 +40,10 @@ Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan 
 
 Bungkus bagian di bawah lipatan dengan `Reveal` (`src/components/ui/reveal.tsx`, mis. `<Reveal><TestimonialsSection ... /></Reveal>`). Keluaran server selalu terlihat, jadi crawler dan pengguna tanpa JavaScript tetap melihat isinya; di browser, bagian yang belum terlihat muncul bertahap saat di-scroll, dan semua gerakan mati bagi pengguna yang memilih "kurangi gerakan".
 
-- **Token** di `src/styles/tokens.css` yang boleh disetel tema: `--motion-duration-fast`, `--motion-duration-base`, `--motion-duration-slow`, `--motion-ease-out`, `--motion-ease-in-out`, `--motion-stagger`, `--motion-enter-duration`, dan `--motion-press-scale`, serta `--motion-distance`. Token lama `--motion-duration` dan `--motion-ease` tetap berlaku sebagai alias.
+- **Token** di `src/styles/tokens.css` yang boleh disetel tema: `--motion-duration-fast`, `--motion-duration-base`, `--motion-duration-slow`, `--motion-ease-out`, `--motion-ease-in-out`, `--motion-stagger`, `--motion-enter-duration`, `--motion-enter-distance`, dan `--motion-press-scale`, serta `--motion-distance`. Token lama `--motion-duration` dan `--motion-ease` tetap berlaku sebagai alias.
 - **`variant`**: `up` (bawaan), `fade`, `scale`, `left`, `right`, atau `zoom`. Pakai `fade` untuk pembungkus seksi yang isinya sudah bergerak sendiri, supaya gerakan tidak berlipat.
 - **`stagger`**: indeks item (mis. `<Reveal as="li" stagger={index}>`); jedanya `--motion-stagger` per indeks dan dibatasi enam langkah. Prop `delay` (milidetik) yang diisi eksplisit menang atas `stagger`.
-- **`page-enter`**: view yang ditulis ulang harus mempertahankan pembungkus `<div className="page-enter">` di akarnya supaya isi memudar masuk setelah skeleton (hanya opasitas). Menu mobile memakai kelas `menu-enter` saat terbuka.
+- **`page-enter`**: view yang ditulis ulang harus mempertahankan pembungkus `<div className="page-enter">` di akarnya supaya empat seksi pertamanya memudar masuk berurutan setelah skeleton (seksi pertama hanya opasitas, tanpa pergeseran). Menu mobile memakai kelas `menu-enter` saat terbuka.
 - **Batas**: hanya `opacity` dan `transform`. Jangan membungkus hero atau elemen LCP, jangan menyalin pengamat sendiri, dan jangan menyembunyikan konten dari keluaran server.
 
 `src/components/site/layout/route-guard.tsx` tetap milik boilerplate: ia menjaga satu `<h1>` di DOM setelah navigasi klien, jadi hanya bagian tampilan lain di `layout/` yang boleh ditulis ulang.
