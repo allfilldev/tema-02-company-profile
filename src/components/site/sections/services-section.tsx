@@ -28,7 +28,12 @@ const ALL_LABEL = "Lihat semua layanan";
 const SERVICE_ICONS = ["layers", "target", "lightbulb", "rocket", "shield-check", "zap"];
 const TILE_CLASS_NAMES = ["bg-primary-soft text-primary", "bg-highlight-soft text-highlight-hover"];
 const CARD_CLASS_NAME =
-  "motion-press group flex h-full flex-col items-center gap-4 rounded-2xl border border-surface-inverse-foreground/10 bg-surface-inverse-foreground/5 px-4 py-8 text-center transition-colors hover:border-surface-inverse-foreground/30 hover:bg-surface-inverse-foreground/10";
+  "motion-press group flex h-full w-full flex-col items-center gap-4 rounded-2xl border border-surface-inverse-foreground/10 bg-surface-inverse-foreground/5 px-5 py-8 text-center transition-colors hover:border-surface-inverse-foreground/30 hover:bg-surface-inverse-foreground/10";
+const WIDE_COLUMN_COUNTS = [3, 6, 9];
+
+function itemWidthClassName(count: number): string {
+  return WIDE_COLUMN_COUNTS.includes(count) ? "w-1/2 md:w-1/3" : "w-1/2 md:w-1/3 lg:w-1/4";
+}
 
 type ServiceCardProps = {
   service: Service;
@@ -84,19 +89,22 @@ export function ServicesSection({ services, intro, joinsDarkSection = false }: S
     <section
       id="layanan"
       aria-labelledby="layanan-title"
-      className="relative z-10 bg-surface-inverse py-20 text-surface-inverse-foreground md:py-28"
+      className={joinClassNames(
+        "relative z-10 bg-surface-inverse pt-20 text-surface-inverse-foreground md:pt-28",
+        joinsDarkSection ? "pb-12 md:pb-16" : "pb-20 md:pb-28",
+      )}
     >
       <WaveEdge edge="top" tone="inverse" />
       <Container>
         <SectionHeading id="layanan-title" eyebrow={intro.eyebrow} title={intro.title} description={intro.description} tone="dark" align="center" />
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+        <ul className="-mx-2 flex flex-wrap justify-center">
           {services.map((service, index) => (
-            <Reveal key={service.id} as="li" stagger={index}>
+            <Reveal key={service.id} as="li" stagger={index} className={joinClassNames("flex p-2", itemWidthClassName(services.length))}>
               <ServiceTile service={service} index={index} />
             </Reveal>
           ))}
         </ul>
-        <p className="mt-10 text-center">
+        <p className="mt-8 text-center md:mt-10">
           <ButtonLink href="/layanan" variant="highlight">
             {ALL_LABEL}
           </ButtonLink>

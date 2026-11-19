@@ -21,18 +21,6 @@ function formatStatValue(stat: Stat): string {
   return `${NUMBER_FORMAT.format(stat.value)}${stat.suffix ?? ""}`;
 }
 
-function ColoredNumeral({ text, offset }: { text: string; offset: number }) {
-  return (
-    <>
-      {Array.from(text).map((char, index) => (
-        <span key={`${index}-${char}`} className={NUMERAL_COLOR_CLASS_NAMES[(offset + index) % NUMERAL_COLOR_CLASS_NAMES.length]}>
-          {char}
-        </span>
-      ))}
-    </>
-  );
-}
-
 export function StatsSection({ stats, intro, id = "statistik", edgeTop = true, overlapped = false }: StatsSectionProps) {
   if (stats.length === 0 || !intro) {
     return null;
@@ -45,23 +33,14 @@ export function StatsSection({ stats, intro, id = "statistik", edgeTop = true, o
       id={id}
       aria-labelledby={titleId}
       className={joinClassNames(
-        "relative z-10 bg-surface-inverse pt-20 text-surface-inverse-foreground md:pt-28",
+        "relative z-10 bg-surface-inverse text-surface-inverse-foreground",
+        edgeTop ? "pt-20 md:pt-28" : "-mt-px pt-4 md:pt-8",
         overlapped ? "pb-32 md:pb-44" : "pb-20 md:pb-28",
       )}
     >
       {edgeTop ? <WaveEdge edge="top" tone="inverse" /> : null}
       <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 text-center lg:col-span-7">
-            {stats.map((stat, index) => (
-              <div key={stat.key} className="flex min-w-0 flex-col-reverse gap-1">
-                <dt className="text-sm font-medium text-surface-inverse-foreground/80 md:text-base">{stat.label}</dt>
-                <dd className="font-heading text-5xl font-extrabold leading-none sm:text-6xl tracking-tighter md:text-7xl xl:text-8xl">
-                  <ColoredNumeral text={formatStatValue(stat)} offset={index} />
-                </dd>
-              </div>
-            ))}
-          </dl>
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
           <header className="min-w-0 lg:col-span-5">
             {intro.eyebrow ? (
               <p className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-surface-inverse-foreground/80">
@@ -74,6 +53,21 @@ export function StatsSection({ stats, intro, id = "statistik", edgeTop = true, o
             </h2>
             {intro.description ? <p className="mt-4 text-base text-surface-inverse-foreground/80 md:text-lg">{intro.description}</p> : null}
           </header>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 lg:col-span-7 lg:gap-x-10 lg:gap-y-10">
+            {stats.map((stat, index) => (
+              <div key={stat.key} className="flex min-w-0 flex-col-reverse justify-end gap-2 border-t border-surface-inverse-foreground/15 pt-5">
+                <dt className="text-sm font-medium text-surface-inverse-foreground/80 md:text-base">{stat.label}</dt>
+                <dd
+                  className={joinClassNames(
+                    "whitespace-nowrap font-heading text-4xl font-extrabold leading-none tracking-tighter tabular-nums sm:text-5xl md:text-6xl",
+                    NUMERAL_COLOR_CLASS_NAMES[index % NUMERAL_COLOR_CLASS_NAMES.length],
+                  )}
+                >
+                  {formatStatValue(stat)}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </Container>
       {overlapped ? null : <WaveEdge edge="bottom" tone="inverse" />}
