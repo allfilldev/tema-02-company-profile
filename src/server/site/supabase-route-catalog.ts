@@ -6,7 +6,7 @@ import { createRouteCatalogMemo, type RouteCatalogMemo } from "@/server/site/rou
 import { toSiteRouteCatalog } from "@/server/site/route-catalog";
 import { getSupabasePublicEnv } from "@/server/supabase/supabase-env";
 
-const CATALOG_TTL_MS = 60_000;
+export const CATALOG_TTL_MS = 10_000;
 const CATALOG_MIN_REFRESH_MS = 5_000;
 
 let memo: RouteCatalogMemo | null = null;

@@ -68,6 +68,6 @@ Aturan yang dijaga panel:
 
 - Draf boleh disimpan dengan isian minimal (judul atau nama dan slug). Saat menerbitkan, dan saat menyimpan item yang sudah terbit, semua aturan wajib (meta title dan description, FAQ, alt gambar, catatan kaki, tautan ke modul yang mati) memblokir penyimpanan.
 - Artikel hanya bisa terbit bila penulisnya anggota tim yang terbit. Anggota tim yang masih menjadi penulis tidak bisa dihapus, dan yang menjadi penulis artikel terbit tidak bisa ditarik. Tanggal terbit artikel diisi otomatis dan tidak bisa diubah.
-- Mengubah slug item terbit membuat URL lama menjadi 404 (peringatan tampil di formulir). Perubahan langsung tampil di website publik tanpa deploy ulang; satu-satunya jeda adalah katalog rute di proxy yang diingat sampai 60 detik, sehingga URL lama bisa masih dilayani sampai selama itu.
+- Mengubah slug item terbit membuat URL lama menjadi 404 (peringatan tampil di formulir). Perubahan langsung tampil di website publik tanpa deploy ulang; satu-satunya jeda adalah katalog rute di proxy yang diingat sampai 10 detik, sehingga URL lama bisa masih dilayani sampai selama itu.
 - Gambar yang masih dipakai konten tidak bisa dihapus.
 - Isi permintaan server action dibatasi 4 MB (`bodySizeLimit` di `next.config.ts`), sehingga unggahan yang sudah dikecilkan browser tetap di bawah batas permintaan Vercel.
