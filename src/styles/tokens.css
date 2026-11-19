@@ -17,6 +17,7 @@
   --color-success: #15803d;
   --color-warning: #b45309;
   --color-danger: #b91c1c;
+  --color-whatsapp: #25d366;
 
   --font-heading: var(--font-heading-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-body-source, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;

@@ -15,6 +15,7 @@ export const tokenValues = {
   success: "#15803d",
   warning: "#b45309",
   danger: "#b91c1c",
+  whatsapp: "#25d366",
 } as const;
 
 export type OgTheme = {
