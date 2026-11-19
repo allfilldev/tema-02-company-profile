@@ -3,6 +3,7 @@ import { StatsSection } from "@/components/site/sections/stats-section";
 import { TeamSection } from "@/components/site/sections/team-section";
 import { VisionSection } from "@/components/site/sections/vision-section";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { AboutPageModel } from "@/server/site/models/about";
@@ -19,7 +20,7 @@ export function AboutView({ model }: AboutViewProps) {
   const hasProfile = about.bodyMd.trim().length > 0 || about.image !== null;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={intro?.eyebrow} title={intro?.title ?? about.metaTitle} description={intro?.description ?? about.summary} />
       {hasProfile ? (
         <Section id="profil">
@@ -33,9 +34,15 @@ export function AboutView({ model }: AboutViewProps) {
           </div>
         </Section>
       ) : null}
-      <VisionSection vision={model.vision} intro={intros.vision} />
-      <TeamSection team={model.team} intro={intros.team} />
-      <StatsSection stats={model.stats} intro={intros.stats} />
-    </>
+      <Reveal variant="fade">
+        <VisionSection vision={model.vision} intro={intros.vision} />
+      </Reveal>
+      <Reveal variant="fade">
+        <TeamSection team={model.team} intro={intros.team} />
+      </Reveal>
+      <Reveal>
+        <StatsSection stats={model.stats} intro={intros.stats} />
+      </Reveal>
+    </div>
   );
 }

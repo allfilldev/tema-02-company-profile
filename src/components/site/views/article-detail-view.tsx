@@ -7,6 +7,7 @@ import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import type { Article } from "@/core/domain/article/article";
 import type { ArticleDetailModel } from "@/server/site/models/articles";
@@ -48,7 +49,7 @@ export function ArticleDetailView({ model }: ArticleDetailViewProps) {
   const { article, authorFacts, related, mediaSizes } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero title={article.title} description={article.lead} image={article.cover}>
         <div className="mt-6 space-y-2">
           <AuthorByline authorName={article.author.name} />
@@ -66,7 +67,9 @@ export function ArticleDetailView({ model }: ArticleDetailViewProps) {
           </div>
         </div>
       </Container>
-      <RelatedArticles articles={related} />
-    </>
+      <Reveal>
+        <RelatedArticles articles={related} />
+      </Reveal>
+    </div>
   );
 }

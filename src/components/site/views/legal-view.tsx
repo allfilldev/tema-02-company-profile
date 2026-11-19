@@ -14,7 +14,7 @@ const UPDATED_LABEL = "Diperbarui terakhir";
 
 export function LegalDocument({ page, mediaSizes }: { page: LegalPage; mediaSizes?: MediaSizes }) {
   return (
-    <>
+    <div className="page-enter">
       <PageHero title={page.title} description={page.intro} />
       <Container className="py-10 md:py-14">
         <div className="max-w-3xl">
@@ -37,7 +37,7 @@ export function LegalDocument({ page, mediaSizes }: { page: LegalPage; mediaSize
           </div>
         </div>
       </Container>
-    </>
+    </div>
   );
 }
 

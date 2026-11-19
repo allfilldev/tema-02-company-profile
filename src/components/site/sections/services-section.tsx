@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
@@ -49,10 +50,10 @@ export function ServicesSection({ services, intro }: ServicesSectionProps) {
   return (
     <Section id="layanan" eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
-          <li key={service.id}>
+        {services.map((service, index) => (
+          <Reveal key={service.id} as="li" stagger={index}>
             <ServiceCard service={service} />
-          </li>
+          </Reveal>
         ))}
       </ul>
       <p className="mt-8">

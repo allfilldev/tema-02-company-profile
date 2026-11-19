@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
@@ -20,8 +21,8 @@ export function TeamSection({ team, intro, id = "tim" }: TeamSectionProps) {
   return (
     <Section id={id} eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {team.map((member) => (
-          <li key={member.id}>
+        {team.map((member, index) => (
+          <Reveal key={member.id} as="li" stagger={index}>
             <Card className="flex h-full flex-col gap-4">
               {member.photo ? (
                 <div className="size-32 overflow-hidden rounded-full border border-border">
@@ -37,7 +38,7 @@ export function TeamSection({ team, intro, id = "tim" }: TeamSectionProps) {
               </div>
               <p className="text-base text-muted-foreground">{member.bio}</p>
             </Card>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </Section>

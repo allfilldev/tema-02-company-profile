@@ -14,7 +14,7 @@ const MENU_ID = "menu-mobile";
 const LIST_CLASS_NAME_CLOSED = "hidden md:flex md:items-center md:gap-1";
 
 const LIST_CLASS_NAME_OPEN =
-  "absolute inset-x-0 top-full flex flex-col border-b border-border bg-surface px-4 py-2 shadow-card md:static md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none";
+  "menu-enter absolute inset-x-0 top-full flex flex-col border-b border-border bg-surface px-4 py-2 shadow-card md:static md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none";
 
 const LINK_CLASS_NAME =
   "inline-flex min-h-11 w-full items-center rounded-md px-3 font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:w-auto";

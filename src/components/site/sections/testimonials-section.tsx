@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
@@ -19,8 +20,8 @@ export function TestimonialsSection({ testimonials, intro }: TestimonialsSection
   return (
     <Section id="testimoni" eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((testimonial) => (
-          <li key={testimonial.id}>
+        {testimonials.map((testimonial, index) => (
+          <Reveal key={testimonial.id} as="li" stagger={index}>
             <Card className="h-full">
               <figure className="flex h-full flex-col gap-4">
                 <blockquote className="flex-1 text-base text-foreground">
@@ -39,7 +40,7 @@ export function TestimonialsSection({ testimonials, intro }: TestimonialsSection
                 </figcaption>
               </figure>
             </Card>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </Section>

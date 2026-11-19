@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { PortfolioItem } from "@/core/domain/portfolio/portfolio-item";
@@ -88,7 +89,7 @@ export function PortfolioDetailView({ model }: PortfolioDetailViewProps) {
   const { item, others, mediaSizes } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero title={item.title} description={item.summary} image={item.cover} />
       <Section id="studi-kasus">
         <div className="max-w-3xl space-y-8">
@@ -96,8 +97,12 @@ export function PortfolioDetailView({ model }: PortfolioDetailViewProps) {
           <MarkdownContent source={item.bodyMd} mediaSizes={mediaSizes} />
         </div>
       </Section>
-      <ProjectGallery item={item} />
-      <OtherItems items={others} />
-    </>
+      <Reveal>
+        <ProjectGallery item={item} />
+      </Reveal>
+      <Reveal>
+        <OtherItems items={others} />
+      </Reveal>
+    </div>
   );
 }

@@ -54,7 +54,7 @@ export function HomeView({ model }: HomeViewProps) {
   const hasHeroActions = Boolean(hero.primaryCta || hero.secondaryCta);
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={hero.heroEyebrow} title={hero.heroTitle} description={hero.heroSubtitle} image={hero.heroImage}>
         {hasHeroActions ? (
           <div className="mt-8 flex flex-wrap gap-3">
@@ -64,18 +64,18 @@ export function HomeView({ model }: HomeViewProps) {
         ) : null}
       </PageHero>
       <StatsSection stats={model.stats} intro={intros.stats} />
-      <Reveal><ServicesSection services={model.services} intro={intros.services} /></Reveal>
-      <Reveal><HowWeWork block={blocks["how-we-work"]} /></Reveal>
-      <Reveal><PortfolioSection items={model.featuredPortfolio} intro={intros.portfolio} /></Reveal>
-      <Reveal><WhyChooseUs block={blocks["why-choose-us"]} /></Reveal>
-      <Reveal><AboutTeaser about={model.about} intro={intros.about} /></Reveal>
-      <Reveal><VisionSection vision={model.vision} intro={intros.vision} /></Reveal>
-      <Reveal><TeamSection team={model.team} intro={intros.team} /></Reveal>
-      <Reveal><TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} /></Reveal>
-      <Reveal><PartnersSection partners={model.partners} intro={intros.partners} /></Reveal>
-      <Reveal><ArticlesSection articles={model.latestArticles} intro={intros.articles} /></Reveal>
-      <Reveal><HomeFaq block={blocks["home-faq"]} /></Reveal>
-      <Reveal><CtaBanner block={blocks["cta-banner"]} /></Reveal>
-    </>
+      <Reveal variant="fade"><ServicesSection services={model.services} intro={intros.services} /></Reveal>
+      <Reveal variant="fade"><HowWeWork block={blocks["how-we-work"]} /></Reveal>
+      <Reveal variant="fade"><PortfolioSection items={model.featuredPortfolio} intro={intros.portfolio} /></Reveal>
+      <Reveal variant="fade"><WhyChooseUs block={blocks["why-choose-us"]} /></Reveal>
+      <Reveal variant="fade"><AboutTeaser about={model.about} intro={intros.about} /></Reveal>
+      <Reveal variant="fade"><VisionSection vision={model.vision} intro={intros.vision} /></Reveal>
+      <Reveal variant="fade"><TeamSection team={model.team} intro={intros.team} /></Reveal>
+      <Reveal variant="fade"><TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} /></Reveal>
+      <Reveal variant="fade"><PartnersSection partners={model.partners} intro={intros.partners} /></Reveal>
+      <Reveal variant="fade"><ArticlesSection articles={model.latestArticles} intro={intros.articles} /></Reveal>
+      <Reveal variant="fade"><HomeFaq block={blocks["home-faq"]} /></Reveal>
+      <Reveal variant="fade"><CtaBanner block={blocks["cta-banner"]} /></Reveal>
+    </div>
   );
 }

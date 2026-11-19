@@ -3,6 +3,7 @@ import { FaqList } from "@/components/site/contract/faq-list";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import type { Service } from "@/core/domain/service/service";
 import type { ServiceDetailModel } from "@/server/site/models/services";
@@ -42,7 +43,7 @@ export function ServiceDetailView({ model }: ServiceDetailViewProps) {
   const { service, others, mediaSizes } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero title={service.title} description={service.summary} image={service.cover} />
       <Section id="isi-layanan">
         <div className="max-w-3xl">
@@ -50,13 +51,17 @@ export function ServiceDetailView({ model }: ServiceDetailViewProps) {
         </div>
       </Section>
       {service.faq.length > 0 ? (
-        <Section id="faq-layanan" className="border-t border-border">
-          <div className="max-w-3xl">
-            <FaqList items={service.faq} />
-          </div>
-        </Section>
+        <Reveal>
+          <Section id="faq-layanan" className="border-t border-border">
+            <div className="max-w-3xl">
+              <FaqList items={service.faq} />
+            </div>
+          </Section>
+        </Reveal>
       ) : null}
-      <OtherServices services={others} />
-    </>
+      <Reveal>
+        <OtherServices services={others} />
+      </Reveal>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { Article } from "@/core/domain/article/article";
@@ -48,10 +49,10 @@ export function ArticlesSection({ articles, intro }: ArticlesSectionProps) {
   return (
     <Section id="artikel" eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <li key={article.id}>
+        {articles.map((article, index) => (
+          <Reveal key={article.id} as="li" stagger={index}>
             <ArticleCard article={article} />
-          </li>
+          </Reveal>
         ))}
       </ul>
       <p className="mt-8">

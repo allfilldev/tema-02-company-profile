@@ -16,7 +16,7 @@ export function ArticlesIndexView({ model }: ArticlesIndexViewProps) {
   const { intro, items, page, pageCount, pageHrefs } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description} />
       {items.length > 0 ? (
         <Section id="daftar-artikel" title={LIST_TITLE}>
@@ -34,6 +34,6 @@ export function ArticlesIndexView({ model }: ArticlesIndexViewProps) {
           <Pagination page={page} pageCount={pageCount} pageHrefs={pageHrefs} />
         </Container>
       ) : null}
-    </>
+    </div>
   );
 }

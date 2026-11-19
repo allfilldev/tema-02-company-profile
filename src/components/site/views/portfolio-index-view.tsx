@@ -14,7 +14,7 @@ export function PortfolioIndexView({ model }: PortfolioIndexViewProps) {
   const { intro, items } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description} />
       {items.length > 0 ? (
         <Section id="daftar-portofolio" title={LIST_TITLE}>
@@ -27,6 +27,6 @@ export function PortfolioIndexView({ model }: PortfolioIndexViewProps) {
           </ul>
         </Section>
       ) : null}
-    </>
+    </div>
   );
 }

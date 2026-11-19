@@ -3,6 +3,7 @@ import { submitContactMessage } from "@/server/actions/site/contact";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import type { ContactPageModel } from "@/server/site/models/contact";
 import type { ReactNode } from "react";
@@ -46,7 +47,7 @@ export function ContactView({ model }: ContactViewProps) {
   const { address } = settings;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description} />
       <Section id="formulir">
         <div className="grid gap-10 lg:grid-cols-3">
@@ -95,18 +96,20 @@ export function ContactView({ model }: ContactViewProps) {
         </div>
       </Section>
       {settings.mapsEmbedUrl ? (
-        <Section id="lokasi" title={MAP_HEADING}>
-          <div className="aspect-video overflow-hidden rounded-lg border border-border">
-            <iframe
-              src={settings.mapsEmbedUrl}
-              title={`Peta lokasi ${settings.siteName}`}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="size-full"
-            />
-          </div>
-        </Section>
+        <Reveal>
+          <Section id="lokasi" title={MAP_HEADING}>
+            <div className="aspect-video overflow-hidden rounded-lg border border-border">
+              <iframe
+                src={settings.mapsEmbedUrl}
+                title={`Peta lokasi ${settings.siteName}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="size-full"
+              />
+            </div>
+          </Section>
+        </Reveal>
       ) : null}
-    </>
+    </div>
   );
 }

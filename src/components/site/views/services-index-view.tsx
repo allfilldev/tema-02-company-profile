@@ -14,7 +14,7 @@ export function ServicesIndexView({ model }: ServicesIndexViewProps) {
   const { intro, services } = model;
 
   return (
-    <>
+    <div className="page-enter">
       <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description} />
       {services.length > 0 ? (
         <Section id="daftar-layanan" title={LIST_TITLE}>
@@ -27,6 +27,6 @@ export function ServicesIndexView({ model }: ServicesIndexViewProps) {
           </ul>
         </Section>
       ) : null}
-    </>
+    </div>
   );
 }
