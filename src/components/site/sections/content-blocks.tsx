@@ -13,12 +13,12 @@ type BlockProps = {
 
 type CallToActionLinkProps = {
   cta: CallToAction;
-  variant?: "primary" | "secondary" | "inverse";
+  variant?: "primary" | "secondary" | "inverse" | "highlight";
   className?: string;
 };
 
 const EXTERNAL_HREF_PATTERN = /^https?:\/\//i;
-const ICON_BADGE_CLASS_NAME = "flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-accent-foreground";
+const ICON_BADGE_CLASS_NAME = "flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary";
 const STEP_LABEL = "Langkah";
 
 function titledItems(block: ContentBlock | undefined): ContentBlockItem[] {
@@ -55,7 +55,7 @@ export function HowWeWork({ block, tone }: BlockProps) {
             <Card className="flex h-full flex-col gap-3">
               <div className="flex items-center gap-3">
                 {item.icon ? <IconBadge icon={item.icon} /> : null}
-                <p className="text-sm font-bold uppercase tracking-widest text-primary">{`${STEP_LABEL} ${index + 1}`}</p>
+                <p className="text-sm font-bold tracking-wide text-highlight-hover">{`${STEP_LABEL} ${index + 1}`}</p>
               </div>
               <h3 className="text-xl font-bold tracking-tight text-foreground">{item.title}</h3>
               {item.description ? <p className="text-base text-muted-foreground">{item.description}</p> : null}
@@ -123,9 +123,14 @@ export function CtaBanner({ block }: BlockProps) {
       <Container>
         <div className="relative overflow-hidden rounded-2xl bg-surface-inverse px-6 py-12 text-center shadow-soft md:px-12 md:py-16">
           <div aria-hidden="true" className="shape-blob absolute -right-16 -top-16 size-56 bg-primary/40 md:size-80" />
-          <div aria-hidden="true" className="shape-blob absolute -bottom-20 -left-12 size-48 bg-accent/20 md:size-64" />
+          <div aria-hidden="true" className="shape-blob absolute -bottom-20 -left-12 size-48 bg-highlight/20 md:size-64" />
           <div className="relative">
-            {block.eyebrow ? <p className="text-sm font-bold uppercase tracking-widest text-accent">{block.eyebrow}</p> : null}
+            {block.eyebrow ? (
+              <p className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-surface-inverse-foreground/80">
+                <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-highlight" />
+                {block.eyebrow}
+              </p>
+            ) : null}
             <h2 id="ajakan-title" className="mt-3 text-3xl font-extrabold tracking-tighter text-surface-inverse-foreground md:text-5xl">
               {block.title}
             </h2>
@@ -134,7 +139,7 @@ export function CtaBanner({ block }: BlockProps) {
             ) : null}
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               {links.map((link, index) => (
-                <CallToActionLink key={link.href} cta={link} variant={index === 0 ? "inverse" : "secondary"} />
+                <CallToActionLink key={link.href} cta={link} variant={index === 0 ? "highlight" : "primary"} />
               ))}
             </div>
           </div>

@@ -167,16 +167,16 @@ describe("HomeView", () => {
   it("renders every section in the home order", () => {
     const markup = renderToStaticMarkup(<HomeView model={fullHomeModel} />);
     const titles = [
+      fullHomeModel.intros.partners?.title,
+      fullHomeModel.intros.about?.title,
       fullHomeModel.intros.services?.title,
       fullHomeModel.intros.stats?.title,
+      fullHomeModel.intros.vision?.title,
       fullHomeModel.blocks["how-we-work"]?.title,
       fullHomeModel.intros.portfolio?.title,
       fullHomeModel.blocks["why-choose-us"]?.title,
-      fullHomeModel.intros.about?.title,
-      fullHomeModel.intros.vision?.title,
       fullHomeModel.intros.team?.title,
       fullHomeModel.intros.testimonials?.title,
-      fullHomeModel.intros.partners?.title,
       fullHomeModel.intros.articles?.title,
       fullHomeModel.blocks["home-faq"]?.title,
       fullHomeModel.blocks["cta-banner"]?.title,
