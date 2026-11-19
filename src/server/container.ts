@@ -3,6 +3,7 @@ import type { ContentPack } from "@/core/domain/content-pack/content-pack";
 import { themeConfig } from "@/config/theme";
 import { CONTENT_PACKS } from "@/content/packs";
 import { createFixtureRepositories } from "@/infrastructure/fixtures/fixture-repositories";
+import { createCachedSupabaseRepositories } from "@/server/data/cached-repositories";
 
 const DEFAULT_DATA_SOURCE = "demo";
 
@@ -21,7 +22,7 @@ export function getSiteQueries(): SiteQueries {
     return createDemoSiteQueries();
   }
   if (dataSource === "supabase") {
-    throw new Error("DATA_SOURCE=supabase is not available yet");
+    return createSiteQueries(createCachedSupabaseRepositories(), themeConfig);
   }
   throw new Error(`Unknown DATA_SOURCE "${dataSource}", expected "demo" or "supabase"`);
 }

@@ -24,9 +24,16 @@ describe("getSiteQueries", () => {
     expect((await getSiteQueries().listServices()).map((service) => service.slug)).toContain("penyusunan-sop");
   });
 
-  it("refuses the supabase data source for now", () => {
+  it("builds site queries from the cached supabase repositories", async () => {
+    vi.resetModules();
+    const sentinel = { siteSettings: { get: vi.fn(async () => ({ siteName: "Dari Supabase" })) } };
+    vi.doMock("@/server/data/cached-repositories", () => ({ createCachedSupabaseRepositories: () => sentinel }));
     vi.stubEnv("DATA_SOURCE", "supabase");
-    expect(() => getSiteQueries()).toThrow("DATA_SOURCE=supabase is not available yet");
+
+    const { getSiteQueries: getSupabaseQueries } = await import("@/server/container");
+
+    expect((await getSupabaseQueries().getSettings()).siteName).toBe("Dari Supabase");
+    vi.doUnmock("@/server/data/cached-repositories");
   });
 
   it("refuses an unknown data source", () => {
