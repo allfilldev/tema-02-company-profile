@@ -64,20 +64,18 @@ export function HomeView({ model }: HomeViewProps) {
         ) : null}
       </PageHero>
       <StatsSection stats={model.stats} intro={intros.stats} />
-      <ServicesSection services={model.services} intro={intros.services} />
-      <HowWeWork block={blocks["how-we-work"]} />
-      <PortfolioSection items={model.featuredPortfolio} intro={intros.portfolio} />
-      <WhyChooseUs block={blocks["why-choose-us"]} />
-      <AboutTeaser about={model.about} intro={intros.about} />
-      <VisionSection vision={model.vision} intro={intros.vision} />
-      <TeamSection team={model.team} intro={intros.team} />
-      <Reveal>
-        <TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} />
-      </Reveal>
-      <PartnersSection partners={model.partners} intro={intros.partners} />
-      <ArticlesSection articles={model.latestArticles} intro={intros.articles} />
-      <HomeFaq block={blocks["home-faq"]} />
-      <CtaBanner block={blocks["cta-banner"]} />
+      <Reveal><ServicesSection services={model.services} intro={intros.services} /></Reveal>
+      <Reveal><HowWeWork block={blocks["how-we-work"]} /></Reveal>
+      <Reveal><PortfolioSection items={model.featuredPortfolio} intro={intros.portfolio} /></Reveal>
+      <Reveal><WhyChooseUs block={blocks["why-choose-us"]} /></Reveal>
+      <Reveal><AboutTeaser about={model.about} intro={intros.about} /></Reveal>
+      <Reveal><VisionSection vision={model.vision} intro={intros.vision} /></Reveal>
+      <Reveal><TeamSection team={model.team} intro={intros.team} /></Reveal>
+      <Reveal><TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} /></Reveal>
+      <Reveal><PartnersSection partners={model.partners} intro={intros.partners} /></Reveal>
+      <Reveal><ArticlesSection articles={model.latestArticles} intro={intros.articles} /></Reveal>
+      <Reveal><HomeFaq block={blocks["home-faq"]} /></Reveal>
+      <Reveal><CtaBanner block={blocks["cta-banner"]} /></Reveal>
     </>
   );
 }
