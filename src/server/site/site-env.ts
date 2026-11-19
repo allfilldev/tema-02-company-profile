@@ -8,6 +8,10 @@ export type SiteEnv = {
 
 const DEFAULT_DATA_SOURCE = "demo";
 
+export function isDemoDataSource(): boolean {
+  return (process.env.DATA_SOURCE || DEFAULT_DATA_SOURCE) === "demo";
+}
+
 export function getSiteEnv(): SiteEnv {
   const indexingEnabled = resolveIndexing(process.env.SITE_INDEXING);
   const requireExplicit = shouldRequireExplicitSiteUrl(process.env.NODE_ENV, indexingEnabled);
@@ -15,6 +19,6 @@ export function getSiteEnv(): SiteEnv {
   return {
     siteUrl: resolveSiteUrl(process.env.SITE_URL, { requireExplicit }),
     indexingEnabled,
-    isDemo: (process.env.DATA_SOURCE || DEFAULT_DATA_SOURCE) === "demo",
+    isDemo: isDemoDataSource(),
   };
 }

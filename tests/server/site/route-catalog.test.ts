@@ -4,7 +4,7 @@ import { isSitePathAvailable } from "@/lib/site/route-availability";
 import { listArticleSlugs } from "@/server/site/models/articles";
 import { listPortfolioSlugs } from "@/server/site/models/portfolio";
 import { listServiceSlugs } from "@/server/site/models/services";
-import { getSiteRouteCatalog } from "@/server/site/route-catalog";
+import { getSiteRouteCatalog, toSiteRouteCatalog } from "@/server/site/route-catalog";
 import { getSitemapPages } from "@/server/site/technical";
 import { buildTestContext, buildTestQueries } from "../../fixtures/site";
 
@@ -42,5 +42,30 @@ describe("getSiteRouteCatalog", () => {
     for (const path of ["/layanan/tidak-ada", "/portofolio/tidak-ada", "/artikel/tidak-ada", "/artikel/halaman/2"]) {
       expect(isSitePathAvailable(path, catalog)).toBe(false);
     }
+  });
+});
+
+describe("toSiteRouteCatalog", () => {
+  const data = { services: ["a"], portfolio: ["b"], articles: ["c"], articleCount: 1 };
+
+  it("carries the slugs and the theme modules", () => {
+    expect(toSiteRouteCatalog(data, themeConfig)).toEqual({
+      enabledModules: themeConfig.enabledModules,
+      serviceSlugs: ["a"],
+      portfolioSlugs: ["b"],
+      articleSlugs: ["c"],
+      articlePageCount: 1,
+    });
+  });
+
+  it.each([
+    [0, 1],
+    [1, 1],
+    [9, 1],
+    [10, 2],
+    [18, 2],
+    [19, 3],
+  ])("turns %i articles into %i pages", (articleCount, pages) => {
+    expect(toSiteRouteCatalog({ ...data, articleCount }, themeConfig).articlePageCount).toBe(pages);
   });
 });
