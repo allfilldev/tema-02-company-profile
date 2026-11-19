@@ -20,7 +20,7 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const OBSERVER_MARGIN = "0px 0px -10% 0px";
 
 export function Reveal({ children, delay, stagger, variant = "up", className, as = "div" }: RevealProps) {
-  const Tag: ElementType = as;
+  const Tag = as as ElementType;
   const ref = useRef<HTMLElement>(null);
   const [state, setState] = useState<RevealState>("visible");
 
