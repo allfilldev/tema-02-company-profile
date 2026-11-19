@@ -59,12 +59,14 @@ Sesuaikan `src/components/skeletons/` dengan susunan dan tinggi section yang bar
 
 ## 9. Cek admin
 
-Mode `DATA_SOURCE=supabase` dan login admin sudah tersedia. Panel di balik login masih berupa dashboard sementara sampai antarmuka admin selesai (Rencana 3b), jadi langkah ini baru memeriksa bahwa website publik berjalan di atas Supabase dengan token tema dan login berfungsi.
+Mode `DATA_SOURCE=supabase`, login, dan panel admin lengkap sudah tersedia (README, bagian "Panel admin"). Folder `src/components/admin/` terkunci: panel ikut gaya tema lewat token dan `src/components/ui/`, jadi tema tidak menyentuh folder itu. Langkah ini memeriksa bahwa website publik dan panel admin sama-sama tampil benar dengan token tema.
 
 1. Siapkan `.env.local` di folder tema berisi `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `SUPABASE_DB_URL`, dan `CONTACT_IP_SALT` dari project Supabase pengembangan bersama (jangan di-commit).
 2. `npm run db:migrate` (bila migrasi belum diterapkan), lalu `npm run seed:generate` dan `npm run db:seed -- --yes`. Perintah terakhir mengosongkan data konten, media, dan pesan di project bersama, lalu mengisinya dari paket konten tema ini.
 3. `npm run admin:create -- <email>` bila akun admin belum ada (password diketik di terminal).
-4. Jalankan pratinjau dengan `DATA_SOURCE=supabase` (entri `company-profile-supabase` di `.claude/launch.json`, port 3002), lalu periksa beranda, halaman layanan, artikel, dan kontak dengan token tema, serta login di `/admin/login`.
+4. Jalankan pratinjau dengan `DATA_SOURCE=supabase` (entri `company-profile-supabase` di `.claude/launch.json`, port 3002), lalu periksa beranda, halaman layanan, artikel, dan kontak dengan token tema.
+5. Login di `/admin/login`, lalu periksa halaman admin berikut pada lebar 375, 768, dan 1280 px: Dashboard, daftar dan formulir salah satu modul (`/admin/layanan`, `/admin/layanan/baru`, dan `/admin/layanan/<id>`), `/admin/media`, `/admin/pesan`, dan `/admin/pengaturan`. Pastikan warna, tombol, dan fokus mengikuti token tema, tidak ada halaman yang meluap ke samping, dan tombol bisa disentuh (minimal 44 px).
+6. Ubah satu layanan dari admin (misalnya judul atau slug), lalu pastikan perubahan tampil di website publik tanpa deploy ulang.
 
 ## 10. Demo
 
