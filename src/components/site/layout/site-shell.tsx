@@ -14,7 +14,7 @@ export function SiteShell({ context, children }: SiteShellProps) {
 
   return (
     <>
-      <Header siteName={settings.siteName} logo={settings.logo} navigation={navigation} />
+      <Header siteName={settings.siteName} logo={settings.logo} navigation={navigation} phone={settings.phone} />
       <main id="konten" className="flex-1 pb-24 md:pb-28">
         {children}
       </main>
