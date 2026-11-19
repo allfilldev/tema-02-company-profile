@@ -102,3 +102,21 @@ describe("AdminMobileMenu", () => {
     expect(screen.getByRole("button", { name: "Menu" }).className).toMatch(/min-w-11/);
   });
 });
+
+describe("AdminMobileMenu brand", () => {
+  it("shows the site name in the drawer when there is no logo", async () => {
+    render(<AdminMobileMenu menu={menu} siteName="All Fill Dev" />);
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+
+    expect(screen.getByText("All Fill Dev")).toBeTruthy();
+  });
+
+  it("shows the logo image in the drawer when a logo is provided", async () => {
+    const logo = { id: "logo", url: "/demo/logo.webp", alt: "Logo All Fill Dev", width: 240, height: 64 };
+    render(<AdminMobileMenu menu={menu} siteName="All Fill Dev" siteLogo={logo} />);
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+
+    expect(document.querySelector("img")).not.toBeNull();
+    expect(screen.getByText("All Fill Dev").className).toContain("sr-only");
+  });
+});

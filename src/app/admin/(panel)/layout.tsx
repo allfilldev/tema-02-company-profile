@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 async function AdminGate({ children }: { children: ReactNode }) {
   const deps = await getAdminDeps();
-  const [unreadMessages, siteName] = await Promise.all([deps.repos.messages.countUnread(), deps.siteName()]);
+  const [unreadMessages, siteBrand] = await Promise.all([deps.repos.messages.countUnread(), deps.siteBrand()]);
 
   return (
-    <AdminShell menu={buildAdminMenu(themeConfig.enabledModules)} adminEmail={deps.session.email} siteName={siteName} unreadMessages={unreadMessages}>
+    <AdminShell menu={buildAdminMenu(themeConfig.enabledModules)} adminEmail={deps.session.email} siteName={siteBrand.name} siteLogo={siteBrand.logo} unreadMessages={unreadMessages}>
       {children}
     </AdminShell>
   );

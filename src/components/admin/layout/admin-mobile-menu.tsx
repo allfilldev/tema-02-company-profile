@@ -4,11 +4,13 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { AdminNav } from "@/components/admin/layout/admin-nav";
+import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import type { AdminMenuItem } from "@/lib/admin/admin-menu";
 
 type AdminMobileMenuProps = {
   menu: AdminMenuItem[];
   siteName?: string;
+  siteLogo?: MediaAsset | null;
 };
 
 const PANEL_ID = "admin-mobile-menu";
@@ -16,7 +18,7 @@ const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
 const TRIGGER_CLASS_NAME =
   "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary";
 
-export function AdminMobileMenu({ menu, siteName = "Admin" }: AdminMobileMenuProps) {
+export function AdminMobileMenu({ menu, siteName = "Admin", siteLogo = null }: AdminMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -88,7 +90,7 @@ export function AdminMobileMenu({ menu, siteName = "Admin" }: AdminMobileMenuPro
             className="relative flex h-full w-72 max-w-full flex-col gap-6 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground shadow-soft"
           >
             <div className="flex items-center justify-between gap-3">
-              <BrandLogo tone="on-dark" name={siteName} className="min-w-0 [&>span:last-child]:truncate" />
+              <BrandLogo tone="on-dark" name={siteName} logo={siteLogo} className="min-w-0 [&>span:last-child]:truncate" />
               <button
                 type="button"
                 aria-label="Tutup menu"

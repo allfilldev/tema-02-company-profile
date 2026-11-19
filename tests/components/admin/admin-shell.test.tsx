@@ -85,3 +85,30 @@ describe("AdminShell", () => {
     expect(render(3)).toContain("data-unread-badge");
   });
 });
+
+describe("AdminShell brand", () => {
+  const logo = { id: "logo", url: "/demo/logo.webp", alt: "Logo All Fill Dev", width: 240, height: 64 };
+
+  it("shows the site name as the brand when there is no logo", () => {
+    const markup = renderToStaticMarkup(
+      <AdminShell menu={menu} adminEmail="admin@contoh.id" siteName="All Fill Dev">
+        <p>isi</p>
+      </AdminShell>,
+    );
+
+    expect(markup).toContain("All Fill Dev");
+    expect(markup).not.toContain("logo.webp");
+  });
+
+  it("shows the logo image with the site name for screen readers when a logo is provided", () => {
+    const markup = renderToStaticMarkup(
+      <AdminShell menu={menu} adminEmail="admin@contoh.id" siteName="All Fill Dev" siteLogo={logo}>
+        <p>isi</p>
+      </AdminShell>,
+    );
+
+    expect(markup).toContain("logo.webp");
+    expect(markup).toContain("brightness-0 invert");
+    expect(markup).toMatch(/<span class="sr-only">All Fill Dev<\/span>/);
+  });
+});

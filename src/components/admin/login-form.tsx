@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
@@ -8,7 +9,12 @@ import { Input } from "@/components/ui/input";
 import { INITIAL_LOGIN_STATE } from "@/lib/admin/login-form";
 import { signIn } from "@/server/actions/admin/auth";
 
-export function LoginForm() {
+type LoginFormProps = {
+  siteName?: string;
+  siteLogo?: MediaAsset | null;
+};
+
+export function LoginForm({ siteName = "Admin", siteLogo = null }: LoginFormProps) {
   const [state, formAction, pending] = useActionState(signIn, INITIAL_LOGIN_STATE);
 
   return (
@@ -17,7 +23,7 @@ export function LoginForm() {
       <div aria-hidden="true" className="shape-blob absolute -bottom-32 -right-24 size-96 bg-accent" />
       <div className="relative mx-auto w-full max-w-md px-4">
         <div className="rounded-2xl bg-surface p-6 shadow-soft md:p-8">
-          <BrandLogo tone="on-light" name="Admin" />
+          <BrandLogo tone="on-light" name={siteName} logo={siteLogo} />
           <h1 className="mt-5 font-heading text-2xl font-bold text-foreground">Masuk admin</h1>
           <p className="mt-1 text-muted-foreground">Gunakan akun admin untuk mengelola situs.</p>
           <form action={formAction} className="mt-6 flex flex-col gap-4" noValidate>
