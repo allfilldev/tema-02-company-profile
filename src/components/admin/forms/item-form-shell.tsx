@@ -11,12 +11,13 @@ export type ItemFormAction = (state: AdminFormState, formData: FormData) => Prom
 
 type ItemFormContextValue = {
   values: Record<string, unknown>;
+  stored: Record<string, unknown>;
   errors: Record<string, string>;
   isPublished: boolean;
   media: MediaAsset[];
 };
 
-const ItemFormContext = createContext<ItemFormContextValue>({ values: {}, errors: {}, isPublished: false, media: [] });
+const ItemFormContext = createContext<ItemFormContextValue>({ values: {}, stored: {}, errors: {}, isPublished: false, media: [] });
 
 export function useItemForm(): ItemFormContextValue {
   return useContext(ItemFormContext);
@@ -44,6 +45,7 @@ export function ItemFormShell({ action, initial, media, isPublishable, isPublish
 
   const context: ItemFormContextValue = {
     values: { ...initial, ...state.values },
+    stored: initial,
     errors: state.fieldErrors,
     isPublished,
     media,

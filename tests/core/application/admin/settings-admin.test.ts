@@ -56,4 +56,16 @@ describe("previewTitleImpacts", () => {
 
     expect(impacts.filter((impact) => impact.result === "truncated")).toEqual([]);
   });
+
+  it("reports a missing address part under the flat field name the form uses", async () => {
+    const repo = repository();
+    const { updatedAt: _ignored, ...values } = { ...current, address: { ...current.address, city: "" } };
+
+    const result = await updateSiteSettings({ repository: repo }, values);
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(Object.keys(result.fieldErrors)).toEqual(["addressCity"]);
+    }
+  });
 });

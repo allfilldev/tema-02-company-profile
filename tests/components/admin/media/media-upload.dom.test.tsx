@@ -61,4 +61,30 @@ describe("media upload", () => {
     expect(formData.get("alt")).toBe("Logo Nusa Karya");
     expect(await screen.findByText("Perubahan tersimpan.")).toBeTruthy();
   });
+
+  it("refuses a downscaled image that is still over the upload limit without calling the action", async () => {
+    mocks.downscaleImage.mockResolvedValue(new Blob([new Uint8Array(4_000_001)], { type: "image/webp" }));
+    const action = vi.fn(async () => INITIAL_ADMIN_FORM_STATE);
+    render(<MediaUpload action={action} />);
+
+    await userEvent.upload(screen.getByLabelText("Berkas gambar"), photo());
+    await userEvent.type(screen.getByLabelText(/Teks alternatif/), "Foto besar");
+    await userEvent.click(screen.getByRole("button", { name: "Unggah" }));
+
+    expect(await screen.findByText("Ukuran gambar maksimal 4 MB.")).toBeTruthy();
+    expect(action).not.toHaveBeenCalled();
+  });
+
+  it("shows a message instead of crashing when the server action rejects", async () => {
+    const action = vi.fn(async () => {
+      throw new Error("network down");
+    });
+    render(<MediaUpload action={action} />);
+
+    await userEvent.upload(screen.getByLabelText("Berkas gambar"), photo());
+    await userEvent.type(screen.getByLabelText(/Teks alternatif/), "Foto");
+    await userEvent.click(screen.getByRole("button", { name: "Unggah" }));
+
+    expect(await screen.findByText("Gagal menyimpan. Coba lagi.")).toBeTruthy();
+  });
 });

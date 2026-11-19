@@ -30,10 +30,11 @@ function ImpactList({ heading, impacts }: { heading: string; impacts: TitleImpac
 }
 
 export function SiteNameField({ previewImpacts }: SiteNameFieldProps) {
-  const { values, errors } = useItemForm();
+  const { values, stored, errors } = useItemForm();
   const id = useId();
-  const saved = typeof values.siteName === "string" ? values.siteName : "";
-  const [current, setCurrent] = useState(saved);
+  const typed = typeof values.siteName === "string" ? values.siteName : "";
+  const saved = typeof stored.siteName === "string" ? stored.siteName : "";
+  const [current, setCurrent] = useState(typed);
   const [impacts, setImpacts] = useState<TitleImpact[]>([]);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export function SiteNameField({ previewImpacts }: SiteNameFieldProps) {
 
   return (
     <Field label="Nama situs" htmlFor={id} error={errors.siteName} required>
-      <Input id={id} name="siteName" defaultValue={saved} invalid={Boolean(errors.siteName)} onChange={(event) => setCurrent(event.target.value)} />
+      <Input id={id} name="siteName" defaultValue={typed} invalid={Boolean(errors.siteName)} onChange={(event) => setCurrent(event.target.value)} />
       <ImpactList heading="Judul berikut akan dipotong:" impacts={impacts.filter((impact) => impact.result === "truncated")} />
       <ImpactList heading="Judul berikut terlalu pendek:" impacts={impacts.filter((impact) => impact.result === "too-short")} />
     </Field>

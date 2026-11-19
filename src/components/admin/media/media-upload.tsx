@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FormNotice } from "@/components/admin/shared/form-notice";
-import type { MediaKind } from "@/core/application/admin/media-upload";
+import { MAX_UPLOAD_BYTES, type MediaKind } from "@/core/application/admin/media-upload";
 import { downscaleImage } from "@/lib/admin/downscale";
 import { INITIAL_ADMIN_FORM_STATE, type AdminFormState } from "@/lib/admin/form-state";
 
@@ -15,6 +15,8 @@ type MediaUploadProps = {
 
 const MISSING_ALT_MESSAGE = "Isi teks alternatif gambar.";
 const MISSING_FILE_MESSAGE = "Pilih berkas gambar.";
+const TOO_LARGE_MESSAGE = "Ukuran gambar maksimal 4 MB.";
+const FAILED_UPLOAD_MESSAGE = "Gagal menyimpan. Coba lagi.";
 const UNREADABLE_FILE_MESSAGE = "Gambar tidak bisa dibaca. Coba berkas lain.";
 
 const KIND_OPTIONS: { value: MediaKind; label: string }[] = [
@@ -54,12 +56,22 @@ export function MediaUpload({ action }: MediaUploadProps) {
         return;
       }
 
+      if (resized.size > MAX_UPLOAD_BYTES) {
+        setErrors({ file: TOO_LARGE_MESSAGE });
+        return;
+      }
+
       formData.set("file", new File([resized], "upload", { type: resized.type }));
-      const next = await action(state, formData);
-      setState(next);
-      setErrors(next.fieldErrors);
-      if (next.status === "saved") {
-        form.reset();
+      try {
+        const next = await action(state, formData);
+        setState(next);
+        setErrors(next.fieldErrors);
+        if (next.status === "saved") {
+          form.reset();
+        }
+      } catch {
+        setErrors({});
+        setState({ ...INITIAL_ADMIN_FORM_STATE, status: "failed", message: FAILED_UPLOAD_MESSAGE });
       }
     });
   }

@@ -32,7 +32,7 @@ export function invalidState(
   failure: { fieldErrors: Record<string, string>; blocking: string[]; warnings: string[] },
   values: Record<string, unknown>,
 ): AdminFormState {
-  return { status: "invalid", message: INVALID_MESSAGE, fieldErrors: failure.fieldErrors, blocking: failure.blocking, warnings: failure.warnings, values };
+  return { status: "invalid", message: INVALID_MESSAGE, fieldErrors: failure.fieldErrors, blocking: failure.blocking.filter((reason) => reason !== INVALID_MESSAGE), warnings: failure.warnings, values };
 }
 
 export function failedState(values: Record<string, unknown>): AdminFormState {

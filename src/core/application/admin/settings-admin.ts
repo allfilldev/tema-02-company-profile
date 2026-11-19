@@ -21,6 +21,22 @@ const SECTION_LABELS: Record<SectionKey, string> = {
   contact: "Kontak",
 };
 
+const ADDRESS_FIELDS: Record<string, string> = {
+  street: "addressStreet",
+  city: "addressCity",
+  region: "addressRegion",
+  postalCode: "postalCode",
+  country: "addressCountry",
+};
+
+function fieldNameFor(path: readonly PropertyKey[]): string {
+  const [first, second] = path;
+  if (first === "address" && typeof second === "string" && second in ADDRESS_FIELDS) {
+    return ADDRESS_FIELDS[second];
+  }
+  return String(first ?? "form");
+}
+
 export async function updateSiteSettings(
   deps: { repository: SettingsAdminRepository },
   values: unknown,
@@ -32,7 +48,7 @@ export async function updateSiteSettings(
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
     for (const issue of parsed.error.issues) {
-      const field = String(issue.path[0] ?? "form");
+      const field = fieldNameFor(issue.path);
       if (!(field in fieldErrors)) fieldErrors[field] = issue.message;
     }
     return failure(["Periksa kembali isian yang ditandai."], fieldErrors);

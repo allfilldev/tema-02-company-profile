@@ -48,11 +48,12 @@ export function TextField({ name, label, required, hint, type = "text" }: BaseFi
 }
 
 export function SlugField({ name = "slug", label = "Slug (alamat halaman)" }: { name?: string; label?: string }) {
-  const { values, errors, isPublished } = useItemForm();
+  const { values, stored, errors, isPublished } = useItemForm();
   const id = useId();
   const initialSlug = textOf(values[name]);
+  const storedSlug = textOf(stored[name]);
   const [current, setCurrent] = useState(initialSlug);
-  const changed = isPublished && initialSlug.length > 0 && current !== initialSlug;
+  const changed = isPublished && storedSlug.length > 0 && current !== storedSlug;
 
   return (
     <Field label={label} htmlFor={id} error={errors[name]} required>
