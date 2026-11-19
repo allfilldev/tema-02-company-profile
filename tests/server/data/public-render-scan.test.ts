@@ -68,6 +68,16 @@ describe("public render paths", () => {
     expect(directives).toBe(loaders);
   });
 
+  it("tags every loader that embeds images with the media tag", async () => {
+    const source = await readFile(path.join(process.cwd(), "src/server/data/cached-repositories.ts"), "utf8");
+    const imageLoaders = ["Settings", "Home", "About", "Services", "Service", "Portfolio", "PortfolioItem", "Team", "TeamMember", "Testimonials", "Partners", "ArticlePage", "AllArticles", "Article", "ContentBlock"];
+
+    for (const name of imageLoaders) {
+      const body = source.split(new RegExp(`async function load${name}\\(`))[1]?.split("\n}\n")[0] ?? "";
+      expect(body, `load${name}`).toContain("CACHE_TAGS.media");
+    }
+  });
+
   it("counts loaders and directives in a sample source", () => {
     expect(countCachedLoaders('async function loadA() {\n  "use cache";\n}\nasync function loadB() {\n}\n')).toEqual({
       directives: 1,

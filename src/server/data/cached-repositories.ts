@@ -30,21 +30,21 @@ function readRepositories(): Repositories {
 async function loadSettings(): Promise<SiteSettings> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.settings);
+  cacheTag(CACHE_TAGS.settings, CACHE_TAGS.media);
   return readRepositories().siteSettings.get();
 }
 
 async function loadHome(): Promise<HomeContent> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.home);
+  cacheTag(CACHE_TAGS.home, CACHE_TAGS.media);
   return readRepositories().pageContent.getHome();
 }
 
 async function loadAbout(): Promise<AboutContent> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.about);
+  cacheTag(CACHE_TAGS.about, CACHE_TAGS.media);
   return readRepositories().pageContent.getAbout();
 }
 
@@ -72,42 +72,42 @@ async function loadLegalPage(slug: LegalSlug): Promise<LegalPage | null> {
 async function loadServices(): Promise<Service[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.services);
+  cacheTag(CACHE_TAGS.services, CACHE_TAGS.media);
   return readRepositories().services.listPublished();
 }
 
 async function loadService(slug: string): Promise<Service | null> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.services, entityTag("service", slug));
+  cacheTag(CACHE_TAGS.services, entityTag("service", slug), CACHE_TAGS.media);
   return readRepositories().services.findPublishedBySlug(slug);
 }
 
 async function loadPortfolio(): Promise<PortfolioItem[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.portfolio);
+  cacheTag(CACHE_TAGS.portfolio, CACHE_TAGS.media);
   return readRepositories().portfolio.listPublished();
 }
 
 async function loadPortfolioItem(slug: string): Promise<PortfolioItem | null> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.portfolio, entityTag("portfolio", slug));
+  cacheTag(CACHE_TAGS.portfolio, entityTag("portfolio", slug), CACHE_TAGS.media);
   return readRepositories().portfolio.findPublishedBySlug(slug);
 }
 
 async function loadTeam(): Promise<TeamMember[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.team);
+  cacheTag(CACHE_TAGS.team, CACHE_TAGS.media);
   return readRepositories().team.listPublished();
 }
 
 async function loadTeamMember(id: string): Promise<TeamMember | null> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.team);
+  cacheTag(CACHE_TAGS.team, CACHE_TAGS.media);
   return readRepositories().team.findById(id);
 }
 
@@ -121,42 +121,42 @@ async function loadStats(): Promise<Stat[]> {
 async function loadTestimonials(): Promise<Testimonial[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.testimonials);
+  cacheTag(CACHE_TAGS.testimonials, CACHE_TAGS.media);
   return readRepositories().testimonials.listPublished();
 }
 
 async function loadPartners(): Promise<Partner[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.partners);
+  cacheTag(CACHE_TAGS.partners, CACHE_TAGS.media);
   return readRepositories().partners.listPublished();
 }
 
 async function loadArticlePage(offset: number, limit: number): Promise<{ items: Article[]; total: number }> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.articles);
+  cacheTag(CACHE_TAGS.articles, CACHE_TAGS.media);
   return readRepositories().articles.listPublished({ offset, limit });
 }
 
 async function loadAllArticles(): Promise<Article[]> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.articles);
+  cacheTag(CACHE_TAGS.articles, CACHE_TAGS.media);
   return readRepositories().articles.listAllPublished();
 }
 
 async function loadArticle(slug: string): Promise<Article | null> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.articles, entityTag("article", slug));
+  cacheTag(CACHE_TAGS.articles, entityTag("article", slug), CACHE_TAGS.media);
   return readRepositories().articles.findPublishedBySlug(slug);
 }
 
 async function loadContentBlock(key: string): Promise<ContentBlock | null> {
   "use cache";
   cacheLife(PUBLIC_CACHE_LIFE);
-  cacheTag(CACHE_TAGS.contentBlocks);
+  cacheTag(CACHE_TAGS.contentBlocks, CACHE_TAGS.media);
   return readRepositories().contentBlocks.findPublishedByKey(key);
 }
 

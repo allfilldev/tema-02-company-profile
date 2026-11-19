@@ -86,7 +86,7 @@ const ARTICLE_COLUMNS =
 const BLOCK_COLUMNS = "id,block_key,eyebrow,title,description";
 const BLOCK_ITEM_COLUMNS = "id,block_id,title,description,icon,media_id,link_label,link_href,sort_order";
 
-async function execute(query: PromiseLike<QueryResult>, label: string): Promise<QueryResult> {
+export async function execute(query: PromiseLike<QueryResult>, label: string): Promise<QueryResult> {
   const result = await query;
   if (result.error) {
     throw new Error(`Supabase ${label}: ${result.error.message}`);
@@ -114,7 +114,7 @@ async function selectOne<Row>(
   return (data ?? null) as Row | null;
 }
 
-async function loadMedia(client: DataClient, rows: readonly Record<string, unknown>[]): Promise<MediaMap> {
+export async function loadMedia(client: DataClient, rows: readonly Record<string, unknown>[]): Promise<MediaMap> {
   const ids = collectMediaIds(rows);
   if (ids.length === 0) {
     return new Map();

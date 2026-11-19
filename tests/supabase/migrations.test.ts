@@ -104,6 +104,26 @@ describe("supabase migrations", () => {
     expect(allSql).toContain("alter default privileges in schema public grant all on tables to service_role;");
   });
 
+  it("defines the admin helper functions as security invoker so row level security still applies", () => {
+    const admin = files.find((file) => file.name.endsWith("_admin_functions.sql"));
+    expect(admin).toBeDefined();
+
+    expect(admin!.sql).toMatch(/create function public\.move_sort_order\(/);
+    expect(admin!.sql).toMatch(/create function public\.media_usages\(/);
+    expect(admin!.sql).not.toContain("security definer");
+    expect(admin!.sql).toContain("grant execute on function public.move_sort_order(text, uuid, text) to authenticated");
+    expect(admin!.sql).toContain("grant execute on function public.media_usages(uuid) to authenticated");
+  });
+
+  it("lets the service role run the admin helper functions for scripts and integration tests", () => {
+    expect(allSql).toContain("grant execute on function public.move_sort_order(text, uuid, text) to service_role");
+    expect(allSql).toContain("grant execute on function public.media_usages(uuid) to service_role");
+  });
+
+  it("lets admins list the media bucket", () => {
+    expect(allSql).toMatch(/create policy "media admin select" on storage\.objects for select to authenticated/);
+  });
+
   it("pins the search path of the trigger functions", () => {
     expect(allSql).toMatch(/alter function public\.set_updated_at\(\) set search_path/);
     expect(allSql).toMatch(/alter function public\.articles_published_at\(\) set search_path/);
