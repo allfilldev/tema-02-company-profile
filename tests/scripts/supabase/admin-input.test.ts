@@ -12,6 +12,7 @@ describe("validateAdminEmail", () => {
 describe("validateAdminPassword", () => {
   it("requires at least 12 characters", () => {
     expect(validateAdminPassword("pendek", "pendek")).toMatch(/12/);
+    expect(validateAdminPassword("pendek", "pendek")).toContain("received 6");
     expect(validateAdminPassword("123456789012", "123456789012")).toBeNull();
   });
 

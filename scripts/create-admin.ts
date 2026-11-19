@@ -1,9 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { loadEnvLocal, requireEnv } from "./lib/load-env";
 import { validateAdminEmail, validateAdminPassword } from "./supabase/admin-input";
+import { applyKeystrokes, INITIAL_HIDDEN_INPUT } from "./supabase/hidden-input";
 
 const USAGE = "Usage: npm run admin:create -- <email>";
-const CTRL_C = "\u0003";
 
 function promptHidden(question: string): Promise<string> {
   if (!process.stdin.isTTY) {
@@ -17,29 +17,22 @@ function promptHidden(question: string): Promise<string> {
   stdin.setEncoding("utf8");
 
   return new Promise((resolve, reject) => {
-    let value = "";
+    let state = INITIAL_HIDDEN_INPUT;
 
-    function finish(): void {
+    function onData(chunk: string): void {
+      state = applyKeystrokes(state, chunk);
+      if (!state.done) {
+        return;
+      }
       stdin.removeListener("data", onData);
       stdin.setRawMode(false);
       stdin.pause();
       process.stdout.write("\n");
-    }
-
-    function onData(chunk: string): void {
-      for (const character of chunk) {
-        if (character === CTRL_C) {
-          finish();
-          reject(new Error("Cancelled."));
-          return;
-        }
-        if (character === "\r" || character === "\n") {
-          finish();
-          resolve(value);
-          return;
-        }
-        value = character === "\u007f" || character === "\b" ? value.slice(0, -1) : value + character;
+      if (state.cancelled) {
+        reject(new Error("Cancelled."));
+        return;
       }
+      resolve(state.value);
     }
 
     stdin.on("data", onData);
