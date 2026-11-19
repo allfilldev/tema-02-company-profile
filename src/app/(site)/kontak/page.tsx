@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/site/contract/breadcrumbs";
 import { JsonLd } from "@/components/site/contract/json-ld";
+import { BreadcrumbBar } from "@/components/site/sections/breadcrumb-bar";
 import { ContactView } from "@/components/site/views/contact-view";
-import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
 import { getSiteQueries } from "@/server/container";
 import { getContactPageModel } from "@/server/site/models/contact";
@@ -27,9 +26,7 @@ export default async function ContactPage() {
     <>
       <JsonLd data={model.seo.jsonLd} />
       {model.seo.breadcrumbs.length > 1 ? (
-        <Container className="pt-4">
-          <Breadcrumbs items={model.seo.breadcrumbs} />
-        </Container>
+        <BreadcrumbBar items={model.seo.breadcrumbs} />
       ) : null}
       <ContactView model={model} />
     </>

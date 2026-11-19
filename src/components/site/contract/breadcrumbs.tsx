@@ -10,16 +10,16 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
 
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-surface-inverse-foreground/85">
         {items.map((item, index) => (
           <li key={item.path} className="flex items-center gap-2">
             {index === lastIndex ? (
-              <span aria-current="page" className="font-medium text-foreground">
+              <span aria-current="page" className="font-medium text-surface-inverse-foreground">
                 {item.name}
               </span>
             ) : (
               <>
-                <Link href={item.path} className="inline-flex min-h-11 min-w-11 items-center justify-center underline underline-offset-4 hover:text-primary">
+                <Link href={item.path} className="inline-flex min-h-11 min-w-11 items-center justify-center underline underline-offset-4 hover:text-highlight">
                   {item.name}
                 </Link>
                 <span aria-hidden="true">/</span>

@@ -7,7 +7,7 @@ type ArticleDatesProps = {
 
 export function ArticleDates({ publishedAt, updatedAt }: ArticleDatesProps) {
   return (
-    <p className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+    <p className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-surface-inverse-foreground/85">
       <span>
         Diterbitkan <time dateTime={publishedAt}>{formatIndonesianDate(publishedAt)}</time>
       </span>

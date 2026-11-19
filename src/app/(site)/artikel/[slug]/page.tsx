@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/site/contract/breadcrumbs";
 import { JsonLd } from "@/components/site/contract/json-ld";
+import { BreadcrumbBar } from "@/components/site/sections/breadcrumb-bar";
 import { ArticleDetailView } from "@/components/site/views/article-detail-view";
-import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
 import { buildSlugStaticParams } from "@/lib/site/static-params";
 import { getSiteQueries } from "@/server/container";
@@ -45,9 +44,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <JsonLd data={model.seo.jsonLd} />
-      <Container className="pt-4">
-        <Breadcrumbs items={model.seo.breadcrumbs} />
-      </Container>
+      <BreadcrumbBar items={model.seo.breadcrumbs} />
       <ArticleDetailView model={model} />
     </>
   );

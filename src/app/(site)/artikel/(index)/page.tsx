@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/site/contract/breadcrumbs";
 import { JsonLd } from "@/components/site/contract/json-ld";
+import { BreadcrumbBar } from "@/components/site/sections/breadcrumb-bar";
 import { ArticlesIndexView } from "@/components/site/views/articles-index-view";
-import { Container } from "@/components/ui/container";
 import { themeConfig } from "@/config/theme";
 import { getSiteQueries } from "@/server/container";
 import { getArticlesIndexModel } from "@/server/site/models/articles";
@@ -33,9 +32,7 @@ export default async function ArticlesPage() {
   return (
     <>
       <JsonLd data={model.seo.jsonLd} />
-      <Container className="pt-4">
-        <Breadcrumbs items={model.seo.breadcrumbs} />
-      </Container>
+      <BreadcrumbBar items={model.seo.breadcrumbs} />
       <ArticlesIndexView model={model} />
     </>
   );
