@@ -16,4 +16,11 @@ describe("admin error boundary", () => {
 
     expect(reset).toHaveBeenCalledTimes(1);
   });
+
+  it("offers a way back to the dashboard and uses the large rounded card", () => {
+    render(<AdminError error={new Error("boom")} reset={() => undefined} />);
+
+    expect(screen.getByRole("link", { name: "Ke dashboard" }).getAttribute("href")).toBe("/admin");
+    expect(screen.getByRole("alert").className).toMatch(/rounded-2xl/);
+  });
 });

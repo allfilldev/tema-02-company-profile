@@ -3,7 +3,7 @@ import { Suspense, type ReactNode } from "react";
 import { AdminShell } from "@/components/admin/layout/admin-shell";
 import { themeConfig } from "@/config/theme";
 import { buildAdminMenu } from "@/lib/admin/admin-menu";
-import { requireAdmin } from "@/server/admin/admin-session";
+import { getAdminDeps } from "@/server/admin/admin-deps";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 };
 
 async function AdminGate({ children }: { children: ReactNode }) {
-  const session = await requireAdmin();
+  const deps = await getAdminDeps();
+  const unreadMessages = await deps.repos.messages.countUnread();
 
   return (
-    <AdminShell menu={buildAdminMenu(themeConfig.enabledModules)} adminEmail={session.email}>
+    <AdminShell menu={buildAdminMenu(themeConfig.enabledModules)} adminEmail={deps.session.email} unreadMessages={unreadMessages}>
       {children}
     </AdminShell>
   );

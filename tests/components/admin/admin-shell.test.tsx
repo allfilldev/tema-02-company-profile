@@ -12,9 +12,9 @@ import { buildAdminMenu } from "@/lib/admin/admin-menu";
 
 const menu = buildAdminMenu(["services", "portfolio", "articles", "team"]);
 
-function render() {
+function render(unreadMessages?: number) {
   return renderToStaticMarkup(
-    <AdminShell menu={menu} adminEmail="admin@contoh.id">
+    <AdminShell menu={menu} adminEmail="admin@contoh.id" unreadMessages={unreadMessages}>
       <h1>Layanan baru</h1>
     </AdminShell>,
   );
@@ -45,7 +45,43 @@ describe("AdminShell", () => {
   it("shows who is signed in, a sign out button, and the page content in the main area", () => {
     expect(markup).toContain("admin@contoh.id");
     expect(markup).toMatch(/<button[^>]*type="submit"[^>]*>Keluar<\/button>/);
+    expect(markup).toMatch(/<a[^>]*href="\/"[^>]*target="_blank"[^>]*>Lihat situs<\/a>/);
     expect(markup).toMatch(/<main[^>]*>[\s\S]*<h1>Layanan baru<\/h1>/);
     expect(markup.match(/<main/g)).toHaveLength(1);
+  });
+
+  it("groups the menu under MENU, KONTEN and SISTEM in that order", () => {
+    const positions = ["MENU", "KONTEN", "SISTEM"].map((title) => markup.indexOf(`>${title}<`));
+
+    expect(positions.every((position) => position >= 0)).toBe(true);
+    expect([...positions].sort((a, b) => a - b)).toEqual(positions);
+    expect(markup.indexOf(">Pesan masuk<")).toBeGreaterThan(positions[2]);
+    expect(markup.indexOf(">Layanan<")).toBeGreaterThan(positions[1]);
+    expect(markup.indexOf(">Layanan<")).toBeLessThan(positions[2]);
+  });
+
+  it("uses the dark sidebar and the muted canvas", () => {
+    expect(markup).toMatch(/<aside[^>]*class="[^"]*bg-sidebar[^"]*text-sidebar-foreground/);
+    expect(markup).toMatch(/<div[^>]*class="[^"]*bg-surface-muted/);
+  });
+
+  it("offers a menu search, a fullscreen toggle and an account menu in the topbar", () => {
+    expect(markup).toMatch(/<input[^>]*type="search"[^>]*aria-label="Cari menu"|<input[^>]*aria-label="Cari menu"[^>]*type="search"/);
+    expect(markup).toMatch(/<button[^>]*aria-label="Layar penuh"/);
+    expect(markup).toMatch(/<button[^>]*aria-haspopup="menu"[^>]*aria-label="Menu akun"|<button[^>]*aria-label="Menu akun"[^>]*aria-haspopup="menu"/);
+  });
+
+  it("shows the unread message count on the bell and caps large numbers", () => {
+    const withUnread = render(7);
+    const bell = withUnread.match(/<a[^>]*aria-label="[^"]*7[^"]*"[^>]*href="\/admin\/pesan"|<a[^>]*href="\/admin\/pesan"[^>]*aria-label="[^"]*7[^"]*"/);
+
+    expect(bell).not.toBeNull();
+    expect(render(150)).toContain(">99+<");
+  });
+
+  it("shows no count badge when there are no unread messages", () => {
+    expect(markup).toMatch(/<a[^>]*aria-label="Pesan masuk"/);
+    expect(markup).not.toContain("data-unread-badge");
+    expect(render(3)).toContain("data-unread-badge");
   });
 });
