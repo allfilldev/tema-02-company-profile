@@ -22,6 +22,8 @@ function isActive(pathname: string | null, href: string): boolean {
 }
 
 const MENU_ID = "menu-mobile";
+const INERT_SELECTOR = "main, footer";
+const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
 
 const LIST_CLASS_NAME_CLOSED = "hidden md:flex md:items-center md:gap-1";
 
@@ -39,6 +41,7 @@ export function MobileMenu({ navigation, onOpenChange, phone }: MobileMenuProps)
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     onOpenChange?.(open);
@@ -58,8 +61,44 @@ export function MobileMenu({ navigation, onOpenChange, phone }: MobileMenuProps)
         closeMenu();
       }
     }
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
+    function trapFocus(event: KeyboardEvent) {
+      if (event.key !== "Tab" || !toggleRef.current || !menuRef.current) {
+        return;
+      }
+      const focusable = [toggleRef.current, ...menuRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (!focusable.includes(active as HTMLElement)) {
+        event.preventDefault();
+        first.focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    function handleKeydown(event: KeyboardEvent) {
+      closeOnEscape(event);
+      trapFocus(event);
+    }
+    const isMobileLayout = !window.matchMedia("(min-width: 48rem)").matches;
+    const inertTargets = isMobileLayout ? [...document.querySelectorAll<HTMLElement>(INERT_SELECTOR)] : [];
+    for (const target of inertTargets) {
+      target.setAttribute("inert", "");
+    }
+    if (isMobileLayout) {
+      menuRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
+    }
+    document.addEventListener("keydown", handleKeydown);
+    return () => {
+      document.removeEventListener("keydown", handleKeydown);
+      for (const target of inertTargets) {
+        target.removeAttribute("inert");
+      }
+    };
   }, [open, closeMenu]);
 
   const ToggleIcon = open ? X : Menu;
@@ -77,7 +116,7 @@ export function MobileMenu({ navigation, onOpenChange, phone }: MobileMenuProps)
       >
         <ToggleIcon aria-hidden="true" className="size-6" />
       </button>
-      <ul id={MENU_ID} className={open ? LIST_CLASS_NAME_OPEN : LIST_CLASS_NAME_CLOSED}>
+      <ul ref={menuRef} id={MENU_ID} className={open ? LIST_CLASS_NAME_OPEN : LIST_CLASS_NAME_CLOSED}>
         {navigation.map((item) => (
           <li key={item.href}>
             <Link
