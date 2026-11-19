@@ -14,6 +14,10 @@ Perbaikan dan fitur baru selalu dikerjakan di boilerplate lebih dulu, lalu ditar
 
 Memakai `git merge upstream/main` dan bukan `git pull upstream` disengaja: cabang tema pasti sudah menyimpang dari boilerplate, dan `git pull` tanpa strategi eksplisit berhenti dengan pertanyaan.
 
+## Pembaruan lapisan gerak
+
+Pembaruan ini mengubah berkas inti `src/styles/tokens.css`, `src/app/globals.css`, `src/lib/site/reveal-motion.ts`, `src/components/ui/{reveal,button,card,site-image}.tsx`, pembungkus `page-enter` di `src/components/site/views/*`, pembungkus `Reveal` dan stagger item di `src/components/site/sections/*`, dan `src/components/site/layout/mobile-menu.tsx`. `Reveal` kini punya prop `variant` dan `stagger`, dan menu mobile memakai kelas `menu-enter`. Tema yang membawa pembaruan ini perlu memeriksa ulang pemakaian `Reveal` miliknya (pembungkus seksi sebaiknya `variant="fade"` bila isinya sudah bergerak) dan kelas menu di `mobile-menu.tsx` bila ditulis ulang.
+
 ## Konflik
 
 - **Folder terkunci** (daftar lengkap di `THEME.md`): konflik di sini berarti tema mengubah folder yang seharusnya tidak disentuh. Kembalikan berkas itu ke versi boilerplate dengan `git checkout upstream/main -- <path>` dan pindahkan kebutuhannya ke boilerplate.
