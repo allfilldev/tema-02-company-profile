@@ -138,6 +138,10 @@ describe("getArticlesIndexModel", () => {
 
     expect(model!.seo.metadata.alternates?.canonical).toBe(`${SITE_URL}/artikel/halaman/2`);
     expect(fullTitle(model!.seo)).toBe("Artikel Website dan SEO - Halaman 2 | Nusa Karya");
+    const description = String(model!.seo.metadata.description);
+    expect(description.startsWith("Halaman 2: ")).toBe(true);
+    expect(description.length).toBeLessThanOrEqual(155);
+    expect(description).not.toBe(model!.intro.metaDescription);
     expect(model!.seo.breadcrumbs).toEqual([
       { name: "Beranda", path: "/" },
       { name: "Artikel", path: "/artikel" },

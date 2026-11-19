@@ -8,7 +8,7 @@ import {
   TITLE_MAX,
   TITLE_MIN,
 } from "@/lib/seo/limits";
-import { buildPageTitle, maxMetaTitleLength } from "@/lib/seo/title";
+import { maxMetaTitleLength, rawPageTitle } from "@/lib/seo/title";
 import { isValidSlug } from "@/lib/text/slug";
 
 const ROOTED_URL_PATTERN = /^(\/(?![\/\\])|https:\/\/)/;
@@ -30,7 +30,7 @@ export function metaTitleField(siteName: string): z.ZodType<string> {
   const maxLength = maxMetaTitleLength(siteName);
 
   return z.string().refine((metaTitle) => {
-    const fullLength = buildPageTitle(metaTitle, siteName).length;
+    const fullLength = rawPageTitle(metaTitle, siteName).length;
     return (
       metaTitle.trim().length > 0 &&
       maxLength > 0 &&

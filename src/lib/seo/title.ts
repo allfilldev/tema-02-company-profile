@@ -8,8 +8,15 @@ export function maxMetaTitleLength(siteName: string): number {
   return Math.max(0, TITLE_MAX - titleSuffix(siteName).length);
 }
 
-export function buildPageTitle(title: string, siteName: string): string {
+export function rawPageTitle(title: string, siteName: string): string {
   return `${title}${titleSuffix(siteName)}`;
+}
+
+export function buildPageTitle(title: string, siteName: string): string {
+  if (maxMetaTitleLength(siteName) <= 0) {
+    return rawPageTitle(title, siteName);
+  }
+  return rawPageTitle(fitPageTitle(title, "", siteName), siteName);
 }
 
 const TRAILING_SEPARATORS = /[\s,;:\-–—]+$/;

@@ -3,6 +3,7 @@ import type { Article, ArticleWithAuthor } from "@/core/domain/article/article";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { TeamMember } from "@/core/domain/team/team-member";
 import { buildArticleJsonLd, buildFaqJsonLd, type JsonLd } from "@/lib/seo/json-ld";
+import { paginatedDescription } from "@/lib/seo/description";
 import { fitPageTitle } from "@/lib/seo/title";
 import { articlePageHref } from "@/lib/site/article-pages";
 import { isReservedArticleSlug } from "@/lib/text/slug";
@@ -80,7 +81,7 @@ export async function getArticlesIndexModel(
     seo: buildPageSeo(context, {
       path,
       title,
-      description: intro.metaDescription,
+      description: paginatedDescription(intro.metaDescription, articlePage.page),
       ogImagePath: null,
       breadcrumbs: isFirstPage
         ? [HOME_BREADCRUMB, ARTICLES_BREADCRUMB]

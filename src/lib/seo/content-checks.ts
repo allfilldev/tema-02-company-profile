@@ -20,7 +20,7 @@ import {
   TITLE_MAX,
   TITLE_MIN,
 } from "@/lib/seo/limits";
-import { buildPageTitle, maxMetaTitleLength } from "@/lib/seo/title";
+import { maxMetaTitleLength, rawPageTitle } from "@/lib/seo/title";
 
 export type ContentKind = "article" | "service" | "portfolio";
 
@@ -66,7 +66,7 @@ function isWithin(value: number, min: number, max: number): boolean {
 
 function metaTitleCheck(siteName: string, metaTitle: string): ContentCheck {
   const maxLength = maxMetaTitleLength(siteName);
-  const fullLength = buildPageTitle(metaTitle, siteName).length;
+  const fullLength = rawPageTitle(metaTitle, siteName).length;
   const passed = metaTitle.trim().length > 0 && maxLength > 0 && isWithin(fullLength, TITLE_MIN, TITLE_MAX);
   const message =
     maxLength > 0

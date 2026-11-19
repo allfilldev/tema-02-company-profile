@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildPageTitle, fitPageTitle, maxMetaTitleLength, titleSuffix } from "@/lib/seo/title";
+import { buildPageTitle, fitPageTitle, maxMetaTitleLength, rawPageTitle, titleSuffix } from "@/lib/seo/title";
 
 describe("title helpers", () => {
   it("builds the suffix from the site name", () => {
@@ -16,6 +16,28 @@ describe("title helpers", () => {
 
   it("joins the title and the site name", () => {
     expect(buildPageTitle("Layanan", "Nusa Karya")).toBe("Layanan | Nusa Karya");
+  });
+
+  it("cuts a long title at a word boundary so the full title never passes 60 characters", () => {
+    const base = "Panduan Lengkap Menyusun SOP Operasional untuk Usaha Kecil dan Menengah";
+    const full = buildPageTitle(base, "Nusa Karya Digital");
+
+    expect(full.length).toBeLessThanOrEqual(60);
+    expect(full.endsWith(" | Nusa Karya Digital")).toBe(true);
+    expect(base.startsWith(full.slice(0, -" | Nusa Karya Digital".length))).toBe(true);
+  });
+
+  it("keeps the raw join for validation so an over long input is still detected", () => {
+    const base = "Panduan Lengkap Menyusun SOP Operasional untuk Usaha Kecil dan Menengah";
+
+    expect(rawPageTitle(base, "Nusa Karya Digital")).toBe(`${base} | Nusa Karya Digital`);
+    expect(rawPageTitle(base, "Nusa Karya Digital").length).toBeGreaterThan(60);
+  });
+
+  it("falls back to the raw join when the site name leaves no room", () => {
+    const siteName = "x".repeat(70);
+
+    expect(buildPageTitle("Layanan", siteName)).toBe(rawPageTitle("Layanan", siteName));
   });
 });
 
