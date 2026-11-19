@@ -18,7 +18,7 @@ function ImpactList({ heading, impacts }: { heading: string; impacts: TitleImpac
   }
 
   return (
-    <div role="status" className="rounded-md border border-border p-3 text-sm text-foreground">
+    <div role="status" className="rounded-xl border border-border p-3 text-sm text-foreground">
       <p className="font-semibold">{heading}</p>
       <ul className="mt-1 list-disc pl-5">
         {impacts.map((impact) => (

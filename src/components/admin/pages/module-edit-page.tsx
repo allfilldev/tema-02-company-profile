@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ModuleForm } from "@/components/admin/pages/module-views";
+import { PageHeader } from "@/components/admin/shared/page-header";
 import type { AdminModule } from "@/core/domain/admin/records";
 import { ADMIN_MODULE_ITEM_NAMES } from "@/lib/admin/admin-menu";
 import { isUuid } from "@/lib/admin/uuid";
@@ -27,7 +28,7 @@ export async function ModuleEditPage({ module, params }: ModuleEditPageProps) {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="font-heading text-2xl font-bold text-foreground">{`Ubah ${ADMIN_MODULE_ITEM_NAMES[module]}`}</h1>
+      <PageHeader title={`Ubah ${ADMIN_MODULE_ITEM_NAMES[module]}`} />
       <ModuleForm module={module} record={record} context={context} action={saveItem.bind(null, module, id)} />
     </section>
   );

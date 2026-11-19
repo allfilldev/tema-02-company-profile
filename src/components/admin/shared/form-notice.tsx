@@ -14,7 +14,7 @@ export function FormNotice({ state }: FormNoticeProps) {
   return (
     <div
       role={isProblem ? "alert" : "status"}
-      className={isProblem ? "rounded-md border border-danger p-4 text-danger" : "rounded-md border border-success p-4 text-foreground"}
+      className={isProblem ? "rounded-xl border border-danger p-4 text-danger" : "rounded-xl border border-success p-4 text-foreground"}
     >
       {state.message ? <p className="font-semibold">{state.message}</p> : null}
       {state.blocking.length > 0 ? (

@@ -29,7 +29,7 @@ export function SocialLinksField() {
     <div className="flex flex-col gap-4">
       <h2 className="text-base font-semibold text-foreground">Tautan media sosial</h2>
       {entries.map((entry, index) => (
-        <fieldset key={entry.key} className="flex flex-col gap-3 rounded-md border border-border p-4">
+        <fieldset key={entry.key} className="flex flex-col gap-3 rounded-xl border border-border p-4">
           <legend className="px-1 text-sm font-semibold text-foreground">{`Tautan sosial ${index + 1}`}</legend>
           <Field label={`Platform ${index + 1}`} htmlFor={`social-${entry.key}-platform`}>
             <Input id={`social-${entry.key}-platform`} name={`social[${index}][platform]`} value={entry.platform} onChange={(event) => update(index, { platform: event.target.value })} />

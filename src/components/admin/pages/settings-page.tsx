@@ -1,4 +1,5 @@
 import { SettingsForm } from "@/components/admin/forms/settings-form";
+import { PageHeader } from "@/components/admin/shared/page-header";
 import { previewSettingsImpacts, saveSettings } from "@/server/actions/admin/settings";
 import { getAdminDeps } from "@/server/admin/admin-deps";
 import { toMediaAsset } from "@/server/admin/resolve-media";
@@ -9,7 +10,7 @@ export async function SettingsPage() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="font-heading text-2xl font-bold text-foreground">Pengaturan situs</h1>
+      <PageHeader title="Pengaturan situs" />
       <SettingsForm settings={settings} media={mediaRecords.map(toMediaAsset)} action={saveSettings} previewImpacts={previewSettingsImpacts} />
     </section>
   );

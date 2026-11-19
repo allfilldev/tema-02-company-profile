@@ -53,7 +53,7 @@ export function ItemFormShell({ action, initial, media, isPublishable, isPublish
 
   return (
     <ItemFormContext.Provider value={context}>
-      <form action={formAction} noValidate className="flex flex-col gap-6">
+      <form action={formAction} noValidate className="flex flex-col gap-6 rounded-2xl bg-surface p-5 shadow-soft sm:p-6">
         <FormNotice state={state} />
         <div key={version} className="flex flex-col gap-6">
           {children}

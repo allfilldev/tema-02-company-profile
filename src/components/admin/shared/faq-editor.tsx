@@ -49,7 +49,7 @@ export function FaqEditor({ initial }: FaqEditorProps) {
   return (
     <div ref={rootRef} className="flex flex-col gap-4">
       {entries.map((entry, index) => (
-        <fieldset key={entry.key} className="flex flex-col gap-3 rounded-md border border-border p-4">
+        <fieldset key={entry.key} className="flex flex-col gap-3 rounded-xl border border-border p-4">
           <legend className="px-1 text-sm font-semibold text-foreground">{`Pertanyaan ${index + 1}`}</legend>
           <Field label={`Pertanyaan ${index + 1}`} htmlFor={`faq-${entry.key}-question`}>
             <Input id={`faq-${entry.key}-question`} name={`faq[${index}][question]`} value={entry.question} onChange={(event) => update(index, { question: event.target.value })} />

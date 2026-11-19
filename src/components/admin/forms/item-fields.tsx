@@ -129,7 +129,7 @@ export function SelectField({ name, label, required, options }: BaseFieldProps &
         name={name}
         defaultValue={textOf(values[name])}
         {...invalidControlProps(id, Boolean(errors[name]))}
-        className="min-h-11 w-full rounded-md border border-border-strong bg-surface px-4 py-2 text-base text-foreground aria-invalid:border-danger"
+        className="min-h-11 w-full rounded-xl border border-border-strong bg-surface px-4 py-2 text-base text-foreground aria-invalid:border-danger"
       >
         <option value="">Pilih...</option>
         {options.map((option) => (

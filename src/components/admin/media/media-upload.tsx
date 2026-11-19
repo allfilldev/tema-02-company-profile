@@ -77,14 +77,14 @@ export function MediaUpload({ action }: MediaUploadProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 rounded-lg border border-border bg-background p-4">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 rounded-2xl bg-surface p-5 shadow-soft">
       <h2 className="font-heading text-lg font-bold text-foreground">Unggah gambar baru</h2>
       <FormNotice state={state} />
       <Field label="Berkas gambar" htmlFor={`${baseId}-file`} error={errors.file}>
         <Input id={`${baseId}-file`} name="file" type="file" accept="image/*" invalid={Boolean(errors.file)} />
       </Field>
       <Field label="Jenis gambar" htmlFor={`${baseId}-kind`}>
-        <select id={`${baseId}-kind`} name="kind" defaultValue="photo" className="min-h-11 w-full rounded-md border border-border-strong bg-surface px-4 py-2 text-base text-foreground">
+        <select id={`${baseId}-kind`} name="kind" defaultValue="photo" className="min-h-11 w-full rounded-xl border border-border-strong bg-surface px-4 py-2 text-base text-foreground">
           {KIND_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

@@ -71,7 +71,7 @@ export function SeoPanel({ kind, siteName, extraImageAlts = [] }: SeoPanelProps)
   }, [kind, siteName, altsKey]);
 
   return (
-    <section ref={rootRef} aria-labelledby="seo-panel-title" className="flex flex-col gap-4 rounded-lg border border-border bg-background p-4">
+    <section ref={rootRef} aria-labelledby="seo-panel-title" className="flex flex-col gap-4 rounded-2xl bg-surface-muted p-5">
       <h2 id="seo-panel-title" className="font-heading text-lg font-bold text-foreground">
         Pemeriksaan SEO
       </h2>

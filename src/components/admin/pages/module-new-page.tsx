@@ -1,4 +1,5 @@
 import { ModuleForm } from "@/components/admin/pages/module-views";
+import { PageHeader } from "@/components/admin/shared/page-header";
 import type { AdminModule } from "@/core/domain/admin/records";
 import { ADMIN_MODULE_ITEM_NAMES } from "@/lib/admin/admin-menu";
 import { getAdminDeps } from "@/server/admin/admin-deps";
@@ -12,7 +13,7 @@ export async function ModuleNewPage({ module }: { module: AdminModule }) {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="font-heading text-2xl font-bold text-foreground">{`Tambah ${ADMIN_MODULE_ITEM_NAMES[module]}`}</h1>
+      <PageHeader title={`Tambah ${ADMIN_MODULE_ITEM_NAMES[module]}`} />
       <ModuleForm module={module} record={null} context={context} action={saveItem.bind(null, module, null)} />
     </section>
   );
