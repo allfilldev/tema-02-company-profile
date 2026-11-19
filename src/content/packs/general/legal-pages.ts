@@ -63,7 +63,7 @@ Pertanyaan tentang privasi dapat dikirim ke ${email}, disampaikan melalui telepo
       {
         heading: "Tentang situs ini",
         bodyMd:
-          "Situs ini dikelola oleh perusahaan kami, konsultan manajemen dan transformasi digital yang berkantor di Jakarta Selatan. Situs ini menyajikan informasi tentang perusahaan, layanan, portofolio, dan artikel.",
+          "Situs ini dikelola oleh perusahaan kami, konsultan manajemen dan transformasi digital yang berkantor di Semarang. Situs ini menyajikan informasi tentang perusahaan, layanan, portofolio, dan artikel.",
       },
       {
         heading: "Informasi bersifat umum",

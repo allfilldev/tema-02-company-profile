@@ -32,7 +32,10 @@ describe("general content pack", () => {
   it("uses the demo identity and WhatsApp defaults", () => {
     expect(generalPack.settings).toMatchObject({
       siteName: "All Fill Dev",
+      phone: "+62 895-3264-22692",
       whatsappNumber: "62895326422692",
+      address: { city: "Semarang", region: "Jawa Tengah" },
+      openingHours: "Senin sampai Sabtu, 07.00 sampai 22.00 WIB",
       whatsappMessage: "Halo, saya ingin konsultasi pembuatan website. Paket mana yang cocok untuk usaha saya?",
     });
   });

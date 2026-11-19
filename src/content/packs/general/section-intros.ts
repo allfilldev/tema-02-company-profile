@@ -77,18 +77,18 @@ export const generalSectionIntros: SectionIntro[] = [
     key: "about",
     eyebrow: "Tentang kami",
     title: "Mengenal kami",
-    description: "Konsultan manajemen dan transformasi digital yang berkantor di Jakarta Selatan.",
+    description: "Konsultan manajemen dan transformasi digital yang berkantor di Semarang.",
     metaTitle: "Tentang Kami, Konsultan Manajemen Jakarta",
     metaDescription:
-      "Kenali kami, konsultan manajemen dan transformasi digital di Jakarta Selatan yang membantu UMKM dan korporasi merapikan proses bisnis.",
+      "Kenali kami, konsultan manajemen dan transformasi digital di Semarang yang membantu UMKM dan korporasi merapikan proses bisnis.",
   },
   {
     key: "contact",
     eyebrow: "Kontak",
     title: "Ceritakan tantangan bisnis Anda",
     description: "Kirim pesan lewat formulir atau WhatsApp. Tim kami membalas pada jam kerja.",
-    metaTitle: "Hubungi Konsultan Bisnis di Jakarta",
+    metaTitle: "Hubungi Konsultan Bisnis di Semarang",
     metaDescription:
-      "Hubungi kami lewat formulir atau WhatsApp untuk membahas tantangan bisnis Anda. Tim kami di Jakarta Selatan membalas pada jam kerja.",
+      "Hubungi kami lewat formulir atau WhatsApp untuk membahas tantangan bisnis Anda. Tim kami di Semarang membalas pada jam kerja.",
   },
 ];
