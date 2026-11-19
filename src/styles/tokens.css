@@ -34,7 +34,15 @@
 }
 
 :root {
-  --motion-duration: 0.7s;
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 300ms;
+  --motion-duration-slow: 700ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-stagger: 80ms;
+  --motion-enter-duration: 250ms;
+  --motion-press-scale: 0.97;
+  --motion-duration: var(--motion-duration-slow);
   --motion-distance: 2rem;
-  --motion-ease: ease-out;
+  --motion-ease: var(--motion-ease-out);
 }

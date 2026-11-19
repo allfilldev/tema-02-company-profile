@@ -29,4 +29,16 @@ describe("Reveal", () => {
   it("passes the class name through", () => {
     expect(renderToStaticMarkup(<Reveal className="mt-4">a</Reveal>)).toContain('class="mt-4"');
   });
+
+  it("renders a variant attribute only for non-default variants", () => {
+    expect(renderToStaticMarkup(<Reveal>a</Reveal>)).not.toContain("data-reveal-variant");
+    expect(renderToStaticMarkup(<Reveal variant="up">a</Reveal>)).not.toContain("data-reveal-variant");
+    expect(renderToStaticMarkup(<Reveal variant="fade">a</Reveal>)).toContain('data-reveal-variant="fade"');
+  });
+
+  it("derives the delay from stagger and lets an explicit delay win", () => {
+    expect(renderToStaticMarkup(<Reveal stagger={2}>a</Reveal>)).toContain("--reveal-delay:160ms");
+    expect(renderToStaticMarkup(<Reveal stagger={2} delay={50}>a</Reveal>)).toContain("--reveal-delay:50ms");
+    expect(renderToStaticMarkup(<Reveal stagger={0}>a</Reveal>)).not.toContain("--reveal-delay");
+  });
 });

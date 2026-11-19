@@ -4,10 +4,14 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties, ElementType, ReactNode } from "react";
 import { resolveRevealState } from "@/lib/site/reveal-state";
 import type { RevealState } from "@/lib/site/reveal-state";
+import { staggerDelayMs } from "@/lib/site/reveal-motion";
+import type { RevealVariant } from "@/lib/site/reveal-motion";
 
 type RevealProps = {
   children: ReactNode;
   delay?: number;
+  stagger?: number;
+  variant?: RevealVariant;
   className?: string;
   as?: "div" | "section" | "li";
 };
@@ -15,7 +19,7 @@ type RevealProps = {
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const OBSERVER_MARGIN = "0px 0px -10% 0px";
 
-export function Reveal({ children, delay, className, as = "div" }: RevealProps) {
+export function Reveal({ children, delay, stagger, variant = "up", className, as = "div" }: RevealProps) {
   const Tag: ElementType = as;
   const ref = useRef<HTMLElement>(null);
   const [state, setState] = useState<RevealState>("visible");
@@ -48,10 +52,12 @@ export function Reveal({ children, delay, className, as = "div" }: RevealProps) 
     return () => observer.disconnect();
   }, []);
 
-  const style = delay ? ({ "--reveal-delay": `${delay}ms` } as CSSProperties) : undefined;
+  const delayMs = delay ?? (stagger ? staggerDelayMs(stagger) : 0);
+  const style = delayMs ? ({ "--reveal-delay": `${delayMs}ms` } as CSSProperties) : undefined;
+  const variantAttribute = variant === "up" ? undefined : variant;
 
   return (
-    <Tag ref={ref} data-reveal={state} className={className} style={style}>
+    <Tag ref={ref} data-reveal={state} data-reveal-variant={variantAttribute} className={className} style={style}>
       {children}
     </Tag>
   );
