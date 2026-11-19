@@ -37,7 +37,7 @@ export function ItemList({ rows, editBasePath, showStatus, showOrder, actions, e
   if (showOrder) {
     columns.push({
       header: "Urutan",
-      cell: (row) => <MoveButtons id={row.id} isFirst={indexOf(row) === 0} isLast={indexOf(row) === lastIndex} action={actions.move} />,
+      cell: (row) => <MoveButtons id={row.id} itemName={row.name} isFirst={indexOf(row) === 0} isLast={indexOf(row) === lastIndex} action={actions.move} />,
     });
   }
 
@@ -45,10 +45,10 @@ export function ItemList({ rows, editBasePath, showStatus, showOrder, actions, e
     header: "Aksi",
     cell: (row) => (
       <div className="flex flex-wrap items-start gap-2">
-        <Link href={`${editBasePath}/${row.id}`} className="inline-flex min-h-11 items-center px-3 font-semibold text-primary underline underline-offset-4">
+        <Link href={`${editBasePath}/${row.id}`} aria-label={`Ubah ${row.name}`} className="inline-flex min-h-11 items-center px-3 font-semibold text-primary underline underline-offset-4">
           Ubah
         </Link>
-        {showStatus ? <PublishToggle id={row.id} isPublished={row.isPublished} action={actions.setPublished} /> : null}
+        {showStatus ? <PublishToggle id={row.id} itemName={row.name} isPublished={row.isPublished} action={actions.setPublished} /> : null}
         <ConfirmDelete itemName={row.name} action={actions.remove.bind(null, row.id)} />
       </div>
     ),

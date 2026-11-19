@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { invalidControlProps } from "@/lib/ui/field-ids";
 import { useItemForm } from "@/components/admin/forms/item-form-shell";
 import { FaqEditor } from "@/components/admin/shared/faq-editor";
 import { MarkdownEditor } from "@/components/admin/shared/markdown-editor";
@@ -127,7 +128,7 @@ export function SelectField({ name, label, required, options }: BaseFieldProps &
         id={id}
         name={name}
         defaultValue={textOf(values[name])}
-        aria-invalid={errors[name] ? true : undefined}
+        {...invalidControlProps(id, Boolean(errors[name]))}
         className="min-h-11 w-full rounded-md border border-border-strong bg-surface px-4 py-2 text-base text-foreground aria-invalid:border-danger"
       >
         <option value="">Pilih...</option>
@@ -143,12 +144,13 @@ export function SelectField({ name, label, required, options }: BaseFieldProps &
 
 export function MarkdownField({ name = "bodyMd", label = "Isi" }: { name?: string; label?: string }) {
   const { values, errors, media } = useItemForm();
+  const errorId = `${useId()}-error`;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div role="group" aria-label={label} aria-describedby={errors[name] ? errorId : undefined} className="flex flex-col gap-2">
       <MarkdownEditor name={name} label={label} initial={textOf(values[name])} media={media} />
       {errors[name] ? (
-        <p role="alert" className="text-sm font-medium text-danger">
+        <p id={errorId} role="alert" className="text-sm font-medium text-danger">
           {errors[name]}
         </p>
       ) : null}
@@ -160,13 +162,14 @@ export function FaqField({ name = "faq", label = "Pertanyaan yang sering diajuka
   const { values, errors } = useItemForm();
   const raw = values[name];
   const initial: FaqItem[] = Array.isArray(raw) ? raw : [];
+  const errorId = `${useId()}-error`;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div role="group" aria-label={label} aria-describedby={errors[name] ? errorId : undefined} className="flex flex-col gap-2">
       <h2 className="text-base font-semibold text-foreground">{label}</h2>
       <FaqEditor initial={initial} />
       {errors[name] ? (
-        <p role="alert" className="text-sm font-medium text-danger">
+        <p id={errorId} role="alert" className="text-sm font-medium text-danger">
           {errors[name]}
         </p>
       ) : null}
@@ -178,9 +181,10 @@ export function MediaField({ name, label }: { name: string; label: string }) {
   const { values, errors, media } = useItemForm();
   const [selected, setSelected] = useState<MediaAsset | null>(() => assetFor(values[name], media));
   const [open, setOpen] = useState(false);
+  const errorId = `${useId()}-error`;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div role="group" aria-label={label} aria-describedby={errors[name] ? errorId : undefined} className="flex flex-col gap-2">
       <span className="text-sm font-semibold text-foreground">{label}</span>
       <input type="hidden" name={name} value={selected?.id ?? ""} />
       {selected ? (
@@ -202,7 +206,7 @@ export function MediaField({ name, label }: { name: string; label: string }) {
         ) : null}
       </div>
       {errors[name] ? (
-        <p role="alert" className="text-sm font-medium text-danger">
+        <p id={errorId} role="alert" className="text-sm font-medium text-danger">
           {errors[name]}
         </p>
       ) : null}

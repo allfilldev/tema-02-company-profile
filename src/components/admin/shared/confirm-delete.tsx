@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useId, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import type { AdminActionOutcome } from "@/lib/admin/form-state";
+import { useDialogFocus } from "@/lib/admin/use-dialog-focus";
 
 type ConfirmDeleteProps = {
   itemName: string;
@@ -14,6 +15,8 @@ export function ConfirmDelete({ itemName, action }: ConfirmDeleteProps) {
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(dialogRef, open);
 
   useEffect(() => {
     if (!open) {
@@ -42,11 +45,11 @@ export function ConfirmDelete({ itemName, action }: ConfirmDeleteProps) {
 
   return (
     <>
-      <Button type="button" variant="ghost" onClick={() => setOpen(true)}>
+      <Button type="button" variant="ghost" aria-label={`Hapus ${itemName}`} onClick={() => setOpen(true)}>
         Hapus
       </Button>
       {open ? (
-        <div role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
+        <div ref={dialogRef} role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
           <div className="w-full max-w-md rounded-lg bg-background p-6 shadow-lg">
             <p id={titleId} className="text-base font-semibold text-foreground">
               {`Hapus ${itemName}? Tindakan ini tidak bisa dibatalkan.`}

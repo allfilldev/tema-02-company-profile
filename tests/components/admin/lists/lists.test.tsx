@@ -123,3 +123,15 @@ describe("remaining lists", () => {
     }
   });
 });
+
+describe("row action labels", () => {
+  it("names the item in every row action so screen readers can tell rows apart", () => {
+    const markup = renderToStaticMarkup(<ServiceList records={[buildServiceRecord({ title: "Penyusunan SOP", isPublished: true })]} actions={actions} />);
+
+    expect(markup).toContain('aria-label="Ubah Penyusunan SOP"');
+    expect(markup).toContain('aria-label="Naikkan Penyusunan SOP"');
+    expect(markup).toContain('aria-label="Turunkan Penyusunan SOP"');
+    expect(markup).toContain('aria-label="Tarik Penyusunan SOP"');
+    expect(markup).toContain('aria-label="Hapus Penyusunan SOP"');
+  });
+});

@@ -8,7 +8,7 @@ describe("ConfirmDelete", () => {
     const action = vi.fn(async () => ({ ok: true as const }));
     render(<ConfirmDelete itemName="Penyusunan SOP" action={action} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Hapus" }));
+    await userEvent.click(screen.getByRole("button", { name: "Hapus Penyusunan SOP" }));
     const dialog = screen.getByRole("alertdialog");
     expect(dialog.textContent).toContain("Hapus Penyusunan SOP? Tindakan ini tidak bisa dibatalkan.");
     expect(action).not.toHaveBeenCalled();
@@ -21,11 +21,11 @@ describe("ConfirmDelete", () => {
     const action = vi.fn(async () => ({ ok: true as const }));
     render(<ConfirmDelete itemName="SOP" action={action} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Hapus" }));
+    await userEvent.click(screen.getByRole("button", { name: "Hapus SOP" }));
     await userEvent.click(screen.getByRole("button", { name: "Batal" }));
     expect(screen.queryByRole("alertdialog")).toBeNull();
 
-    await userEvent.click(screen.getByRole("button", { name: "Hapus" }));
+    await userEvent.click(screen.getByRole("button", { name: "Hapus SOP" }));
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("alertdialog")).toBeNull();
     expect(action).not.toHaveBeenCalled();
@@ -35,10 +35,27 @@ describe("ConfirmDelete", () => {
     const action = vi.fn(async () => ({ ok: false as const, message: "Gambar ini masih dipakai di: Layanan: A." }));
     render(<ConfirmDelete itemName="Gambar" action={action} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Hapus" }));
+    await userEvent.click(screen.getByRole("button", { name: "Hapus Gambar" }));
     await userEvent.click(within(screen.getByRole("alertdialog")).getByRole("button", { name: "Hapus" }));
 
     expect(await screen.findByText("Gambar ini masih dipakai di: Layanan: A.")).toBeTruthy();
     expect(screen.getByRole("alertdialog")).toBeTruthy();
+  });
+
+  it("moves focus into the dialog, keeps Tab inside it, and returns focus to the trigger on Escape", async () => {
+    render(<ConfirmDelete itemName="SOP" action={async () => ({ ok: true as const })} />);
+    const trigger = screen.getByRole("button", { name: "Hapus SOP" });
+
+    await userEvent.click(trigger);
+    const dialog = screen.getByRole("alertdialog");
+    expect(dialog.contains(document.activeElement)).toBe(true);
+
+    await userEvent.tab();
+    await userEvent.tab();
+    await userEvent.tab();
+    expect(dialog.contains(document.activeElement)).toBe(true);
+
+    await userEvent.keyboard("{Escape}");
+    expect(document.activeElement).toBe(trigger);
   });
 });

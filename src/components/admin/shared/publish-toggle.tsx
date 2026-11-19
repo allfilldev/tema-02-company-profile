@@ -6,11 +6,12 @@ import type { AdminActionOutcome } from "@/lib/admin/form-state";
 
 type PublishToggleProps = {
   id: string;
+  itemName?: string;
   isPublished: boolean;
   action: (id: string, published: boolean) => Promise<AdminActionOutcome>;
 };
 
-export function PublishToggle({ id, isPublished, action }: PublishToggleProps) {
+export function PublishToggle({ id, itemName, isPublished, action }: PublishToggleProps) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +27,13 @@ export function PublishToggle({ id, isPublished, action }: PublishToggleProps) {
 
   return (
     <div className="flex flex-col gap-1">
-      <Button type="button" variant="secondary" disabled={pending} onClick={toggle}>
+      <Button
+        type="button"
+        variant="secondary"
+        aria-label={itemName ? `${isPublished ? "Tarik" : "Terbitkan"} ${itemName}` : undefined}
+        disabled={pending}
+        onClick={toggle}
+      >
         {isPublished ? "Tarik" : "Terbitkan"}
       </Button>
       {error ? (

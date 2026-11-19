@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
-import { SlugField } from "@/components/admin/forms/item-fields";
+import { SelectField, SlugField } from "@/components/admin/forms/item-fields";
 import { ItemFormShell } from "@/components/admin/forms/item-form-shell";
 import { INITIAL_ADMIN_FORM_STATE, invalidState } from "@/lib/admin/form-state";
 
@@ -59,5 +59,28 @@ describe("slug field", () => {
     expect(await screen.findByText("Periksa kembali isian yang ditandai.")).toBeTruthy();
     expect((screen.getByLabelText(/Slug/) as HTMLInputElement).value).toBe("penyusunan-sop-baru");
     expect(screen.getByText("URL lama akan menjadi 404.")).toBeTruthy();
+  });
+});
+
+describe("select field errors", () => {
+  it("links the error message to the select with aria-describedby", async () => {
+    render(
+      <ItemFormShell
+        action={async () => invalidState({ fieldErrors: { authorId: "Pilih penulis." }, blocking: [], warnings: [] }, {})}
+        initial={{}}
+        media={[]}
+        isPublishable
+        isPublished={false}
+        cancelHref="/admin/artikel"
+      >
+        <SelectField name="authorId" label="Penulis" options={[{ value: "a", label: "Rina" }]} />
+      </ItemFormShell>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Simpan draf" }));
+
+    const select = await screen.findByLabelText("Penulis");
+    expect(select.getAttribute("aria-describedby")).toBeTruthy();
+    expect(document.getElementById(select.getAttribute("aria-describedby") ?? "")?.textContent).toBe("Pilih penulis.");
   });
 });

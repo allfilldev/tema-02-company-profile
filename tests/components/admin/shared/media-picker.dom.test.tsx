@@ -34,4 +34,10 @@ describe("MediaPicker", () => {
 
     expect(screen.getByText("Pustaka media masih kosong.")).toBeTruthy();
   });
+
+  it("moves focus into the dialog when it opens", () => {
+    render(<MediaPicker media={media} onSelect={() => undefined} onClose={() => undefined} />);
+
+    expect(screen.getByRole("dialog", { name: "Pilih gambar" }).contains(document.activeElement)).toBe(true);
+  });
 });

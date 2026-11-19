@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import type { MediaAsset } from "@/core/domain/shared/media-asset";
+import { useDialogFocus } from "@/lib/admin/use-dialog-focus";
 
 type MediaPickerProps = {
   media: MediaAsset[];
@@ -11,6 +12,9 @@ type MediaPickerProps = {
 };
 
 export function MediaPicker({ media, onSelect, onClose }: MediaPickerProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(dialogRef, true);
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -22,7 +26,7 @@ export function MediaPicker({ media, onSelect, onClose }: MediaPickerProps) {
   }, [onClose]);
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Pilih gambar" className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Pilih gambar" className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
       <div className="flex max-h-full w-full max-w-3xl flex-col rounded-lg bg-background p-6 shadow-lg">
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-heading text-lg font-bold text-foreground">Pilih gambar</h2>
