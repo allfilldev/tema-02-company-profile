@@ -6,9 +6,9 @@ type PaginationProps = {
   pageHrefs: string[];
 };
 
-const ITEM_BASE_CLASS_NAME = "inline-flex min-h-11 min-w-11 items-center justify-center rounded-md px-3 font-semibold";
-const CURRENT_CLASS_NAME = `${ITEM_BASE_CLASS_NAME} bg-primary text-primary-foreground`;
-const LINK_CLASS_NAME = `${ITEM_BASE_CLASS_NAME} border border-border bg-surface text-foreground hover:bg-accent hover:text-accent-foreground`;
+const ITEM_BASE_CLASS_NAME = "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-4 font-semibold transition-colors";
+const CURRENT_CLASS_NAME = `${ITEM_BASE_CLASS_NAME} bg-primary text-primary-foreground shadow-soft`;
+const LINK_CLASS_NAME = `${ITEM_BASE_CLASS_NAME} border border-border bg-surface text-foreground shadow-soft hover:bg-primary-soft hover:text-primary`;
 const PREVIOUS_LABEL = "Halaman sebelumnya";
 const NEXT_LABEL = "Halaman berikutnya";
 

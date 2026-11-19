@@ -188,10 +188,10 @@ export function ContactForm({ isDemo, whatsappUrl, onSubmit }: ContactFormProps)
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-6">
       <ContactFormFields values={values} errors={errors} onChange={handleChange} disabled={isSubmitting} />
       <div>
-        <Button type="submit" size="lg" disabled={!canSubmit || isSubmitting}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!canSubmit || isSubmitting}>
           {isSubmitting ? SUBMITTING_LABEL : SUBMIT_LABEL}
         </Button>
       </div>

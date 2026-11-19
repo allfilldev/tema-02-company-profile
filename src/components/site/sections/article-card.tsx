@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { SiteImage } from "@/components/ui/site-image";
 import { formatIndonesianDate } from "@/lib/text/format-date";
 import type { ArticleCardData } from "@/server/site/models/articles";
+import { ArrowCircle } from "./arrow-link";
 
 type ArticleCardProps = {
   item: ArticleCardData;
@@ -15,23 +16,26 @@ export function ArticleCard({ item, eager = false }: ArticleCardProps) {
   const { article, author } = item;
 
   return (
-    <Card className="flex h-full flex-col gap-4">
+    <Card className="relative flex h-full flex-col gap-4 p-3">
       {article.cover ? (
         <div className="aspect-video overflow-hidden rounded-xl">
           <SiteImage media={article.cover} eager={eager} sizes={IMAGE_SIZES} className="w-full" />
         </div>
       ) : null}
-      <h3 className="text-xl font-bold tracking-tight text-foreground">
-        <Link href={`/artikel/${article.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
-          {article.title}
-        </Link>
-      </h3>
-      <p className="line-clamp-3 flex-1 text-base text-muted-foreground">{article.lead}</p>
-      <p className="text-sm text-muted-foreground">
-        {author.name}
-        {" · "}
-        <time dateTime={article.publishedAt}>{formatIndonesianDate(article.publishedAt)}</time>
-      </p>
+      <div className="flex flex-1 flex-col gap-3 px-3 pb-3">
+        <p className="text-sm font-medium text-primary">
+          {author.name}
+          {" · "}
+          <time dateTime={article.publishedAt}>{formatIndonesianDate(article.publishedAt)}</time>
+        </p>
+        <h3 className="text-xl font-bold tracking-tight text-foreground">
+          <Link href={`/artikel/${article.slug}`} className="inline-flex min-h-11 items-center after:absolute after:inset-0 after:rounded-2xl hover:text-primary">
+            {article.title}
+          </Link>
+        </h3>
+        <p className="line-clamp-3 flex-1 text-base text-muted-foreground">{article.lead}</p>
+        <ArrowCircle />
+      </div>
     </Card>
   );
 }

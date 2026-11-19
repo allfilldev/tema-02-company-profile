@@ -1,18 +1,18 @@
+import { BlobImage } from "@/components/ui/blob-image";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/ui/reveal";
-import { SiteImage } from "@/components/ui/site-image";
 import type { SectionIntro } from "@/core/domain/page/section-intro";
 import type { TeamMember } from "@/core/domain/team/team-member";
-import { ToneSection, type SectionTone } from "./tone-section";
+import { ContentSection, type ContentSectionTone } from "./content-section";
 
 type TeamSectionProps = {
   team: TeamMember[];
   intro?: SectionIntro;
   id?: string;
-  tone?: SectionTone;
+  tone?: ContentSectionTone;
 };
 
-const AVATAR_SIZES = "128px";
+const AVATAR_SIZES = "160px";
 
 export function TeamSection({ team, intro, tone, id = "tim" }: TeamSectionProps) {
   if (team.length === 0 || !intro) {
@@ -20,21 +20,23 @@ export function TeamSection({ team, intro, tone, id = "tim" }: TeamSectionProps)
   }
 
   return (
-    <ToneSection id={id} tone={tone} eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
+    <ContentSection id={id} tone={tone} eyebrow={intro.eyebrow} title={intro.title} description={intro.description}>
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {team.map((member, index) => (
           <Reveal key={member.id} as="li" stagger={index}>
-            <Card className="flex h-full flex-col gap-4">
+            <Card className="flex h-full flex-col items-center gap-4 text-center">
               {member.photo ? (
-                <div className="size-32 overflow-hidden rounded-full border-2 border-accent">
-                  <SiteImage media={member.photo} sizes={AVATAR_SIZES} className="w-full" />
+                <div className="relative">
+                  <BlobImage src={member.photo.url} alt={member.photo.alt} sizes={AVATAR_SIZES} className="size-36" />
+                  <span aria-hidden="true" className="absolute -right-1 top-3 size-3 rounded-full bg-highlight" />
+                  <span aria-hidden="true" className="absolute -left-2 bottom-5 size-2 rounded-full bg-primary" />
                 </div>
               ) : null}
               <div>
                 <h3 className="text-xl font-bold tracking-tight text-foreground">{member.name}</h3>
-                <p className="text-sm font-medium text-primary">{member.jobTitle}</p>
+                <p className="text-sm font-semibold text-primary">{member.jobTitle}</p>
                 {member.yearsExperience !== null ? (
-                  <p className="text-sm text-muted-foreground">{`${member.yearsExperience} tahun pengalaman`}</p>
+                  <p className="mt-2 inline-flex rounded-full bg-highlight-soft px-3 py-1 text-sm font-medium text-foreground">{`${member.yearsExperience} tahun pengalaman`}</p>
                 ) : null}
               </div>
               <p className="text-base text-muted-foreground">{member.bio}</p>
@@ -42,6 +44,6 @@ export function TeamSection({ team, intro, tone, id = "tim" }: TeamSectionProps)
           </Reveal>
         ))}
       </ul>
-    </ToneSection>
+    </ContentSection>
   );
 }
