@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { DashboardView } from "@/components/admin/dashboard/dashboard-view";
 import { getDashboardCounts } from "@/core/application/admin/dashboard";
 import { buildMessageActivity, buildMessageHeatmap } from "@/core/application/admin/message-activity";
@@ -9,6 +10,7 @@ function updateTimestamps(records: object[]): { createdAt: string }[] {
 }
 
 export async function DashboardPage() {
+  await connection();
   const deps = await getAdminDeps();
   const counts = await getDashboardCounts({ collections: deps.repos.collections, messages: deps.repos.messages }, deps.enabledModules);
   const today = new Date();

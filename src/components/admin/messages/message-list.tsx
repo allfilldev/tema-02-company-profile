@@ -1,5 +1,7 @@
+import { Inbox } from "lucide-react";
 import { MarkReadButton } from "@/components/admin/messages/mark-read-button";
 import { ConfirmDelete } from "@/components/admin/shared/confirm-delete";
+import { EmptyState } from "@/components/admin/shared/empty-state";
 import type { ContactMessage } from "@/core/domain/admin/records";
 import type { AdminActionOutcome } from "@/lib/admin/form-state";
 import { formatIndonesianDate } from "@/lib/text/format-date";
@@ -17,7 +19,7 @@ const SAFE_EMAIL_PATTERN = /^[^@\s?&#%]+@[^@\s?&#%]+\.[^@\s?&#%]+$/;
 
 export function MessageList({ messages, actions }: MessageListProps) {
   if (messages.length === 0) {
-    return <p className="rounded-2xl bg-surface p-6 text-muted-foreground shadow-soft">Belum ada pesan masuk.</p>;
+    return <EmptyState icon={Inbox} message="Belum ada pesan masuk." hint="Pesan dari formulir kontak situs akan muncul di sini." />;
   }
 
   const newestFirst = [...messages].sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));

@@ -4,6 +4,7 @@ import { ConfirmDelete } from "@/components/admin/shared/confirm-delete";
 import { MoveButtons } from "@/components/admin/shared/move-buttons";
 import { PublishToggle } from "@/components/admin/shared/publish-toggle";
 import type { ListActions } from "@/lib/admin/list-actions";
+import { ROW_ACTION_CLASS_NAME } from "@/lib/admin/row-action-class-names";
 
 export type ItemListRow = {
   id: string;
@@ -44,8 +45,8 @@ export function ItemList({ rows, editBasePath, showStatus, showOrder, actions, e
   columns.push({
     header: "Aksi",
     cell: (row) => (
-      <div className="flex flex-wrap items-start gap-2">
-        <Link href={`${editBasePath}/${row.id}`} aria-label={`Ubah ${row.name}`} className="inline-flex min-h-11 items-center px-3 font-semibold text-primary underline underline-offset-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <Link href={`${editBasePath}/${row.id}`} aria-label={`Ubah ${row.name}`} className={ROW_ACTION_CLASS_NAME}>
           Ubah
         </Link>
         {showStatus ? <PublishToggle id={row.id} itemName={row.name} isPublished={row.isPublished} action={actions.setPublished} /> : null}

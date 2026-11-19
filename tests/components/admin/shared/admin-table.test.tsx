@@ -29,4 +29,13 @@ describe("AdminTable", () => {
 
     expect(markup).toContain("overflow-x-auto");
   });
+
+  it("adds a hint to the empty state and keeps the last column pinned", () => {
+    const empty = renderToStaticMarkup(<AdminTable rows={[]} columns={columns} rowKey={(row) => row.id} empty="Belum ada data." emptyHint="Tambah data pertama." />);
+    const filled = renderToStaticMarkup(<AdminTable rows={[{ id: "1", title: "A" }]} columns={columns} rowKey={(row) => row.id} empty="x" />);
+
+    expect(empty).toContain("Tambah data pertama.");
+    expect(empty).toContain("<svg");
+    expect(filled.match(/sticky right-0/g)).toHaveLength(2);
+  });
 });

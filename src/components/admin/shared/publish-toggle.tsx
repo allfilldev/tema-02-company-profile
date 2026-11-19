@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
 import type { AdminActionOutcome } from "@/lib/admin/form-state";
+import { ROW_ACTION_CLASS_NAME } from "@/lib/admin/row-action-class-names";
 
 type PublishToggleProps = {
   id: string;
@@ -27,15 +27,15 @@ export function PublishToggle({ id, itemName, isPublished, action }: PublishTogg
 
   return (
     <div className="flex flex-col gap-1">
-      <Button
+      <button
         type="button"
-        variant="secondary"
+        className={ROW_ACTION_CLASS_NAME}
         aria-label={itemName ? `${isPublished ? "Tarik" : "Terbitkan"} ${itemName}` : undefined}
         disabled={pending}
         onClick={toggle}
       >
         {isPublished ? "Tarik" : "Terbitkan"}
-      </Button>
+      </button>
       {error ? (
         <p role="alert" className="text-sm font-medium text-danger">
           {error}

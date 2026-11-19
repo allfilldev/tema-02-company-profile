@@ -20,7 +20,11 @@ type DashboardCardsProps = {
 };
 
 function TrendPill({ percent }: { percent: number }) {
-  const rising = percent >= 0;
+  if (percent === 0) {
+    return <span className="rounded-full bg-surface-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground">{`${percent}%`}</span>;
+  }
+
+  const rising = percent > 0;
   const Icon = rising ? TrendingUp : TrendingDown;
 
   return (
@@ -40,7 +44,7 @@ export function DashboardCards({ counts, moduleActivity = {}, messageTrend = [] 
           <li key={entry.module}>
             <Link href={ADMIN_MODULE_PATHS[entry.module]} className={CARD_CLASS_NAME}>
               <div className="flex items-baseline justify-between gap-2">
-                <h2 className="truncate text-xs font-medium text-muted-foreground">{ADMIN_MODULE_LABELS[entry.module]}</h2>
+                <p className="truncate text-xs font-medium text-muted-foreground">{ADMIN_MODULE_LABELS[entry.module]}</p>
                 {entry.published === null ? null : <span className="shrink-0 text-xs text-muted-foreground">{`${entry.published} terbit`}</span>}
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -55,7 +59,7 @@ export function DashboardCards({ counts, moduleActivity = {}, messageTrend = [] 
       <li>
         <Link href={ADMIN_ROUTES.messages} className={CARD_CLASS_NAME}>
           <div className="flex items-baseline justify-between gap-2">
-            <h2 className="truncate text-xs font-medium text-muted-foreground">Pesan masuk</h2>
+            <p className="truncate text-xs font-medium text-muted-foreground">Pesan masuk</p>
             <span className="shrink-0 text-xs text-muted-foreground">{`${counts.unreadMessages} belum dibaca`}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
 import type { MoveDirection } from "@/core/domain/admin/admin-repositories";
 import type { AdminActionOutcome } from "@/lib/admin/form-state";
+import { ROW_ACTION_CLASS_NAME } from "@/lib/admin/row-action-class-names";
 
 type MoveButtonsProps = {
   id: string;
@@ -29,13 +29,13 @@ export function MoveButtons({ id, itemName, isFirst, isLast, action }: MoveButto
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex gap-1">
-        <Button type="button" variant="ghost" aria-label={itemName ? `Naikkan ${itemName}` : undefined} disabled={isFirst || pending} onClick={() => move("up")}>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" className={ROW_ACTION_CLASS_NAME} aria-label={itemName ? `Naikkan ${itemName}` : undefined} disabled={isFirst || pending} onClick={() => move("up")}>
           Naik
-        </Button>
-        <Button type="button" variant="ghost" aria-label={itemName ? `Turunkan ${itemName}` : undefined} disabled={isLast || pending} onClick={() => move("down")}>
+        </button>
+        <button type="button" className={ROW_ACTION_CLASS_NAME} aria-label={itemName ? `Turunkan ${itemName}` : undefined} disabled={isLast || pending} onClick={() => move("down")}>
           Turun
-        </Button>
+        </button>
       </div>
       {error ? (
         <p role="alert" className="text-sm font-medium text-danger">

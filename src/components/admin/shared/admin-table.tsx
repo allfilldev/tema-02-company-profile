@@ -1,4 +1,7 @@
+import { Inbox } from "lucide-react";
 import type { ReactNode } from "react";
+import { EmptyState } from "@/components/admin/shared/empty-state";
+import { joinClassNames } from "@/lib/ui/class-names";
 
 export type AdminTableColumn<Row> = {
   header: string;
@@ -10,20 +13,26 @@ type AdminTableProps<Row> = {
   columns: AdminTableColumn<Row>[];
   rowKey: (row: Row) => string;
   empty: string;
+  emptyHint?: string;
 };
 
-export function AdminTable<Row>({ rows, columns, rowKey, empty }: AdminTableProps<Row>) {
+const DEFAULT_EMPTY_HINT = "Gunakan tombol tambah di atas untuk membuat data pertama.";
+const STICKY_CELL_CLASS_NAME = "sticky right-0 border-l border-secondary";
+
+export function AdminTable<Row>({ rows, columns, rowKey, empty, emptyHint = DEFAULT_EMPTY_HINT }: AdminTableProps<Row>) {
   if (rows.length === 0) {
-    return <p className="rounded-2xl bg-surface p-6 text-muted-foreground shadow-soft">{empty}</p>;
+    return <EmptyState icon={Inbox} message={empty} hint={emptyHint} />;
   }
+
+  const lastColumnIndex = columns.length - 1;
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-surface shadow-soft">
       <table className="w-full border-collapse text-left text-sm">
         <thead className="bg-surface-muted text-xs text-foreground">
           <tr>
-            {columns.map((column) => (
-              <th key={column.header} scope="col" className="whitespace-nowrap px-5 py-3 font-semibold">
+            {columns.map((column, index) => (
+              <th key={column.header} scope="col" className={joinClassNames("whitespace-nowrap bg-surface-muted px-5 py-3 font-semibold", index === lastColumnIndex && STICKY_CELL_CLASS_NAME)}>
                 {column.header}
               </th>
             ))}
@@ -32,8 +41,8 @@ export function AdminTable<Row>({ rows, columns, rowKey, empty }: AdminTableProp
         <tbody>
           {rows.map((row) => (
             <tr key={rowKey(row)} className="border-t border-secondary align-top">
-              {columns.map((column) => (
-                <td key={column.header} className="px-5 py-3">
+              {columns.map((column, index) => (
+                <td key={column.header} className={joinClassNames("bg-surface px-5 py-3", index === lastColumnIndex && STICKY_CELL_CLASS_NAME)}>
                   {column.cell(row)}
                 </td>
               ))}

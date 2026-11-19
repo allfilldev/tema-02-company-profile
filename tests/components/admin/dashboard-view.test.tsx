@@ -51,6 +51,14 @@ describe("DashboardView", () => {
     expect(markup).not.toContain("NaN");
     expect(markup).not.toContain("Infinity");
     expect(markup).toContain(">0%<");
+    expect(markup).not.toContain("lucide-trending");
+    expect(markup).not.toContain("bg-success/10");
+  });
+
+  it("renders the stat card labels as paragraphs so the message heading stays unique", () => {
+    const markup = render([]);
+
+    expect(markup.match(/<h2[^>]*>Pesan masuk<\/h2>/g)).toHaveLength(1);
   });
 
   it("shades heatmap cells from real message timestamps", () => {

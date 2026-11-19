@@ -10,4 +10,11 @@ describe("PageHeader", () => {
     expect(markup).toContain('href="/admin"');
     expect(markup).toContain("Tambah");
   });
+
+  it("shows the current page as a non-link marked aria-current after the dashboard link", () => {
+    const markup = renderToStaticMarkup(<PageHeader title="Layanan" />);
+
+    expect(markup).toMatch(/<li aria-current="page"[^>]*>\s*Layanan\s*<\/li>/);
+    expect(markup).toContain("min-h-11");
+  });
 });

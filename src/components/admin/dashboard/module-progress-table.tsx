@@ -30,8 +30,8 @@ export function ModuleProgressTable({ modules }: { modules: DashboardCount[] }) 
           <tbody>
             {modules.map((entry, index) => (
               <tr key={entry.module} className="border-t border-secondary">
-                <td className="max-w-28 truncate px-5 py-1 font-medium text-foreground">
-                  <Link href={ADMIN_MODULE_PATHS[entry.module]} className="inline-flex min-h-11 items-center hover:text-primary">
+                <td className="max-w-28 p-0 font-medium text-foreground">
+                  <Link href={ADMIN_MODULE_PATHS[entry.module]} className="flex min-h-11 min-w-11 items-center truncate px-5 hover:text-primary">
                     {ADMIN_MODULE_LABELS[entry.module]}
                   </Link>
                 </td>

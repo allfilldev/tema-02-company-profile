@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import type { AdminActionOutcome } from "@/lib/admin/form-state";
+import { ROW_ACTION_DANGER_CLASS_NAME } from "@/lib/admin/row-action-class-names";
 import { useDialogFocus } from "@/lib/admin/use-dialog-focus";
 
 type ConfirmDeleteProps = {
@@ -45,9 +46,9 @@ export function ConfirmDelete({ itemName, action }: ConfirmDeleteProps) {
 
   return (
     <>
-      <Button type="button" variant="ghost" aria-label={`Hapus ${itemName}`} onClick={() => setOpen(true)}>
+      <button type="button" className={ROW_ACTION_DANGER_CLASS_NAME} aria-label={`Hapus ${itemName}`} onClick={() => setOpen(true)}>
         Hapus
-      </Button>
+      </button>
       {open ? (
         <div ref={dialogRef} role="alertdialog" aria-modal="true" aria-labelledby={titleId} className="fixed inset-0 z-30 flex items-center justify-center bg-foreground/50 p-4">
           <div className="w-full max-w-md rounded-2xl bg-surface p-6 shadow-soft">
