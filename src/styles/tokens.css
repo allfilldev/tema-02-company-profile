@@ -39,9 +39,10 @@
   --motion-duration-slow: 700ms;
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --motion-stagger: 80ms;
-  --motion-enter-duration: 250ms;
-  --motion-enter-distance: 0.75rem;
+  --motion-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-stagger: 120ms;
+  --motion-enter-duration: 650ms;
+  --motion-enter-distance: 1.25rem;
   --motion-press-scale: 0.97;
   --motion-duration: var(--motion-duration-slow);
   --motion-distance: 2rem;

@@ -139,7 +139,7 @@
 }
 
 .page-enter > :nth-child(-n + 4) {
-  animation: page-enter-rise var(--motion-enter-duration) var(--motion-ease-out) backwards;
+  animation: page-enter-rise var(--motion-enter-duration) var(--motion-ease-enter) backwards;
 }
 
 .page-enter > :nth-child(1) {
