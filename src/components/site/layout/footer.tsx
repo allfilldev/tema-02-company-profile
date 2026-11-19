@@ -4,7 +4,9 @@ import { LegalFooterNav } from "@/components/site/contract/legal-footer-nav";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { Icon } from "@/components/ui/icon";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import { formatAddressRegionLine } from "@/lib/site/postal-code";
 import type { NavigationItem } from "@/server/site/navigation";
 
 type FooterProps = {
@@ -13,10 +15,10 @@ type FooterProps = {
 };
 
 const CONTACT_LINK_CLASS_NAME =
-  "inline-flex min-h-11 w-fit items-center break-all text-surface-inverse-foreground hover:text-highlight";
+  "inline-flex min-h-11 min-w-11 w-fit items-center break-all text-surface-inverse-foreground hover:text-highlight";
 
 const NAV_LINK_CLASS_NAME =
-  "inline-flex min-h-11 items-center text-sm text-surface-inverse-foreground/80 hover:text-highlight";
+  "inline-flex min-h-11 min-w-11 items-center text-sm text-surface-inverse-foreground/80 hover:text-highlight";
 
 const COLUMN_TITLE_CLASS_NAME = "font-heading text-lg font-bold text-surface-inverse-foreground";
 
@@ -40,24 +42,11 @@ export function Footer({ settings, navigation }: FooterProps) {
             Hubungi kami
           </ButtonLink>
         </div>
-        <div className="min-w-0 lg:col-span-5">
+        <div className="min-w-0 lg:col-span-4">
           <BrandLogo tone="on-dark" name={settings.siteName} href="/" />
-          <address className="mt-4 text-sm not-italic text-surface-inverse-foreground/80">
-            <p>{address.street}</p>
-            <p>
-              {address.city}, {address.region} {address.postalCode}, {address.country}
-            </p>
-            <div className="mt-2 flex flex-col">
-              <a href={phoneHref(settings.phone)} className={CONTACT_LINK_CLASS_NAME}>
-                {settings.phone}
-              </a>
-              <a href={`mailto:${settings.email}`} className={CONTACT_LINK_CLASS_NAME}>
-                {settings.email}
-              </a>
-            </div>
-          </address>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-surface-inverse-foreground/80">{settings.tagline}</p>
         </div>
-        <nav aria-label="Navigasi footer" className={hasSocialLinks ? "lg:col-span-4" : "lg:col-span-7"}>
+        <nav aria-label="Navigasi footer" className={hasSocialLinks ? "lg:col-span-3" : "lg:col-span-4"}>
           <p className={COLUMN_TITLE_CLASS_NAME}>Halaman</p>
           <ul className="mt-2 grid grid-cols-2 gap-x-6">
             {navigation.map((item) => (
@@ -70,7 +59,7 @@ export function Footer({ settings, navigation }: FooterProps) {
           </ul>
         </nav>
         {hasSocialLinks ? (
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <p className={COLUMN_TITLE_CLASS_NAME}>Media sosial</p>
             <ul className="mt-2">
               {settings.socialLinks.map((link) => (
@@ -83,6 +72,38 @@ export function Footer({ settings, navigation }: FooterProps) {
             </ul>
           </div>
         ) : null}
+        <div className={`min-w-0 ${hasSocialLinks ? "lg:col-span-3" : "lg:col-span-4"}`}>
+          <p className={COLUMN_TITLE_CLASS_NAME}>Kontak</p>
+          <address className="mt-3 flex flex-col gap-4 text-sm not-italic text-surface-inverse-foreground/80">
+            <div className="flex items-start gap-3">
+              <Icon name="map-pin" className="mt-0.5 size-5 shrink-0 text-highlight" />
+              <div>
+                <p>{address.street}</p>
+                <p>
+                  {formatAddressRegionLine(address)}, {address.country}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Icon name="phone" className="size-5 shrink-0 text-highlight" />
+              <a href={phoneHref(settings.phone)} className={CONTACT_LINK_CLASS_NAME}>
+                {settings.phone}
+              </a>
+            </div>
+            <div className="flex items-center gap-3">
+              <Icon name="mail" className="size-5 shrink-0 text-highlight" />
+              <a href={`mailto:${settings.email}`} className={CONTACT_LINK_CLASS_NAME}>
+                {settings.email}
+              </a>
+            </div>
+            {settings.openingHours ? (
+              <div className="flex items-start gap-3">
+                <Icon name="clock" className="mt-0.5 size-5 shrink-0 text-highlight" />
+                <p>{settings.openingHours}</p>
+              </div>
+            ) : null}
+          </address>
+        </div>
         <div className="flex flex-col gap-3 border-t border-surface-inverse-foreground/20 pt-6 md:col-span-2 lg:col-span-12">
           <LegalFooterNav />
           <p className="text-sm text-surface-inverse-foreground/80">

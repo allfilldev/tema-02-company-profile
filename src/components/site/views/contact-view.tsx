@@ -6,6 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { Reveal } from "@/components/ui/reveal";
 import { ContentSection } from "@/components/site/sections/content-section";
 import type { ContactPageModel } from "@/server/site/models/contact";
+import { formatAddressRegionLine } from "@/lib/site/postal-code";
 import type { ReactNode } from "react";
 
 type ContactViewProps = {
@@ -75,7 +76,7 @@ export function ContactView({ model }: ContactViewProps) {
                 <ContactRow icon="map-pin" label="Alamat">
                   {address.street}
                   <br />
-                  {`${address.city}, ${address.region} ${address.postalCode}`}
+                  {formatAddressRegionLine(address)}
                 </ContactRow>
                 <ContactRow icon="phone" label="Telepon">
                   <a href={phoneHref(settings.phone)} className={LINK_CLASS_NAME}>

@@ -6,6 +6,7 @@ import type { MediaAsset } from "@/core/domain/shared/media-asset";
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
 import type { TeamMember } from "@/core/domain/team/team-member";
 import { absoluteAssetUrl, absoluteUrl } from "@/lib/seo/site-url";
+import { visiblePostalCode } from "@/lib/site/postal-code";
 import { SITE_ROUTES } from "@/lib/site/routes";
 
 export type JsonLd = Record<string, unknown>;
@@ -34,6 +35,7 @@ export function serializeJsonLd(data: JsonLd | JsonLd[]): string {
 }
 
 export function buildOrganizationJsonLd(settings: SiteSettings, siteUrl: string): JsonLd {
+  const postalCode = visiblePostalCode(settings.address.postalCode);
   return {
     "@context": SCHEMA_CONTEXT,
     "@type": settings.schemaType,
@@ -52,7 +54,7 @@ export function buildOrganizationJsonLd(settings: SiteSettings, siteUrl: string)
       streetAddress: settings.address.street,
       addressLocality: settings.address.city,
       addressRegion: settings.address.region,
-      postalCode: settings.address.postalCode,
+      ...(postalCode ? { postalCode } : {}),
       addressCountry: settings.address.country,
     },
     ...(settings.socialLinks.length > 0 ? { sameAs: settings.socialLinks.map((link) => link.url) } : {}),

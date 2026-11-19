@@ -51,6 +51,12 @@ describe("buildOrganizationJsonLd", () => {
     expect(data).not.toHaveProperty("sameAs");
   });
 
+  it("omits postalCode when the stored value is a lone dash", () => {
+    const { settings } = buildTestPack();
+    const data = buildOrganizationJsonLd({ ...settings, address: { ...settings.address, postalCode: "-" } }, siteUrl);
+    expect(data.address).not.toHaveProperty("postalCode");
+  });
+
   it("omits foundingDate when the founded year is missing", () => {
     const { settings } = buildTestPack();
     const data = buildOrganizationJsonLd({ ...settings, foundedYear: null }, siteUrl);

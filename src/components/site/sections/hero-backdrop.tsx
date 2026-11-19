@@ -17,7 +17,7 @@ export function HeroBackdrop({ image, sizes }: HeroBackdropProps) {
         <SiteImage media={image} priority sizes={sizes} className="absolute inset-0 h-full! w-full! object-cover grayscale" />
       ) : null}
       <div aria-hidden="true" className={OVERLAY_CLASS_NAME} />
-      <div aria-hidden="true" className="shape-blob absolute -left-24 -top-24 size-72 bg-primary/30 md:size-96" />
+      <div aria-hidden="true" className="shape-blob absolute -left-24 top-24 size-72 bg-primary/30 md:size-96" />
       <div aria-hidden="true" className="shape-blob absolute -bottom-32 -right-16 size-72 bg-highlight/15 md:size-96" />
     </div>
   );
