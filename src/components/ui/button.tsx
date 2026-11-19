@@ -11,7 +11,7 @@ type ButtonStyleProps = {
 };
 
 const BASE_CLASS_NAME =
-  "inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors disabled:pointer-events-none disabled:opacity-60";
+  "motion-press inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors disabled:pointer-events-none disabled:opacity-60";
 
 const VARIANT_CLASS_NAMES: Record<ButtonVariant, string> = {
   primary: "bg-primary text-primary-foreground hover:bg-primary-hover",

@@ -11,6 +11,7 @@ type SiteImageProps = {
 };
 
 export function SiteImage({ media, priority = false, eager = false, sizes, className }: SiteImageProps) {
+  const fades = !priority && !eager;
   const loading = eager && !priority ? "eager" : undefined;
 
   return (
@@ -22,7 +23,7 @@ export function SiteImage({ media, priority = false, eager = false, sizes, class
       preload={priority}
       loading={loading}
       sizes={sizes}
-      className={joinClassNames("h-auto max-w-full", className)}
+      className={joinClassNames("h-auto max-w-full bg-secondary", fades && "image-enter", className)}
     />
   );
 }

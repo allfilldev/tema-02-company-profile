@@ -81,6 +81,22 @@ describe("Button and ButtonLink", () => {
   });
 });
 
+describe("Motion classes on primitives", () => {
+  it("adds the press class to buttons and the zoom class to cards", () => {
+    expect(renderToStaticMarkup(<Button>A</Button>)).toContain("motion-press");
+    expect(renderToStaticMarkup(<Card>A</Card>)).toContain("motion-zoom");
+  });
+
+  it("fades only images that are neither priority nor eager", () => {
+    const media = generalMedia["hero"];
+
+    expect(renderToStaticMarkup(<SiteImage media={media} />)).toContain("image-enter");
+    expect(renderToStaticMarkup(<SiteImage media={media} priority />)).not.toContain("image-enter");
+    expect(renderToStaticMarkup(<SiteImage media={media} eager />)).not.toContain("image-enter");
+    expect(renderToStaticMarkup(<SiteImage media={media} />)).toContain("bg-secondary");
+  });
+});
+
 describe("Card, Badge, and Container", () => {
   it("renders children inside a card", () => {
     expect(renderToStaticMarkup(<Card>Isi kartu</Card>)).toContain("Isi kartu");
