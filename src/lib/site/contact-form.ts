@@ -9,7 +9,9 @@ export type ContactFormField = keyof ContactFormValues;
 
 export type ContactFormErrors = Partial<Record<ContactFormField, string>>;
 
-export type ContactSubmitHandler = (values: ContactFormValues) => Promise<void> | void;
+export type ContactSendResult = "sent" | "rate-limited" | "failed";
+
+export type ContactSubmitHandler = (values: ContactFormValues) => Promise<ContactSendResult | void> | ContactSendResult | void;
 
 export type ContactSubmitOutcome =
   | { type: "invalid"; errors: ContactFormErrors }
@@ -20,6 +22,7 @@ export type ContactSubmitResult =
   | { status: "invalid"; errors: ContactFormErrors }
   | { status: "demo" }
   | { status: "sent" }
+  | { status: "rate-limited" }
   | { status: "failed" };
 
 export const CONTACT_FORM_LIMITS = {
@@ -142,8 +145,11 @@ export async function submitContactForm(
   }
 
   try {
-    await options.onSubmit(outcome.values);
-    return { status: "sent" };
+    const result = await options.onSubmit(outcome.values);
+    if (result === "rate-limited") {
+      return { status: "rate-limited" };
+    }
+    return result === "failed" ? { status: "failed" } : { status: "sent" };
   } catch {
     return { status: "failed" };
   }

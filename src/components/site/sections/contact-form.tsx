@@ -18,7 +18,7 @@ import {
   type ContactSubmitHandler,
 } from "@/lib/site/contact-form";
 
-export type ContactFormStatusKind = "idle" | "submitting" | "demo" | "sent" | "failed";
+export type ContactFormStatusKind = "idle" | "submitting" | "demo" | "sent" | "rate-limited" | "failed";
 
 type ContactFormProps = {
   isDemo: boolean;
@@ -41,6 +41,7 @@ type ContactFormStatusProps = {
 const SUBMIT_LABEL = "Kirim pesan";
 const SUBMITTING_LABEL = "Mengirim...";
 const SENT_MESSAGE = "Terima kasih, pesan Anda sudah terkirim. Kami akan membalas pada jam kerja.";
+const RATE_LIMITED_MESSAGE_LEAD = "Terlalu banyak pesan dari jaringan Anda. Coba lagi dalam satu jam, atau hubungi kami lewat ";
 const FAILED_MESSAGE_LEAD = "Pesan belum terkirim. Coba lagi sebentar lagi atau hubungi kami lewat ";
 const UNAVAILABLE_MESSAGE_LEAD = "Pengiriman lewat formulir belum aktif. Hubungi kami lewat ";
 const WHATSAPP_LABEL = "WhatsApp";
@@ -67,6 +68,12 @@ export function ContactFormStatus({ status, whatsappUrl }: ContactFormStatusProp
         </p>
       ) : null}
       {status === "sent" ? <p>{SENT_MESSAGE}</p> : null}
+      {status === "rate-limited" ? (
+        <p>
+          {RATE_LIMITED_MESSAGE_LEAD}
+          <WhatsAppStatusLink href={whatsappUrl} />.
+        </p>
+      ) : null}
       {status === "failed" ? (
         <p>
           {FAILED_MESSAGE_LEAD}

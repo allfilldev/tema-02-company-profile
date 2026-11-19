@@ -189,6 +189,16 @@ describe("submitContactForm", () => {
     expect(handler).toHaveBeenCalledWith(VALID_VALUES);
   });
 
+  it.each([
+    ["sent", { status: "sent" }],
+    ["rate-limited", { status: "rate-limited" }],
+    ["failed", { status: "failed" }],
+  ])("maps the handler result %s", async (handlerResult, expected) => {
+    const handler = vi.fn().mockResolvedValue(handlerResult);
+
+    expect(await submitContactForm(VALID_VALUES, { isDemo: false, onSubmit: handler })).toEqual(expected);
+  });
+
   it("reports failed when the handler rejects", async () => {
     const handler = vi.fn().mockRejectedValue(new Error("gagal"));
 

@@ -133,6 +133,10 @@ describe("ContactFormStatus", () => {
 
     expect(textOf(failed)).toContain("belum terkirim");
     expect(failed).toContain(`href="${WHATSAPP_URL}"`);
+
+    const limited = renderToStaticMarkup(<ContactFormStatus status="rate-limited" whatsappUrl={WHATSAPP_URL} />);
+    expect(textOf(limited)).toContain("Terlalu banyak pesan dari jaringan Anda");
+    expect(limited).toContain(`href="${WHATSAPP_URL}"`);
     expect(textOf(sent)).toContain("Terima kasih");
     expect(sent).not.toContain("<a");
   });

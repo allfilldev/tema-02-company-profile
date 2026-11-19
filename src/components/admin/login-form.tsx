@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { INITIAL_LOGIN_STATE } from "@/lib/admin/login-form";
@@ -13,7 +12,7 @@ export function LoginForm() {
 
   return (
     <main className="flex min-h-screen items-center bg-surface-muted py-12">
-      <Container className="max-w-md">
+      <div className="mx-auto w-full max-w-md px-4">
         <div className="rounded-lg border border-border bg-background p-6 shadow-sm md:p-8">
           <h1 className="font-heading text-2xl font-bold text-foreground">Masuk admin</h1>
           <form action={formAction} className="mt-6 flex flex-col gap-4" noValidate>
@@ -33,7 +32,7 @@ export function LoginForm() {
             </Button>
           </form>
         </div>
-      </Container>
+      </div>
     </main>
   );
 }

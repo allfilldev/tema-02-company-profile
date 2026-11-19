@@ -490,9 +490,9 @@ describe("ContactView", () => {
     expect(markup).not.toMatch(/<form\b[^>]*\baction=/);
   });
 
-  it("disables the send button outside demo mode because no handler is wired yet", () => {
+  it("enables the send button outside demo mode because the view wires the contact action", () => {
     const markup = renderToStaticMarkup(<ContactView model={{ ...contactModel, isDemo: false }} />);
 
-    expect(markup.match(/<button\b[^>]*type="submit"[^>]*>/)?.[0]).toContain('disabled=""');
+    expect(markup.match(/<button\b[^>]*type="submit"[^>]*>/)?.[0]).not.toContain('disabled=""');
   });
 });

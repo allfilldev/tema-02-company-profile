@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/site/sections/contact-form";
+import { submitContactMessage } from "@/server/actions/site/contact";
 import { PageHero } from "@/components/site/sections/page-hero";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
@@ -54,7 +55,7 @@ export function ContactView({ model }: ContactViewProps) {
               {FORM_HEADING}
             </h2>
             <Card className="mt-6">
-              <ContactForm isDemo={isDemo} whatsappUrl={whatsappUrl} />
+              <ContactForm isDemo={isDemo} whatsappUrl={whatsappUrl} onSubmit={isDemo ? undefined : submitContactMessage} />
             </Card>
           </section>
           <section aria-labelledby="informasi-title">
