@@ -17,7 +17,7 @@ describe("insertImageMarkdown", () => {
   });
 
   it("replaces a selection", () => {
-    expect(insertImageMarkdown("ganti ini saja", 6, 10, asset, "").value).toBe("ganti ![Tim rapat](/demo/a.webp) saja");
+    expect(insertImageMarkdown("ganti ini saja", 6, 9, asset, "").value).toBe("ganti ![Tim rapat](/demo/a.webp) saja");
   });
 
   it("keeps brackets out of the alt text and quotes out of the caption", () => {
