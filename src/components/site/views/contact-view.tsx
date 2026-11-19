@@ -108,7 +108,7 @@ export function ContactView({ model }: ContactViewProps) {
             <div className="aspect-video overflow-hidden rounded-2xl border border-border shadow-soft">
               <iframe
                 src={settings.mapsEmbedUrl}
-                title={`Peta lokasi ${settings.siteName}`}
+                title={`Peta lokasi kantor kami`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="size-full"

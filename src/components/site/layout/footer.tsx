@@ -34,7 +34,7 @@ export function Footer({ settings, navigation }: FooterProps) {
       <Container className="grid gap-10 pb-32 pt-12 md:grid-cols-2 md:gap-x-12 lg:grid-cols-12 lg:gap-x-10">
         <div className="flex flex-col items-start gap-4 rounded-2xl border border-surface-inverse-foreground/15 bg-surface-inverse-foreground/5 p-6 md:col-span-2 md:flex-row md:items-center md:justify-between md:p-8 lg:col-span-12">
           <p className="font-heading text-2xl font-bold tracking-tight text-surface-inverse-foreground">
-            Siap memulai bersama {settings.siteName}?
+            Siap memulai bersama kami?
           </p>
           <ButtonLink href="/kontak" variant="highlight" size="lg">
             Hubungi kami
@@ -86,7 +86,7 @@ export function Footer({ settings, navigation }: FooterProps) {
         <div className="flex flex-col gap-3 border-t border-surface-inverse-foreground/20 pt-6 md:col-span-2 lg:col-span-12">
           <LegalFooterNav />
           <p className="text-sm text-surface-inverse-foreground/80">
-            &copy; {settings.siteName}. Seluruh hak cipta dilindungi.
+            &copy; {new Date().getFullYear()}. Seluruh hak cipta dilindungi.
           </p>
         </div>
       </Container>

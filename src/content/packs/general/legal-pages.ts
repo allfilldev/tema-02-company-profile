@@ -10,7 +10,7 @@ export const generalLegalPages: LegalPage[] = [
     slug: "privasi",
     title: "Kebijakan Privasi",
     intro:
-      "Kebijakan ini menjelaskan data pribadi apa yang kami terima melalui situs All Fill Dev, untuk apa data itu dipakai, dan bagaimana Anda dapat menghubungi kami tentang data tersebut.",
+      "Kebijakan ini menjelaskan data pribadi apa yang kami terima melalui situs ini, untuk apa data itu dipakai, dan bagaimana Anda dapat menghubungi kami tentang data tersebut.",
     sections: [
       {
         heading: "Data yang kami terima",
@@ -51,19 +51,19 @@ Pertanyaan tentang privasi dapat dikirim ke ${email}, disampaikan melalui telepo
       },
     ],
     metaDescription:
-      "Kebijakan privasi All Fill Dev: data yang kami terima lewat formulir kontak dan WhatsApp, cara kami memakainya, serta cara meminta perubahan data.",
+      "Kebijakan privasi: data yang kami terima lewat formulir kontak dan WhatsApp, cara kami memakainya, serta cara meminta perubahan data.",
     updatedAt: UPDATED_AT,
   },
   {
     slug: "syarat-ketentuan",
     title: "Syarat dan Ketentuan",
     intro:
-      "Syarat dan ketentuan ini berlaku bagi setiap orang yang mengakses situs All Fill Dev. Dengan menggunakan situs ini, Anda dianggap telah membaca dan menyetujui ketentuan di bawah.",
+      "Syarat dan ketentuan ini berlaku bagi setiap orang yang mengakses situs ini. Dengan menggunakan situs ini, Anda dianggap telah membaca dan menyetujui ketentuan di bawah.",
     sections: [
       {
         heading: "Tentang situs ini",
         bodyMd:
-          "Situs ini dikelola oleh All Fill Dev, konsultan manajemen dan transformasi digital yang berkantor di Jakarta Selatan. Situs ini menyajikan informasi tentang perusahaan, layanan, portofolio, dan artikel.",
+          "Situs ini dikelola oleh perusahaan kami, konsultan manajemen dan transformasi digital yang berkantor di Jakarta Selatan. Situs ini menyajikan informasi tentang perusahaan, layanan, portofolio, dan artikel.",
       },
       {
         heading: "Informasi bersifat umum",
@@ -79,7 +79,7 @@ Kami berupaya menjaga informasi tetap akurat, tetapi kondisi dan peraturan dapat
       {
         heading: "Hak kekayaan intelektual",
         bodyMd:
-          "Teks, logo, dan materi lain di situs ini milik All Fill Dev, kecuali disebutkan lain. Sebagian foto berasal dari pihak ketiga dan tetap tunduk pada lisensi pemiliknya. Penggunaan ulang materi kami di luar kutipan singkat yang menyebutkan sumbernya memerlukan izin tertulis dari kami.",
+          "Teks, logo, dan materi lain di situs ini milik perusahaan kami, kecuali disebutkan lain. Sebagian foto berasal dari pihak ketiga dan tetap tunduk pada lisensi pemiliknya. Penggunaan ulang materi kami di luar kutipan singkat yang menyebutkan sumbernya memerlukan izin tertulis dari kami.",
       },
       {
         heading: "Tautan ke situs lain",
@@ -97,14 +97,14 @@ Kami berupaya menjaga informasi tetap akurat, tetapi kondisi dan peraturan dapat
       },
     ],
     metaDescription:
-      "Syarat dan ketentuan situs All Fill Dev, mencakup sifat informasi, layanan dan kerja sama, hak kekayaan intelektual, serta batas tanggung jawab.",
+      "Syarat dan ketentuan situs ini, mencakup sifat informasi, layanan dan kerja sama, hak kekayaan intelektual, serta batas tanggung jawab.",
     updatedAt: UPDATED_AT,
   },
   {
     slug: "kebijakan-editorial",
     title: "Kebijakan Editorial",
     intro:
-      "Kebijakan ini menjelaskan bagaimana tim All Fill Dev menulis, memeriksa, dan memperbarui artikel di situs ini, supaya Anda bisa menilai seberapa jauh isinya dapat dipercaya.",
+      "Kebijakan ini menjelaskan bagaimana tim kami menulis, memeriksa, dan memperbarui artikel di situs ini, supaya Anda bisa menilai seberapa jauh isinya dapat dipercaya.",
     sections: [
       {
         heading: "Tujuan konten",
@@ -114,7 +114,7 @@ Kami berupaya menjaga informasi tetap akurat, tetapi kondisi dan peraturan dapat
       {
         heading: "Penulis",
         bodyMd:
-          "Setiap artikel ditulis oleh anggota tim All Fill Dev yang menangani topik tersebut dalam pekerjaannya. Nama, jabatan, dan latar belakang penulis ditampilkan di setiap artikel dan di [halaman tentang kami](/tentang).",
+          "Setiap artikel ditulis oleh anggota tim kami yang menangani topik tersebut dalam pekerjaannya. Nama, jabatan, dan latar belakang penulis ditampilkan di setiap artikel dan di [halaman tentang kami](/tentang).",
       },
       {
         heading: "Sumber dan rujukan",
@@ -143,7 +143,7 @@ Informasi rahasia klien tidak kami tampilkan. Ilustrasi selalu diberi label "Ilu
       },
     ],
     metaDescription:
-      "Kebijakan editorial All Fill Dev: siapa penulis artikel, sumber yang kami pakai, cara kami memperbarui dan mengoreksi isi, serta kepentingan komersial.",
+      "Kebijakan editorial: siapa penulis artikel, sumber yang kami pakai, cara kami memperbarui dan mengoreksi isi, serta kepentingan komersial.",
     updatedAt: UPDATED_AT,
   },
 ];

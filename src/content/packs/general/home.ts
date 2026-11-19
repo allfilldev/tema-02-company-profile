@@ -5,10 +5,10 @@ export const generalHome: HomeContent = {
   heroEyebrow: "Konsultan manajemen dan transformasi digital di Jakarta",
   metaTitle: "Konsultan Manajemen & Transformasi Digital",
   metaDescription:
-    "All Fill Dev, konsultan manajemen dan transformasi digital di Jakarta. Kami bantu UMKM dan korporasi menyusun SOP, KPI, dan langkah digitalisasi.",
+    "Konsultan manajemen dan transformasi digital di Jakarta. Kami bantu UMKM dan korporasi menyusun SOP, KPI, dan langkah digitalisasi.",
   heroTitle: "Proses bisnis yang rapi, keputusan yang lebih terukur",
   heroSubtitle:
-    "All Fill Dev mendampingi UMKM dan korporasi menyusun strategi, SOP, KPI, dan langkah digitalisasi yang benar-benar dijalankan oleh tim.",
+    "Kami mendampingi UMKM dan korporasi menyusun strategi, SOP, KPI, dan langkah digitalisasi yang benar-benar dijalankan oleh tim.",
   heroImage: generalMedia.hero,
   primaryCta: { label: "Jadwalkan Konsultasi", href: "/kontak" },
   secondaryCta: { label: "Lihat Portofolio", href: "/portofolio" },

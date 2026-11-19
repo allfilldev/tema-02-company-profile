@@ -8,7 +8,7 @@ export const generalSectionIntros: SectionIntro[] = [
     description: "Dari strategi sampai pelatihan tim, setiap layanan dirancang agar hasilnya bisa langsung dipakai dalam pekerjaan sehari-hari.",
     metaTitle: "Layanan Konsultasi Manajemen Bisnis",
     metaDescription:
-      "Layanan konsultasi All Fill Dev untuk UMKM dan korporasi: strategi, SOP, KPI, transformasi digital, dan pelatihan tim yang siap dipakai sehari-hari.",
+      "Layanan konsultasi kami untuk UMKM dan korporasi: strategi, SOP, KPI, transformasi digital, dan pelatihan tim yang siap dipakai sehari-hari.",
   },
   {
     key: "portfolio",
@@ -17,25 +17,25 @@ export const generalSectionIntros: SectionIntro[] = [
     description: "Beberapa pekerjaan kami bersama distributor, klinik, pabrik, jaringan ritel, perusahaan logistik, dan koperasi.",
     metaTitle: "Portofolio Proyek Konsultasi Bisnis",
     metaDescription:
-      "Lihat proyek yang didampingi All Fill Dev bersama distributor, klinik, pabrik, jaringan ritel, perusahaan logistik, dan koperasi di berbagai bidang.",
+      "Lihat proyek yang kami dampingi bersama distributor, klinik, pabrik, jaringan ritel, perusahaan logistik, dan koperasi di berbagai bidang.",
   },
   {
     key: "team",
     eyebrow: "Tim",
-    title: "Konsultan di balik All Fill Dev",
+    title: "Konsultan di balik layanan kami",
     description: "Praktisi yang terbiasa bekerja langsung di lapangan bersama tim klien.",
     metaTitle: "Tim Konsultan Manajemen Berpengalaman",
     metaDescription:
-      "Kenali konsultan All Fill Dev, para praktisi yang terbiasa bekerja langsung di lapangan bersama tim klien untuk merapikan proses dan sistem kerja.",
+      "Kenali konsultan kami, para praktisi yang terbiasa bekerja langsung di lapangan bersama tim klien untuk merapikan proses dan sistem kerja.",
   },
   {
     key: "stats",
     eyebrow: "Dalam angka",
-    title: "All Fill Dev dalam angka",
+    title: "Dalam angka",
     description: null,
-    metaTitle: "All Fill Dev dalam Angka",
+    metaTitle: "Perusahaan dalam Angka",
     metaDescription:
-      "Angka-angka yang menggambarkan perjalanan All Fill Dev, mulai dari proyek yang sudah selesai sampai pengalaman tim konsultan dalam mendampingi klien.",
+      "Angka-angka yang menggambarkan perjalanan kami, mulai dari proyek yang sudah selesai sampai pengalaman tim konsultan dalam mendampingi klien.",
   },
   {
     key: "testimonials",
@@ -44,16 +44,16 @@ export const generalSectionIntros: SectionIntro[] = [
     description: null,
     metaTitle: "Testimoni Klien Konsultan Bisnis",
     metaDescription:
-      "Baca cerita klien yang pernah didampingi All Fill Dev, dari merapikan proses kerja sampai menyusun ukuran kinerja yang dipakai tim setiap hari.",
+      "Baca cerita klien yang pernah kami dampingi, dari merapikan proses kerja sampai menyusun ukuran kinerja yang dipakai tim setiap hari.",
   },
   {
     key: "partners",
     eyebrow: "Klien dan mitra",
     title: "Organisasi yang bekerja bersama kami",
     description: null,
-    metaTitle: "Klien dan Mitra All Fill Dev",
+    metaTitle: "Klien dan Mitra Kami",
     metaDescription:
-      "Daftar organisasi yang bekerja bersama All Fill Dev, dari distributor dan klinik sampai perusahaan logistik yang memerlukan pendamping proses bisnis.",
+      "Daftar organisasi yang bekerja bersama kami, dari distributor dan klinik sampai perusahaan logistik yang memerlukan pendamping proses bisnis.",
   },
   {
     key: "articles",
@@ -62,7 +62,7 @@ export const generalSectionIntros: SectionIntro[] = [
     description: "Panduan singkat seputar SOP, KPI, dan transformasi digital yang bisa langsung Anda terapkan.",
     metaTitle: "Artikel SOP, KPI, dan Transformasi Digital",
     metaDescription:
-      "Kumpulan artikel praktis dari tim konsultan All Fill Dev tentang menyusun SOP, menentukan KPI, dan memulai transformasi digital untuk bisnis Anda.",
+      "Kumpulan artikel praktis dari tim konsultan kami tentang menyusun SOP, menentukan KPI, dan memulai transformasi digital untuk bisnis Anda.",
   },
   {
     key: "vision",
@@ -71,16 +71,16 @@ export const generalSectionIntros: SectionIntro[] = [
     description: null,
     metaTitle: "Visi, Misi, dan Nilai Perusahaan",
     metaDescription:
-      "Visi, misi, dan nilai yang memandu cara kerja All Fill Dev dalam mendampingi UMKM dan korporasi merapikan proses bisnis serta mengambil keputusan.",
+      "Visi, misi, dan nilai yang memandu cara kerja kami dalam mendampingi UMKM dan korporasi merapikan proses bisnis serta mengambil keputusan.",
   },
   {
     key: "about",
     eyebrow: "Tentang kami",
-    title: "Mengenal All Fill Dev",
+    title: "Mengenal kami",
     description: "Konsultan manajemen dan transformasi digital yang berkantor di Jakarta Selatan.",
-    metaTitle: "Tentang All Fill Dev",
+    metaTitle: "Tentang Kami, Konsultan Manajemen Jakarta",
     metaDescription:
-      "Kenali All Fill Dev, konsultan manajemen dan transformasi digital di Jakarta Selatan yang membantu UMKM dan korporasi merapikan proses bisnis.",
+      "Kenali kami, konsultan manajemen dan transformasi digital di Jakarta Selatan yang membantu UMKM dan korporasi merapikan proses bisnis.",
   },
   {
     key: "contact",
@@ -89,6 +89,6 @@ export const generalSectionIntros: SectionIntro[] = [
     description: "Kirim pesan lewat formulir atau WhatsApp. Tim kami membalas pada jam kerja.",
     metaTitle: "Hubungi Konsultan Bisnis di Jakarta",
     metaDescription:
-      "Hubungi All Fill Dev lewat formulir atau WhatsApp untuk membahas tantangan bisnis Anda. Tim kami di Jakarta Selatan membalas pada jam kerja.",
+      "Hubungi kami lewat formulir atau WhatsApp untuk membahas tantangan bisnis Anda. Tim kami di Jakarta Selatan membalas pada jam kerja.",
   },
 ];

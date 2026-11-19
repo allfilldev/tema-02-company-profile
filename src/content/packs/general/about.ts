@@ -3,7 +3,7 @@ import { generalMedia } from "@/content/packs/general/media";
 
 const bodyMd = `## Siapa kami?
 
-All Fill Dev berdiri di Jakarta pada 2017. Kami berawal dari tim kecil yang membantu usaha keluarga menuliskan cara kerja mereka, lalu berkembang menjadi konsultan manajemen dan transformasi digital untuk UMKM maupun korporasi.
+Perusahaan kami berdiri di Jakarta pada 2017. Kami berawal dari tim kecil yang membantu usaha keluarga menuliskan cara kerja mereka, lalu berkembang menjadi konsultan manajemen dan transformasi digital untuk UMKM maupun korporasi.
 
 Cara kami memandang pekerjaan ini sederhana: membuat proses yang selama ini samar menjadi terang, sehingga pemilik dan tim bisa mengambil keputusan dengan lebih yakin.
 
@@ -21,11 +21,11 @@ Setelah itu kami bekerja berdampingan dengan tim klien sampai solusinya berjalan
 
 export const generalAbout: AboutContent = {
   summary:
-    "All Fill Dev adalah konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses, mengukur kinerja, dan memakai teknologi secara tepat guna.",
+    "Kami adalah konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses, mengukur kinerja, dan memakai teknologi secara tepat guna.",
   bodyMd,
   image: generalMedia.about,
-  metaTitle: "Tentang All Fill Dev",
+  metaTitle: "Tentang Kami, Konsultan Manajemen Jakarta",
   metaDescription:
-    "Kenali All Fill Dev, konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses dan mengukur kinerja.",
+    "Kenali kami, konsultan manajemen dan transformasi digital di Jakarta yang membantu UMKM dan korporasi merapikan proses dan mengukur kinerja.",
   updatedAt: "2026-11-10T03:00:00.000Z",
 };

@@ -8,7 +8,7 @@ export const generalTestimonials: Testimonial[] = [
     jobTitle: "Pemilik",
     company: "Kafe Teras Pagi",
     quote:
-      "Dulu setiap barista punya cara sendiri meracik menu. Setelah SOP disusun bersama tim All Fill Dev, rasa minuman di dua outlet kami seragam dan karyawan baru lebih cepat mandiri.",
+      "Dulu setiap barista punya cara sendiri meracik menu. Setelah SOP disusun bersama tim konsultan kami, rasa minuman di dua outlet kami seragam dan karyawan baru lebih cepat mandiri.",
     photo: generalMedia["testimonial-1"],
     sortOrder: 1,
   },

@@ -44,7 +44,7 @@ export const generalContentBlocks: ContentBlock[] = [
   {
     key: "why-choose-us",
     eyebrow: "Keunggulan",
-    title: "Mengapa bekerja dengan All Fill Dev",
+    title: "Mengapa bekerja dengan kami",
     description: "Pendekatan kami sederhana: memahami pekerjaan Anda dulu, baru menyarankan perubahan.",
     items: [
       iconItem(
@@ -76,7 +76,7 @@ export const generalContentBlocks: ContentBlock[] = [
     description: null,
     items: [
       faqItem(
-        "Apakah All Fill Dev melayani UMKM?",
+        "Apakah kami melayani UMKM?",
         "Ya. Kami melayani UMKM, perusahaan menengah, dan korporasi. Cakupan pekerjaan kami sesuaikan dengan ukuran dan kebutuhan usaha Anda.",
       ),
       faqItem(
