@@ -46,6 +46,13 @@ describe("Header", () => {
     expect(markup).toContain("<img");
   });
 
+  it("renders the logo large enough to read its wordmark without growing the header", () => {
+    const markup = renderHeader();
+
+    expect(markup).toContain("max-h-14");
+    expect(markup).not.toContain("max-h-10");
+  });
+
   it("falls back to the site name text when there is no logo", () => {
     const markup = renderToStaticMarkup(
       <Header siteName="Nusa Karya" logo={null} navigation={context.navigation} />,

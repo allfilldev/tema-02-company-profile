@@ -3,6 +3,7 @@ import { createContentPackSchema } from "@/core/application/schemas/content-pack
 import type { ContentBlockItemField } from "@/core/domain/theme/theme-config";
 import { SECTION_KEYS } from "@/core/domain/shared/section-key";
 import { generalPack } from "@/content/packs/general";
+import { generalMedia } from "@/content/packs/general/media";
 import { themeConfig } from "@/config/theme";
 import { countWords } from "@/lib/markdown/words";
 import { hasBlockingErrors, runContentChecks } from "@/lib/seo/content-checks";
@@ -36,8 +37,9 @@ describe("general content pack", () => {
     });
   });
 
-  it("uses text branding without a logo image until the owner supplies one", () => {
-    expect(generalPack.settings.logo).toBeNull();
+  it("uses the All Fill Dev logo image as the site logo", () => {
+    expect(generalPack.settings.logo).toEqual(generalMedia.logo);
+    expect(generalPack.settings.logo?.alt).toContain("All Fill Dev");
   });
 
   it("carries no fictional company name anywhere in the pack", () => {

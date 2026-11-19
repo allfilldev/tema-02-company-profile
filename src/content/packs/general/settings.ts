@@ -1,9 +1,10 @@
 import type { SiteSettings } from "@/core/domain/settings/site-settings";
+import { generalMedia } from "@/content/packs/general/media";
 
 export const generalSettings: SiteSettings = {
   siteName: "All Fill Dev",
   tagline: "Konsultan manajemen dan transformasi digital untuk UMKM dan korporasi",
-  logo: null,
+  logo: generalMedia.logo,
   defaultOgImage: null,
   email: "halo@allfilldev.example",
   phone: "+62 21 5000 1234",

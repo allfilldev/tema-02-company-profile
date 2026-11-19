@@ -17,10 +17,15 @@ describe("general pack media", () => {
   });
 
   it("has every required key", () => {
-    expect(Object.keys(generalMedia)).toHaveLength(49);
+    expect(Object.keys(generalMedia)).toHaveLength(50);
   });
 
-  it("ships no logo for the demo company", () => {
-    expect(generalMedia).not.toHaveProperty("logo");
+  it("ships the All Fill Dev logo with a transparent background", async () => {
+    const file = await readFile(path.join(process.cwd(), "public", generalMedia.logo.url));
+    const meta = await sharp(file).metadata();
+
+    expect(meta.hasAlpha).toBe(true);
+    expect(generalMedia.logo.width / generalMedia.logo.height).toBeGreaterThan(1.2);
+    expect(generalMedia.logo.width / generalMedia.logo.height).toBeLessThan(1.8);
   });
 });

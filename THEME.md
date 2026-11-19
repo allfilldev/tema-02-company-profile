@@ -70,9 +70,9 @@ Mode `DATA_SOURCE=supabase`, login, dan panel admin lengkap sudah tersedia (READ
 
 ## 10. Demo
 
-Identitas paket demo `general` adalah All Fill Dev: nama situs, nomor WhatsApp, dan teks nama tanpa logo gambar. Email, telepon, alamat, dan seluruh isi lain adalah contoh yang disesuaikan per tema lewat paket konten. Identitas ini hanya untuk demo katalog, situs klien memakai nama, logo, kontak, dan WhatsApp klien. Set favicon yang sudah ada di `public/` masih dibuat dari logo lama paket demo dan harus dibuat ulang dari simbol All Fill Dev.
+Identitas paket demo `general` adalah All Fill Dev: nama situs, logo (`public/demo/general/logo.webp`, dirujuk dari `settings.ts`), nomor WhatsApp, dan set favicon di `public/` yang dibuat dari simbol `</>` logo itu. Semuanya sudah ada di boilerplate dan diwarisi setiap tema, jadi tema demo tidak perlu membuat logo atau favicon sendiri. Email, telepon, alamat, dan seluruh isi lain adalah contoh yang disesuaikan per tema lewat paket konten. Identitas ini hanya untuk demo katalog, situs klien memakai nama, logo, kontak, dan WhatsApp klien.
 
-1. Siapkan simbol persegi dari logo (wordmark panjang tidak terbaca di 16 dan 32 px), lalu jalankan `npm run favicon -- <simbol.png>`. Skrip menolak sumber yang tidak persegi.
+1. Tema tetap boleh mengganti favicon: siapkan simbol persegi dari logo (wordmark panjang tidak terbaca di 16 dan 32 px), lalu jalankan `npm run favicon -- <simbol.png>`. Skrip menolak sumber yang tidak persegi.
 2. Deploy ke Vercel dengan `DATA_SOURCE=demo` dan `SITE_INDEXING=off`. `SITE_URL` diisi alamat demo.
 3. Catatan lisensi: foto manusia nyata dari Pexels di paket demo dipasangkan dengan testimoni fiktif. Foto itu harus diganti sebelum tema dipakai di situs klien.
 
