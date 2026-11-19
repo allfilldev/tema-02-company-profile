@@ -18,7 +18,7 @@ export function MiniBars({ values, label, className }: MiniBarsProps) {
   const barWidth = slot * BAR_RATIO;
 
   return (
-    <svg role="img" aria-label={label} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none" className={joinClassNames("h-12 w-full text-primary", className)}>
+    <svg role="img" aria-label={label} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none" className={joinClassNames("h-12 w-full", className ?? "text-primary")}>
       {safeValues.map((value, index) => {
         const barHeight = Math.max(MINIMUM_BAR_HEIGHT, (value / maximum) * HEIGHT);
         return <rect key={index} x={index * slot + (slot - barWidth) / 2} y={HEIGHT - barHeight} width={barWidth} height={barHeight} rx={1} fill="currentColor" className={value === 0 ? "opacity-30" : undefined} />;

@@ -35,7 +35,7 @@ export function Sparkline({ values, label, className }: SparklineProps) {
       aria-label={label}
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       preserveAspectRatio="none"
-      className={joinClassNames("h-12 w-full text-primary", className)}
+      className={joinClassNames("h-12 w-full", className ?? "text-primary")}
     >
       <polygon points={area} fill="currentColor" className="opacity-10" />
       <polyline points={line} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
