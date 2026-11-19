@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { ArticleDates } from "@/components/site/contract/article-dates";
 import { AuthorBox } from "@/components/site/contract/author-box";
 import { AuthorByline } from "@/components/site/contract/author-byline";
 import { FaqList } from "@/components/site/contract/faq-list";
 import { MarkdownContent } from "@/components/site/contract/markdown-content";
 import { PageHero } from "@/components/site/sections/page-hero";
-import { ToneSection } from "@/components/site/sections/tone-section";
-import { Card } from "@/components/ui/card";
+import { ContentSection } from "@/components/site/sections/content-section";
+import { RelatedCard } from "@/components/site/sections/related-card";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import type { Article } from "@/core/domain/article/article";
@@ -17,6 +16,7 @@ type ArticleDetailViewProps = {
 };
 
 const RELATED_TITLE = "Artikel terkait";
+const RELATED_EYEBROW = "Bacaan lanjutan";
 
 function RelatedArticles({ articles }: { articles: Article[] }) {
   if (articles.length === 0) {
@@ -24,24 +24,17 @@ function RelatedArticles({ articles }: { articles: Article[] }) {
   }
 
   return (
-    <ToneSection id="artikel-terkait" tone="surface-muted" title={RELATED_TITLE}>
+    <ContentSection id="artikel-terkait" tone="surface-muted" eyebrow={RELATED_EYEBROW} title={RELATED_TITLE}>
       <div data-nosnippet>
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
+          {articles.map((article, index) => (
             <li key={article.id}>
-              <Card className="h-full">
-                <h3 className="text-xl font-bold tracking-tight text-foreground">
-                  <Link href={`/artikel/${article.slug}`} className="inline-flex min-h-11 items-center hover:text-primary">
-                    {article.title}
-                  </Link>
-                </h3>
-                <p className="mt-2 line-clamp-3 text-base text-muted-foreground">{article.lead}</p>
-              </Card>
+              <RelatedCard href={`/artikel/${article.slug}`} title={article.title} summary={article.lead} featured={index === 0} />
             </li>
           ))}
         </ul>
       </div>
-    </ToneSection>
+    </ContentSection>
   );
 }
 

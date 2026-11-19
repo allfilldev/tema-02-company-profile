@@ -12,7 +12,7 @@ export function NotFoundView() {
         <ButtonLink href="/" variant="inverse">
           Kembali ke beranda
         </ButtonLink>
-        <ButtonLink href="/kontak" variant="secondary">
+        <ButtonLink href="/kontak" variant="highlight">
           Hubungi kami
         </ButtonLink>
       </div>
