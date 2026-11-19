@@ -66,7 +66,7 @@ export function ContactView({ model }: ContactViewProps) {
           </section>
           <section
             aria-labelledby="informasi-title"
-            className="rounded-2xl bg-surface-inverse p-6 text-surface-inverse-foreground shadow-soft md:p-8"
+            className="rounded-2xl border border-surface-inverse-foreground/15 bg-surface-inverse p-6 text-surface-inverse-foreground md:p-8"
           >
             <h2 id="informasi-title" className={DARK_HEADING_CLASS_NAME}>
               {DETAILS_HEADING}
@@ -106,7 +106,7 @@ export function ContactView({ model }: ContactViewProps) {
       {settings.mapsEmbedUrl ? (
         <Reveal>
           <ContentSection id="lokasi" tone="surface-muted" eyebrow={MAP_EYEBROW} title={MAP_HEADING}>
-            <div className="aspect-video overflow-hidden rounded-2xl border border-border shadow-soft">
+            <div className="aspect-video overflow-hidden rounded-2xl border border-border">
               <iframe
                 src={settings.mapsEmbedUrl}
                 title={`Peta lokasi kantor kami`}

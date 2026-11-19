@@ -36,7 +36,7 @@ export function PageHero({ eyebrow, title, description, image, children }: PageH
             {children}
           </div>
           {image ? (
-            <div className="overflow-hidden rounded-2xl shadow-soft">
+            <div className="overflow-hidden rounded-2xl border border-surface-inverse-foreground/15">
               <SiteImage media={image} priority sizes={HERO_IMAGE_SIZES} className="w-full" />
             </div>
           ) : null}
