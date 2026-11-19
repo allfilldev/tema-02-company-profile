@@ -31,3 +31,9 @@
 
   --container-site: 72rem;
 }
+
+:root {
+  --motion-duration: 0.4s;
+  --motion-distance: 1rem;
+  --motion-ease: ease-out;
+}

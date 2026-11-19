@@ -36,6 +36,10 @@ Sesuaikan gaya `src/components/ui/` bila desain memintanya (misalnya tombol pill
 
 Tulis ulang `src/components/site/layout/`, `src/components/site/sections/`, dan `src/components/site/views/` mengikuti desain. Data datang dari model yang sudah disediakan rute, jadi tidak ada pengambilan data baru. Formulir di `ContactView` sudah terhubung ke server action `submitContactMessage` lewat prop `onSubmit` (hanya bila bukan mode demo); view yang ditulis ulang harus tetap meneruskan prop itu ke `ContactForm`. View detail (layanan, portofolio, artikel, Tentang, dan hukum) yang menulis ulang isi markdown harus tetap meneruskan `model.mediaSizes` ke `MarkdownContent` supaya gambar dari pustaka media memakai ukuran aslinya dan halaman tidak bergeser. Komponen di `src/components/site/contract/` (breadcrumb, byline dan kotak penulis, isi markdown, FAQ, navigasi hukum, tanggal artikel, JSON-LD) hanya boleh berubah kelas gayanya, bukan elemen, atribut, id, atau teks labelnya.
 
+### Animasi scroll
+
+Bungkus bagian di bawah lipatan dengan `Reveal` (`src/components/ui/reveal.tsx`, mis. `<Reveal><TestimonialsSection ... /></Reveal>`). Keluaran server selalu terlihat, jadi crawler dan pengguna tanpa JavaScript tetap melihat isinya; di browser, bagian yang belum terlihat muncul bertahap saat di-scroll, dan tidak berjalan bagi pengguna yang memilih "kurangi gerakan". Atur gayanya lewat token `--motion-duration`, `--motion-distance`, dan `--motion-ease` di `src/styles/tokens.css`, dan urutan bertahap lewat prop `delay` (milidetik). Jangan membungkus hero atau elemen LCP, dan jangan menyalin pengamat sendiri.
+
 `src/components/site/layout/route-guard.tsx` tetap milik boilerplate: ia menjaga satu `<h1>` di DOM setelah navigasi klien, jadi hanya bagian tampilan lain di `layout/` yang boleh ditulis ulang.
 
 Periksa dengan menjalankan tes di `tests/components/` satu berkas per perintah. Ada dua jenis tes:

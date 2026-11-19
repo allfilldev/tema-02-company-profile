@@ -9,6 +9,7 @@ import { TeamSection } from "@/components/site/sections/team-section";
 import { TestimonialsSection } from "@/components/site/sections/testimonials-section";
 import { VisionSection } from "@/components/site/sections/vision-section";
 import { ButtonLink } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SiteImage } from "@/components/ui/site-image";
 import type { AboutContent } from "@/core/domain/page/about-content";
@@ -70,7 +71,9 @@ export function HomeView({ model }: HomeViewProps) {
       <AboutTeaser about={model.about} intro={intros.about} />
       <VisionSection vision={model.vision} intro={intros.vision} />
       <TeamSection team={model.team} intro={intros.team} />
-      <TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} />
+      <Reveal>
+        <TestimonialsSection testimonials={model.testimonials} intro={intros.testimonials} />
+      </Reveal>
       <PartnersSection partners={model.partners} intro={intros.partners} />
       <ArticlesSection articles={model.latestArticles} intro={intros.articles} />
       <HomeFaq block={blocks["home-faq"]} />

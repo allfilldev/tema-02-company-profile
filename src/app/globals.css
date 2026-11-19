@@ -46,3 +46,25 @@
     animation: none;
   }
 }
+
+[data-reveal] {
+  transition:
+    opacity var(--motion-duration) var(--motion-ease) var(--reveal-delay, 0s),
+    transform var(--motion-duration) var(--motion-ease) var(--reveal-delay, 0s);
+}
+
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(var(--motion-distance));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
+  }
+
+  [data-reveal="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
+}
