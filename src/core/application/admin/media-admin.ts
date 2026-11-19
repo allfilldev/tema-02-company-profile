@@ -8,7 +8,7 @@ export const MEDIA_ALT_MAX_LENGTH = 200;
 
 export type MediaDraft = Omit<MediaRecord, "id" | "createdAt">;
 
-function altError(alt: string): string | null {
+export function mediaAltError(alt: string): string | null {
   if (alt.trim().length === 0) {
     return "Isi teks alternatif gambar.";
   }
@@ -20,7 +20,7 @@ function altError(alt: string): string | null {
 
 function draftErrors(draft: MediaDraft): Record<string, string> {
   const errors: Record<string, string> = {};
-  const alt = altError(draft.alt);
+  const alt = mediaAltError(draft.alt);
   if (alt) errors.alt = alt;
   if (!/^(\/(?![\/\\])|https:\/\/)/.test(draft.url)) errors.url = "URL gambar harus diawali / atau https://.";
   if (!Number.isInteger(draft.width) || draft.width <= 0 || !Number.isInteger(draft.height) || draft.height <= 0) {
@@ -45,7 +45,7 @@ export async function updateMediaAlt(
   id: string,
   alt: string,
 ): Promise<AdminResult<MediaRecord, MediaAffected>> {
-  const error = altError(alt);
+  const error = mediaAltError(alt);
   if (error) {
     return failure([error], { alt: error });
   }
