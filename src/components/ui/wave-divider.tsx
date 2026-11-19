@@ -2,11 +2,12 @@ import { joinClassNames } from "@/lib/ui/class-names";
 
 type WaveDividerProps = {
   position: "top" | "bottom";
-  tone: "surface" | "surface-muted" | "inverse";
+  tone: "background" | "surface" | "surface-muted" | "inverse";
   className?: string;
 };
 
 const TONE_CLASS_NAMES: Record<WaveDividerProps["tone"], string> = {
+  background: "text-background",
   surface: "text-surface",
   "surface-muted": "text-surface-muted",
   inverse: "text-surface-inverse",

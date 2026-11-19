@@ -11,10 +11,15 @@ const EDGE_CLASS_NAMES: Record<WaveEdgeProps["edge"], string> = {
   bottom: "top-full",
 };
 
+const SEAM_CLASS_NAMES: Record<WaveEdgeProps["edge"], string> = {
+  top: "translate-y-px",
+  bottom: "-translate-y-px",
+};
+
 export function WaveEdge({ edge, tone }: WaveEdgeProps) {
   return (
     <div aria-hidden="true" className={joinClassNames("pointer-events-none absolute inset-x-0 h-10 md:h-16", EDGE_CLASS_NAMES[edge])}>
-      <WaveDivider position={edge === "top" ? "bottom" : "top"} tone={tone} />
+      <WaveDivider position={edge === "top" ? "bottom" : "top"} tone={tone} className={SEAM_CLASS_NAMES[edge]} />
     </div>
   );
 }

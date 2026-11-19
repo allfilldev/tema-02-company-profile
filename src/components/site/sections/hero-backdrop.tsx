@@ -26,7 +26,7 @@ export function HeroBackdrop({ image, sizes }: HeroBackdropProps) {
 export function HeroWave() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-14 md:h-24 lg:h-32">
-      <WaveDivider position="bottom" tone="surface" className="h-full!" />
+      <WaveDivider position="bottom" tone="background" className="h-full! translate-y-px" />
     </div>
   );
 }
