@@ -1,7 +1,7 @@
 import type { ThemeConfig } from "@/core/domain/theme/theme-config";
 
 export const themeConfig: ThemeConfig = {
-  themeName: "Company Profile Default",
+  themeName: "company-profile-001",
   contentPack: "general",
   enabledModules: ["services", "portfolio", "articles", "team", "stats", "testimonials", "partners", "vision"],
   contentBlocks: [
