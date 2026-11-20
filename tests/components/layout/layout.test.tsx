@@ -24,7 +24,7 @@ function renderHeader(): string {
 }
 
 function renderFooter(settings = context.settings): string {
-  return renderToStaticMarkup(<Footer settings={settings} navigation={context.navigation} />);
+  return renderToStaticMarkup(<Footer settings={settings} navigation={context.navigation} copyrightYear={context.copyrightYear} />);
 }
 
 describe("Header", () => {
