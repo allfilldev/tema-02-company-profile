@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: settings.tagline,
     robots: { index: indexable, follow: indexable },
     icons: {
-      icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/icon.png", type: "image/png", sizes: "512x512" }],
+      icon: [{ url: "/favicon.ico", sizes: "32x32" }, { url: "/icon.svg", type: "image/svg+xml" }],
       apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
     },
     manifest: "/manifest.webmanifest",
