@@ -10,7 +10,7 @@ type SiteShellProps = {
 };
 
 export function SiteShell({ context, children }: SiteShellProps) {
-  const { settings, navigation, whatsappUrl } = context;
+  const { settings, navigation, whatsappUrl, copyrightYear } = context;
 
   return (
     <>
@@ -18,7 +18,7 @@ export function SiteShell({ context, children }: SiteShellProps) {
       <main id="konten" className="flex-1 pb-24 md:pb-28">
         {children}
       </main>
-      <Footer settings={settings} navigation={navigation} />
+      <Footer settings={settings} navigation={navigation} copyrightYear={copyrightYear} />
       <WhatsAppButton href={whatsappUrl} />
     </>
   );

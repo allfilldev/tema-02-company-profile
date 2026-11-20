@@ -12,6 +12,7 @@ import type { NavigationItem } from "@/server/site/navigation";
 type FooterProps = {
   settings: SiteSettings;
   navigation: NavigationItem[];
+  copyrightYear: number;
 };
 
 const CONTACT_LINK_CLASS_NAME =
@@ -26,7 +27,7 @@ function phoneHref(phone: string): string {
   return `tel:${phone.replace(/\s+/g, "")}`;
 }
 
-export function Footer({ settings, navigation }: FooterProps) {
+export function Footer({ settings, navigation, copyrightYear }: FooterProps) {
   const { address } = settings;
   const hasSocialLinks = settings.socialLinks.length > 0;
 
@@ -107,7 +108,7 @@ export function Footer({ settings, navigation }: FooterProps) {
         <div className="flex flex-col gap-3 border-t border-surface-inverse-foreground/20 pt-6 md:col-span-2 lg:col-span-12">
           <LegalFooterNav />
           <p className="text-sm text-surface-inverse-foreground/80">
-            &copy; {new Date().getFullYear()}. Seluruh hak cipta dilindungi.
+            &copy; {copyrightYear}. Seluruh hak cipta dilindungi.
           </p>
         </div>
       </Container>

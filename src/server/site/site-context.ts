@@ -4,6 +4,7 @@ import type { ThemeConfig } from "@/core/domain/theme/theme-config";
 import { buildOrganizationJsonLd, buildWebSiteJsonLd, type JsonLd } from "@/lib/seo/json-ld";
 import type { SeoSite } from "@/lib/seo/metadata";
 import { buildWhatsAppUrl } from "@/lib/site/whatsapp";
+import { getCopyrightYear } from "@/server/site/copyright-year";
 import { buildNavigation, type NavigationItem } from "@/server/site/navigation";
 import type { SiteEnv } from "@/server/site/site-env";
 
@@ -14,6 +15,7 @@ export type SiteContext = {
   seoSite: SeoSite;
   navigation: NavigationItem[];
   whatsappUrl: string;
+  copyrightYear: number;
   organizationJsonLd: JsonLd;
   webSiteJsonLd: JsonLd;
 };
@@ -21,7 +23,7 @@ export type SiteContext = {
 const DEFAULT_OG_IMAGE_PATH = "/opengraph-image";
 
 export async function getSiteContext(queries: SiteQueries, env: SiteEnv, theme: ThemeConfig): Promise<SiteContext> {
-  const settings = await queries.getSettings();
+  const [settings, copyrightYear] = await Promise.all([queries.getSettings(), getCopyrightYear()]);
 
   return {
     settings,
@@ -36,6 +38,7 @@ export async function getSiteContext(queries: SiteQueries, env: SiteEnv, theme: 
     },
     navigation: buildNavigation(theme.enabledModules),
     whatsappUrl: buildWhatsAppUrl(settings.whatsappNumber, settings.whatsappMessage),
+    copyrightYear,
     organizationJsonLd: buildOrganizationJsonLd(settings, env.siteUrl),
     webSiteJsonLd: buildWebSiteJsonLd(settings, env.siteUrl),
   };
