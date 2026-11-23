@@ -41,7 +41,7 @@ import type {
 
 export type QueryResult = {
   data: unknown;
-  error: { message: string } | null;
+  error: { message: string; code?: string } | null;
   count?: number | null;
 };
 
@@ -92,6 +92,16 @@ export async function execute(query: PromiseLike<QueryResult>, label: string): P
     throw new Error(`Supabase ${label}: ${result.error.message}`);
   }
   return result;
+}
+
+const RANGE_NOT_SATISFIABLE_CODE = "PGRST103";
+
+async function executePage(query: PromiseLike<QueryResult>, label: string): Promise<QueryResult> {
+  const result = await query;
+  if (result.error?.code === RANGE_NOT_SATISFIABLE_CODE) {
+    return { data: [], error: null, count: 0 };
+  }
+  return execute(Promise.resolve(result), label);
 }
 
 async function selectRows<Row>(
@@ -262,7 +272,7 @@ export function createSupabaseRepositories(client: DataClient): Repositories {
     },
     articles: {
       async listPublished({ offset, limit }) {
-        const { data, count } = await execute(
+        const { data, count } = await executePage(
           newestFirst(client.from("articles").select(ARTICLE_COLUMNS, { count: "exact" })).range(offset, offset + limit - 1),
           "articles",
         );
