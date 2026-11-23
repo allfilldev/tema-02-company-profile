@@ -166,6 +166,26 @@ describe("articles repository", () => {
     });
   });
 
+  it("returns an empty page when the requested range is past the last article", async () => {
+    const { client } = createFakeClient(() => ({
+      data: null,
+      error: { message: "Requested range not satisfiable", code: "PGRST103" },
+      count: null,
+    }));
+
+    const page = await createSupabaseRepositories(client).articles.listPublished({ offset: 9, limit: 9 });
+
+    expect(page).toEqual({ items: [], total: 0 });
+  });
+
+  it("still throws on other article query errors", async () => {
+    const { client } = createFakeClient(() => ({ data: null, error: { message: "boom", code: "42501" }, count: null }));
+
+    await expect(createSupabaseRepositories(client).articles.listPublished({ offset: 0, limit: 9 })).rejects.toThrow(
+      /articles.*boom/,
+    );
+  });
+
   it("lists every published article newest first", async () => {
     const { client, calls } = createFakeClient(() => ok([articleRow]));
 
